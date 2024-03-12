@@ -2,7 +2,8 @@ package java_mvc;
 
 import Controller.DbConnection.DataConnection;
 import Controller.Serviece.LoginAndRegisterService;
-import View.LoginView;
+import View.LoginAndRegisterView;
+import java.sql.SQLException;
 
 /**
  *
@@ -15,16 +16,10 @@ public class JAVA_MVC {
      */
     private static DataConnection con;
 
-    public static void main(String[] args) {
-        LoginAndRegisterService loginManager = new LoginAndRegisterService();
-        String username = "1";
-        String password = "1";
-        if (loginManager.authenticate(username, password)) {
-            System.out.println("Login successful!");
-            new LoginView().setVisible(true);
-        } else {
-            System.out.println("Invalid username or password.");
-        }
+    public static void main(String[] args) throws SQLException {
+        LoginAndRegisterView lgView = new LoginAndRegisterView();
+        LoginAndRegisterService loginManager = new LoginAndRegisterService(lgView);
+        lgView.setVisible(true);
     }
     
 }

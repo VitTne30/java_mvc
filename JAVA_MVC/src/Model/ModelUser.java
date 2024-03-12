@@ -4,23 +4,23 @@ package Model;
  *
  * @author ADMIN
  */
-public class User {
+public class ModelUser {
     private int userId;
     private String userName;
     private String password;
     private String role;
 
-    public User() {
+    public ModelUser() {
     }
 
-    public User(int userId, String userName, String password, String role) {
+    public ModelUser(int userId, String userName, String password, String role) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.role = role;
     }
 
-    public User(String userName, String password) {
+    public ModelUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
