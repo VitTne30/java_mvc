@@ -24,6 +24,9 @@ public class ModelUser {
         this.userName = userName;
         this.password = password;
     }
+    public ModelUser(int id) {
+        this.userId =id;
+    }
 
     public int getUserId() {
         return userId;

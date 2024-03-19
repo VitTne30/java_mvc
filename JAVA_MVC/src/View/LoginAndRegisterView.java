@@ -30,7 +30,6 @@ public class LoginAndRegisterView extends JFrame {
 
     private JPanel login;
     private JPanel register;
-    private JPanel movingPanel;
     private Icon show, hide;
     private char pas;
     private ImageLogo logo,logo2; //Logo nhà hàng
@@ -40,8 +39,8 @@ public class LoginAndRegisterView extends JFrame {
     private ButtonOutLine btnToRegis,btnToLogin;
     private Button btnLogin, btnRegis;
     private JButton btnForget;
-    private MyTextField userField, userName, phone, fullName;
-    private MyPasswordField password, passField;
+    private MyTextField userField, userNameRegis, phone, fullName;
+    private MyPasswordField passwordRegis, passField;
 
     public LoginAndRegisterView() {
         super("JAVA_MVC");
@@ -89,7 +88,6 @@ public class LoginAndRegisterView extends JFrame {
         register.setBounds(0, 500, 800, 500);
         register.setVisible(true);
         //
-
         addRegisterGui();
         addLoginGui();
         add(login);
@@ -129,7 +127,6 @@ public class LoginAndRegisterView extends JFrame {
                     passField.setEchoChar(pas);
                 }
             }
-
         });
         login.add(passField);
         //ForgetPass
@@ -229,22 +226,22 @@ public class LoginAndRegisterView extends JFrame {
         });
         register.add(phone);
         //userName
-        userName = new MyTextField();
-        userName.setBounds(335, 230, 220, 40);
-        userName.setBackground(Color.white);
-        userName.setHint("Tên đăng nhập ...");
-        userName.setPrefixIcon(new ImageIcon(getClass().
+        userNameRegis = new MyTextField();
+        userNameRegis.setBounds(335, 230, 220, 40);
+        userNameRegis.setBackground(Color.white);
+        userNameRegis.setHint("Tên đăng nhập ...");
+        userNameRegis.setPrefixIcon(new ImageIcon(getClass().
                 getResource("/Icon/user.png")));
-        register.add(userName);
+        register.add(userNameRegis);
         //pass
-        password = new MyPasswordField();
-        password.setBounds(565, 230, 220, 40);
-        password.setBackground(Color.white);
-        password.setHint("Mật khẩu ...");
-        password.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
-        password.setSuffixIcon(show);
-        pas = password.getEchoChar();
-        password.addMouseListener(new MouseAdapter() {
+        passwordRegis = new MyPasswordField();
+        passwordRegis.setBounds(565, 230, 220, 40);
+        passwordRegis.setBackground(Color.white);
+        passwordRegis.setHint("Mật khẩu ...");
+        passwordRegis.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
+        passwordRegis.setSuffixIcon(show);
+        pas = passwordRegis.getEchoChar();
+        passwordRegis.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (passField.getSuffixIcon().equals(hide)) {
@@ -255,15 +252,13 @@ public class LoginAndRegisterView extends JFrame {
                     passField.setEchoChar(pas);
                 }
             }
-
         });
-        register.add(password);
+        register.add(passwordRegis);
         //ButtobRegis
         btnRegis = new Button();
         btnRegis.setText("Đăng ký");
         btnRegis.setBounds(492, 322, 135, 35);
         register.add(btnRegis);
-        //
         //RegisLogo
         logo2 = new ImageLogo();
         logo2.setBounds(65, 27, 195, 190);
@@ -300,10 +295,6 @@ public class LoginAndRegisterView extends JFrame {
 
     public JPanel getRegister() {
         return register;
-    }
-
-    public JPanel getMovingPanel() {
-        return movingPanel;
     }
 
     public Icon getShow() {
@@ -366,8 +357,8 @@ public class LoginAndRegisterView extends JFrame {
         return userField;
     }
 
-    public MyTextField getUserName() {
-        return userName;
+    public MyTextField getUserNameRegis() {
+        return userNameRegis;
     }
 
     public MyTextField getPhone() {
@@ -378,8 +369,8 @@ public class LoginAndRegisterView extends JFrame {
         return fullName;
     }
 
-    public MyPasswordField getPassword() {
-        return password;
+    public MyPasswordField getPasswordRegis() {
+        return passwordRegis;
     }
 
     public MyPasswordField getPassField() {
@@ -400,17 +391,6 @@ public class LoginAndRegisterView extends JFrame {
 
     public void setFullName(MyTextField fullName) {
         this.fullName = fullName;
-    }
-
-    /////////////Animation
-    public void showRegister(boolean show) {
-        if (show) {
-            register.setVisible(true);
-            login.setVisible(false);
-        } else {
-            register.setVisible(false);
-            login.setVisible(true);
-        }
     }
 
 }

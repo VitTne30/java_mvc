@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DataConnection {
     private static DataConnection instance;
-    private static final String URL = "jdbc:mysql://localhost:3306/qlsach";
+    private static final String URL = "jdbc:mysql://localhost:3306/quanli_sach";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
     private ConnectionPool connectionPool;

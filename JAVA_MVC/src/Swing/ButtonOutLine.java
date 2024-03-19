@@ -5,18 +5,23 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
 //Custom JButton
 public class ButtonOutLine extends JButton {
 
+
+
     public ButtonOutLine() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(5, 0, 5, 0));
-        setBackground(Color.WHITE);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setFocusPainted(false);
     }
 
     @Override
@@ -29,4 +34,5 @@ public class ButtonOutLine extends JButton {
         g2.drawRoundRect(0, 0, width - 1, height - 1, height, height);
         super.paintComponent(grphcs);
     }
+
 }

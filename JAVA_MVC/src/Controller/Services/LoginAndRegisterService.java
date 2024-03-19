@@ -1,7 +1,8 @@
-package Controller.Serviece;
+package Controller.Services;
 
 import Controller.DbConnection.DataConnection;
 import Model.ModelUser;
+import View.ForgetView;
 import View.LoginAndRegisterView;
 import View.MainView;
 import java.awt.event.ActionEvent;
@@ -70,7 +71,11 @@ public class LoginAndRegisterService {
         loginView.getBtnForget().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                forgetPassComponent();
+                try {
+                    forgetPassComponent();
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginAndRegisterService.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -90,7 +95,7 @@ public class LoginAndRegisterService {
                 String role = r.getString("vaitro");
                 user = new ModelUser(UserID, name, password, role);
 
-                new MainView().setVisible(true);
+                new MainView(user).setVisible(true);
                 loginView.dispose();
 
             } else {
@@ -105,49 +110,70 @@ public class LoginAndRegisterService {
             Logger.getLogger(LoginAndRegisterService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     //
     private void regisComponent() {
         String fullName = loginView.getFullName().getText().trim();
-        String name = loginView.getUserName().getText().trim();
+        String name = loginView.getUserNameRegis().getText().trim();
         String id;
-        String pass = String.valueOf(loginView.getPassword().getPassword());
+        String pass = String.valueOf(loginView.getPasswordRegis().getPassword());
         String role = "Staff";
         String phone = loginView.getPhone().getText();
+        boolean duplicate = false;
+        String sql = "SELECT * FROM tbl_taikhoan WHERE tentaikhoan=?";
+        PreparedStatement p0;
+        try {
+            p0 = con.prepareStatement(sql);
+            p0.setString(1, name);
+            ResultSet r1 = p0.executeQuery();
+            if (r1.next()) {
+                duplicate = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginAndRegisterService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         if (!name.isEmpty() || !pass.isEmpty() || !fullName.isEmpty() || !phone.isEmpty()) {
-            try {
-                ModelUser user;
-                PreparedStatement p1 = con.prepareStatement("SELECT MAX(id) as id FROM tbl_taikhoan");
-                ResultSet r = p1.executeQuery();
-                r.next();
-                int userID = r.getInt("id") + 1;
+            if (duplicate) {
+                JOptionPane.showMessageDialog(loginView, "Tài khoản đã tồn tại!",
+                        "Thông báo", JOptionPane.ERROR_MESSAGE);
+                loginView.getUserNameRegis().requestFocus();
+            } else {
+                try {
+                    ModelUser user;
+                    PreparedStatement p1 = con.prepareStatement("SELECT MAX(id) as id FROM tbl_taikhoan");
+                    ResultSet r = p1.executeQuery();
+                    r.next();
+                    int userID = r.getInt("id") + 1;
 
-                //Insert account
-                String sql_ND = "INSERT INTO tbl_taikhoan (id,tentaikhoan, matkhau,vaitro) VALUES (?,?,?,'Staff')";
-                PreparedStatement p = con.prepareStatement(sql_ND);
-                p.setInt(1, userID);
-                p.setString(2, loginView.getUserName().getText().trim());
-                p.setString(3, String.valueOf(loginView.getPassword().getPassword()));
-                p.execute();
-                user = new ModelUser(userID, loginView.getUserName().getText().trim(),
-                        String.valueOf(loginView.getPassword().getPassword()), "Staff");
-
-                //InsertStaff
-                String sql_ND2 = "INSERT INTO tbl_nhanvien (id,hoten, sdt) VALUES (?,?,?)";
-                PreparedStatement p2 = con.prepareStatement(sql_ND2);
-                p2.setInt(1, userID);
-                p2.setString(2, loginView.getFullName().getText().trim());
-                p2.setString(3, loginView.getPhone().getText().trim());
-                p2.execute();
-                JOptionPane.showMessageDialog(loginView, "Tạo tài khoản thành công!",
-                        "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-                r.close();
-                p.close();
-                p1.close();
-                p2.close();
-                databaseConnection.releaseConnection(con);
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginAndRegisterService.class.getName()).log(Level.SEVERE, null, ex);
+                    //Insert account
+                    String sql_ND = "INSERT INTO tbl_taikhoan (id,tentaikhoan, matkhau,vaitro) VALUES (?,?,?,'Staff')";
+                    PreparedStatement p = con.prepareStatement(sql_ND);
+                    p.setInt(1, userID);
+                    p.setString(2, loginView.getUserNameRegis().getText().trim());
+                    p.setString(3, String.valueOf(loginView.getPasswordRegis().getPassword()));
+                    p.execute();
+                    user = new ModelUser(userID, loginView.getUserNameRegis().getText().trim(),
+                            String.valueOf(loginView.getPasswordRegis().getPassword()), "Staff");
+                    //InsertStaff
+                    String sql_ND2 = "INSERT INTO tbl_nhanvien (id,hoten, sdt) VALUES (?,?,?)";
+                    PreparedStatement p2 = con.prepareStatement(sql_ND2);
+                    p2.setInt(1, userID);
+                    p2.setString(2, loginView.getFullName().getText().trim());
+                    p2.setString(3, loginView.getPhone().getText().trim());
+                    p2.execute();
+                    JOptionPane.showMessageDialog(loginView, "Tạo tài khoản thành công!",
+                            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    new MainView(user).setVisible(true);
+                    loginView.dispose();
+                    r.close();
+                    p.close();
+                    p1.close();
+                    p2.close();
+                    databaseConnection.releaseConnection(con);
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginAndRegisterService.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(loginView, "Vui lòng điền đủ thông tin!",
@@ -155,6 +181,7 @@ public class LoginAndRegisterService {
         }
 
     }
+
     //
     private void moveLogin() {
         Thread moveThread2;
@@ -178,6 +205,7 @@ public class LoginAndRegisterService {
         moveThread2.start();
 
     }
+
     //
     private void moveRegis() {
         Thread moveThread;
@@ -185,7 +213,6 @@ public class LoginAndRegisterService {
             int speed = 10;
             int y = loginView.getRegister().getY();
             int x = loginView.getLogin().getY();
-            System.out.println(x);
             while (y < 500 && x < 0) {
                 try {
                     Thread.sleep(10);
@@ -201,10 +228,13 @@ public class LoginAndRegisterService {
         });
         moveThread.start();
     }
+
     //
-    private void forgetPassComponent(){
+    private void forgetPassComponent() throws SQLException {
+        ForgetView newFview = new ForgetView();
+        ForgetService newFService = new ForgetService(newFview);
+        newFview.setVisible(true);
         
     }
-    
 
 }
