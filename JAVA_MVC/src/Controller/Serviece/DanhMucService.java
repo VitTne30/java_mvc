@@ -44,6 +44,15 @@ public class DanhMucService {
             tblDanhmuc.addRow(new Object[]{data.getId(), data.getTendanhmuc(),
                 data.getMota()});
         }
+        
+        dmView.getNumberLb().setText("Tổng số danh mục: "+ listDM.size());
+
+        dmView.getTblDanhmuc().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                SelectData();
+            }
+        });
 
         dmView.getTxtResult().addActionListener(new ActionListener() {
             @Override
@@ -58,6 +67,7 @@ public class DanhMucService {
                 }
             }
         });
+        
     }
 
     public ArrayList<DanhMuc> getListDM() throws SQLException {
