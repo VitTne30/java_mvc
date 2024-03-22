@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,11 +40,7 @@ public class DanhMucService {
         con = (Connection) databaseConnection.getConnection();
         this.dmView = newDM;
         tblDanhmuc = dmView.getTblDanhmuc();
-        listDM = getListDM();
-        for (DanhMuc data : listDM) {
-            tblDanhmuc.addRow(new Object[]{data.getId(), data.getTendanhmuc(),
-                data.getMota()});
-        }
+        getData();
         
         dmView.getNumberLb().setText("Tổng số danh mục: "+ listDM.size());
 
@@ -65,6 +62,46 @@ public class DanhMucService {
             data.getMota()});
                     }
                 }
+            }
+        });
+        
+        dmView.getBtnThem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    addDanhmuc();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DanhMucService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        dmView.getBtnSua().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    updateDanhmuc();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DanhMucService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        dmView.getBtnXoa().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    deleteDanhmuc();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DanhMucService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        dmView.getBtnClear().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Clear();
             }
         });
         
@@ -93,10 +130,92 @@ public class DanhMucService {
 
         if (selectedRow >= 0) {
             DefaultTableModel model = (DefaultTableModel) dmView.getTblDanhmuc().getModel();
+            dmView.getTxtTenDM().setText(model.getValueAt(selectedRow, 0).toString());
             dmView.getTxtTenDM().setText(model.getValueAt(selectedRow, 1).toString());
             dmView.getTxtMota().setText(model.getValueAt(selectedRow, 2).toString());
         }
     }
     
+    private boolean isDuplicate(String tendanhmuc) throws SQLException{
+        String query = "SELECT * FROM tbl_danhmuc WHERE tendanhmuc =?";
+        PreparedStatement p = con.prepareStatement(query);
+        p.setString(1, tendanhmuc);
+        ResultSet r = p.executeQuery();
+        
+        return r.next();
+    }
     
+    public void addDanhmuc() throws SQLException{
+        String tendanhmuc = dmView.getTxtTenDM().getText();
+        String mota = dmView.getTxtMota().getText();
+        
+        if(isDuplicate(tendanhmuc) == true){
+            JOptionPane.showMessageDialog(null, "Tên danh mục mới không được trùng");
+        }
+        else{
+            DanhMuc danhmuc = new DanhMuc(tendanhmuc, mota);
+            
+            String query = "INSERT INTO tbl_danhmuc (tendanhmuc, mota) VALUES (?, ?)";
+            PreparedStatement p = con.prepareStatement(query);
+            p.setString(1, tendanhmuc);
+            p.setString(2, mota);
+            
+            p.executeUpdate();
+        }
+        getData();
+    }
+    
+    public void updateDanhmuc() throws SQLException{
+        String tendanhmuc = dmView.getTxtTenDM().getText();
+        String mota = dmView.getTxtMota().getText();
+        
+        int selectedRow = dmView.getTblDanhmuc().getSelectedRow();
+
+        DefaultTableModel model = (DefaultTableModel) dmView.getTblDanhmuc().getModel();
+        String id = model.getValueAt(selectedRow, 0).toString();
+        String check = model.getValueAt(selectedRow, 1).toString();
+        
+        if(isDuplicate(tendanhmuc) == true && check != tendanhmuc){
+            JOptionPane.showMessageDialog(null, "Tên danh mục mới không được trùng");
+        }
+        else{
+            DanhMuc danhmuc = new DanhMuc(tendanhmuc, mota);
+            
+            String query = "UPDATE tbl_danhmuc SET tendanhmuc =? , mota =? WHERE id =?";
+            PreparedStatement p = con.prepareStatement(query);
+            p.setString(1, tendanhmuc);
+            p.setString(2, mota);
+            p.setString(3, id);
+            
+            p.executeUpdate();
+            getData();
+        }
+    }
+    
+    public void deleteDanhmuc() throws SQLException{
+        int selectedRow = dmView.getTblDanhmuc().getSelectedRow();
+
+        DefaultTableModel model = (DefaultTableModel) dmView.getTblDanhmuc().getModel();
+        int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+        
+        String query = "DELETE FROM tbl_danhmuc WHERE id = ?";
+        PreparedStatement p = con.prepareStatement(query);
+        p.setInt(1, id);
+        p.executeUpdate();
+        
+        getData();
+    }
+    
+    public void Clear(){
+        dmView.getTxtTenDM().setText("");
+        dmView.getTxtMota().setText("");
+    }
+    
+    private void getData() throws SQLException{
+        tblDanhmuc.removeAllRow();
+        listDM = getListDM();
+        for (DanhMuc data : listDM) {
+            tblDanhmuc.addRow(new Object[]{data.getId(), data.getTendanhmuc(), data.getMota()});
+        }
+    }
 }

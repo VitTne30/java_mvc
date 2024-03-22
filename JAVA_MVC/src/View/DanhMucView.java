@@ -158,8 +158,8 @@ public class DanhMucView extends JFrame {
         });
         TableColumnModel columnModel = tblDanhmuc.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(65);
-        columnModel.getColumn(1).setPreferredWidth(130);
-        columnModel.getColumn(2).setPreferredWidth(260);
+        columnModel.getColumn(1).setPreferredWidth(150);
+        columnModel.getColumn(2).setPreferredWidth(240);
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
             column.setResizable(false);

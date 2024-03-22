@@ -22,6 +22,11 @@ public class DanhMuc {
         this.tendanhmuc = tendanhmuc;
         this.mota = mota;
     }
+    
+    public DanhMuc(String tendanhmuc, String mota) {
+        this.tendanhmuc = tendanhmuc;
+        this.mota = mota;
+    }
 
     public int getId() {
         return id;
