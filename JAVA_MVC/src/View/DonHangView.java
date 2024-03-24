@@ -4,7 +4,7 @@
  */
 package View;
 
-import Controller.Serviece.DanhMucService;
+import Controller.Services.DanhMucService;
 import Swing.MyTextField;
 import Swing.Table;
 import java.awt.BorderLayout;

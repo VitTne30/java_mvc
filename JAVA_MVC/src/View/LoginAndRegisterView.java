@@ -157,6 +157,7 @@ public class LoginAndRegisterView extends JFrame {
         //LoginLogo
         logo = new ImageLogo();
         logo.setBounds(65, 27, 195, 190);
+        logo.setNeedSize(195, 190);
         logo.setIcon(new ImageIcon(getClass().getResource("/Icon/toRegister.png")));
         login.add(logo);
         //LoginTitle

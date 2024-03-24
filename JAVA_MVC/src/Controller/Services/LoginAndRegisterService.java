@@ -95,7 +95,9 @@ public class LoginAndRegisterService {
                 String role = r.getString("vaitro");
                 user = new ModelUser(UserID, name, password, role);
 
-                new MainView(user).setVisible(true);
+                MainView mainView = new MainView(user);
+                MainService mainSer = new MainService(mainView);
+                mainView.setVisible(true);
                 loginView.dispose();
 
             } else {

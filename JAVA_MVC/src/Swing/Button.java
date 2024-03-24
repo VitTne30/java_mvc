@@ -14,7 +14,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
@@ -141,5 +143,37 @@ public class Button extends JButton {
             right = suffixIcon.getIconWidth() + 15;
         }
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, left, 10, right));
+    }
+    public Button(Border b){
+        setBorder(b);
+        setBackground(Color.WHITE);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setContentAreaFilled(false);
+        setFocusPainted(false);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                targetSize = Math.max(getWidth(), getHeight()) * 2;
+                animatSize = 0;
+                pressedPoint = me.getPoint();
+                alpha = 0.5f;
+                if (animator.isRunning()) {
+                    animator.stop();
+                }
+                animator.start();
+            }
+        });
+        TimingTarget target = new TimingTargetAdapter() {
+            @Override
+            public void timingEvent(float fraction) {
+                if (fraction > 0.5f) {
+                    alpha = 1 - fraction;
+                }
+                animatSize = fraction * targetSize;
+                repaint();
+            }
+        };
+        animator = new Animator(400, target);
+        animator.setResolution(0);
     }
 }

@@ -13,7 +13,8 @@ import javax.swing.JComponent;
 
 //Custom Icon cho JLabel
 public class ImageLogo extends JComponent {
-
+    
+    private int w,h;
     public Icon getIcon() {
         return icon;
     }
@@ -38,8 +39,7 @@ public class ImageLogo extends JComponent {
     
     //Fix kích thước ảnh
     private Rectangle getAutoSize(Icon image){
-        int w=195;
-        int h=190;
+        
         int iw=image.getIconWidth();
         int ih=image.getIconHeight();
         double xScale=(double)w/iw;
@@ -54,6 +54,11 @@ public class ImageLogo extends JComponent {
 
     private Image toImage(Icon icon) {
         return ((ImageIcon) icon).getImage();
+    }
+
+    public void setNeedSize(int i, int i0) {
+        this.w = i;
+        this.h = i0;
     }
 
 
