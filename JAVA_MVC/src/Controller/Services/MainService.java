@@ -5,6 +5,7 @@ import View.AccountView;
 import View.MainView;
 import View.CustomerView;
 import View.LoginAndRegisterView;
+import View.NxbView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -88,7 +89,17 @@ public class MainService {
         mainView.getBtnAuthor().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                mainView.getChangePanel().removeAll();
+                NxbView nxbView = new NxbView();
+                try {
+                    NxbService nxbSer = new NxbService(nxbView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(nxbView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
             }
         });
         //ShowCategory
