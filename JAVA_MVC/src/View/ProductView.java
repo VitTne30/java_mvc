@@ -1,6 +1,6 @@
 package View;
 
-import Controller.Services.ManageProductService;
+import Controller.Services.ProductController;
 import Swing.Button;
 import Swing.MyTextField;
 import Swing.Table;
@@ -25,7 +25,7 @@ public class ProductView extends JFrame {
 
     private JScrollPane scroll;
     private Table table_product;
-    private JLabel title, check, name, author, id, id_nhaxb, price, number, category;
+    private JLabel title, name, author, id, id_nhaxb, price, number, category;
     private final MyTextField jtf_search, jtf_name, jtf_author, jtf_id, jtf_price, jtf_number;
     private final Button add, save, delete, change, search, put_excel;
     private final JComboBox Jcb_category, Jcb_publisher;
@@ -165,11 +165,6 @@ public class ProductView extends JFrame {
         jtf_number.setHint("Số lượng");
         jtf_number.setBounds(85, 710, 190, 40);
         this.add(jtf_number);
-        
-        check = new JLabel("check");
-        check.setFont(fontLB);        
-        check.setBounds(375, 710, 190, 40);
-        this.add(check);
 
         jtf_search = new MyTextField();
         jtf_search.setFont(fontLB);
@@ -227,7 +222,7 @@ public class ProductView extends JFrame {
 
     public static void main(String Arg[]) throws SQLException {
         ProductView one = new ProductView();
-        ManageProductService two = new ManageProductService(one);
+        ProductController two = new ProductController(one);
     }
 
     public JScrollPane getScroll() {
@@ -292,10 +287,6 @@ public class ProductView extends JFrame {
 
     public Button getPut_excel() {
         return put_excel;
-    }
-
-    public JLabel getCheck() {
-        return check;
     }
 
 }
