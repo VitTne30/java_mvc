@@ -63,6 +63,7 @@ public final class ManageProductService {
             public void actionPerformed(ActionEvent e) {
                 state = "add";
                 ableTextField(true);
+                clearTextField();
             }
         });
 
@@ -79,6 +80,7 @@ public final class ManageProductService {
             public void actionPerformed(ActionEvent e) {
                 if (state.equals("add")) {
                     try {
+
                         addAProduct();
                     } catch (SQLException ex) {
                         Logger.getLogger(ManageProductService.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,8 +120,8 @@ public final class ManageProductService {
                     PView.getJtf_number().setText(Integer.toString(arrBook.get(i).getNumber()));
                     PView.getJtf_id().setText(Integer.toString(arrBook.get(i).getId()));
                     PView.getJtf_price().setText(Integer.toString(arrBook.get(i).getPrice()));
-                    PView.getJcb_category().setSelectedIndex(idCategoryWithCategory(arrBook.get(i).getCategory()) - 1);
-                    PView.getJcb_publisher().setSelectedIndex(idPublisherWithPublisher(arrBook.get(i).getPublisher()) - 1);
+                    PView.getJcb_category().setSelectedIndex(idCategoryWithCategory(arrBook.get(i).getCategory()));
+                    PView.getJcb_publisher().setSelectedIndex(idPublisherWithPublisher(arrBook.get(i).getPublisher()) );
                     PView.getCheck().setText(i + "");
                 }
             }
@@ -210,7 +212,7 @@ public final class ManageProductService {
                 if (rowAffect > 0) {
                     arrBook.remove(seletedIndex);
                     refreshTable();
-                    JOptionPane.showInternalMessageDialog(PView, "Xóa thành công sản phẩm!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(PView, "Xóa thành công sản phẩm!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     showMessengerError("Xóa sản phẩm không thành công!");
                 }
@@ -264,9 +266,12 @@ public final class ManageProductService {
             String author = PView.getJtf_author().getText();
             int id_category = idCategory();
             int id_publisher = idPublisher();
-            int id = arrBook.get(arrBook.size() - 1).getId() + 1;
+            int id = 0;
+            if (arrBook.size() > 1) {
+                id = arrBook.get(arrBook.size() - 1).getId() + 1;
+            }
             String sql = "INSERT INTO `tbl_sanpham`(`id_sanpham`,`ten_sanpham`, "
-                    + "`id_danhmuc`, `id_nhaxuatban`, `so_luong`, `gia_tien`,"
+                    + "`id_danhmuc`, `id_nxb`, `so_luong`, `gia_tien`,"
                     + " `tac_gia`) VALUES ('" + id + "','" + name + "','" + id_category + "',"
                     + "'" + id_publisher + "','" + number + "','" + price + "','" + author + "')";
 
@@ -305,7 +310,7 @@ public final class ManageProductService {
             int id = Integer.parseInt(PView.getJtf_id().getText());
             String sql = "UPDATE `tbl_sanpham` SET "
                     + "`ten_sanpham`='" + name + "',`id_danhmuc`='" + id_category + "',"
-                    + "`id_nhaxuatban`='" + id_publisher + "',`so_luong`='" + number + "',"
+                    + "`id_nxb`='" + id_publisher + "',`so_luong`='" + number + "',"
                     + "`gia_tien`='" + price + "',`tac_gia`='" + author + "'"
                     + " WHERE id_sanpham = " + id + ";";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -328,8 +333,8 @@ public final class ManageProductService {
     private ArrayList<ModelBook> getListProduct() throws SQLException {
         ArrayList<ModelBook> list = new ArrayList();
         String sql = "SELECT `id_sanpham`, `ten_sanpham`, `so_luong`, `gia_tien`, `tac_gia`,"
-                + " tbl_nhaxuatban.ten_nhaxuatban, tbl_danhmuc.ten_danhmuc FROM `tbl_sanpham`"
-                + " INNER JOIN tbl_nhaxuatban ON tbl_sanpham.id_nhaxuatban = tbl_nhaxuatban.id_nhaxuatban"
+                + " tbl_nxb.tennxb, tbl_danhmuc.tendanhmuc FROM `tbl_sanpham`"
+                + " INNER JOIN tbl_nxb ON tbl_sanpham.id_nxb = tbl_nxb.id_nxb"
                 + " INNER JOIN tbl_danhmuc ON tbl_sanpham.id_danhmuc = tbl_danhmuc.id_danhmuc;";
         ResultSet result;
         try (PreparedStatement preStmt = conn.prepareStatement(sql)) {
@@ -355,13 +360,13 @@ public final class ManageProductService {
     private ArrayList<ModelBook> getListProductWithWords(String word) throws SQLException {
         ArrayList<ModelBook> list = new ArrayList();
         String sql = "SELECT `id_sanpham`, `ten_sanpham`, `so_luong`, `gia_tien`, `tac_gia`,"
-                + " tbl_nhaxuatban.ten_nhaxuatban, tbl_danhmuc.ten_danhmuc FROM `tbl_sanpham`"
-                + " INNER JOIN tbl_nhaxuatban ON tbl_sanpham.id_nhaxuatban = tbl_nhaxuatban.id_nhaxuatban"
+                + " tbl_nxb.ten_nxb, tbl_danhmuc.tendanhmuc FROM `tbl_sanpham`"
+                + " INNER JOIN tbl_nxb ON tbl_sanpham.id_nxb = tbl_nxb.id_nxb"
                 + " INNER JOIN tbl_danhmuc ON tbl_sanpham.id_danhmuc = tbl_danhmuc.id_danhmuc"
                 + " WHERE ten_sanpham LIKE '%" + word + "%' OR tac_gia LIKE '%" + word + "%' "
                 + "OR so_luong LIKE '%" + word + "%' OR gia_tien LIKE '%" + word + "%' "
-                + "OR tbl_nhaxuatban.ten_nhaxuatban LIKE '%" + word + "%' "
-                + "OR tbl_danhmuc.ten_danhmuc LIKE '%" + word + "%';";
+                + "OR tbl_nxb.ten_nxb LIKE '%" + word + "%' "
+                + "OR tbl_danhmuc.tendanhmuc LIKE '%" + word + "%';";
         ResultSet result;
         try (PreparedStatement preStmt = conn.prepareStatement(sql)) {
             result = preStmt.executeQuery();
@@ -438,7 +443,7 @@ public final class ManageProductService {
     private void getDataForJComboBox() throws SQLException {
         arrCategory = new ArrayList<>();
         arrPublisher = new ArrayList<>();
-        String sql = "SELECT `id_danhmuc`, `ten_danhmuc` FROM `tbl_danhmuc`";
+        String sql = "SELECT `id_danhmuc`, `tendanhmuc` FROM `tbl_danhmuc`";
         ResultSet one;
         try (PreparedStatement preStmt = conn.prepareStatement(sql)) {
             one = preStmt.executeQuery();
@@ -451,7 +456,7 @@ public final class ManageProductService {
                 this.PView.getJcb_category().addItem(name);
             }
         }
-        sql = "SELECT `id_nhaxuatban`, `ten_nhaxuatban` FROM `tbl_nhaxuatban`";
+        sql = "SELECT `id_nxb`, `tennxb` FROM `tbl_nxb`";
 
         try (PreparedStatement preStmt = conn.prepareStatement(sql)) {
             one = preStmt.executeQuery();
@@ -478,11 +483,22 @@ public final class ManageProductService {
         return id;
     }
 
+    private int idPublisher() {
+        int id = 0;
+        for (int i = 0; i < arrPublisher.size(); i++) {
+            if (this.PView.getJcb_publisher().getSelectedItem().toString()
+                    .equals(arrPublisher.get(i).getName_publisher())) {
+                id = arrPublisher.get(i).getId_publisher();
+            }
+        }
+        return id;
+    }
+
     private int idCategoryWithCategory(String category) {
         int id = 0;
         for (int i = 0; i < arrCategory.size(); i++) {
             if (arrCategory.get(i).getName_category().equals(category)) {
-                id = arrCategory.get(i).getId_category();
+                id = i;
             }
         }
         return id;
@@ -492,18 +508,7 @@ public final class ManageProductService {
         int id = 0;
         for (int i = 0; i < arrPublisher.size(); i++) {
             if (arrPublisher.get(i).getName_publisher().equals(publisher)) {
-                id = arrPublisher.get(i).getId_publisher();
-            }
-        }
-        return id;
-    }
-
-    private int idPublisher() {
-        int id = 0;
-        for (int i = 0; i < arrPublisher.size(); i++) {
-            if (this.PView.getJcb_publisher().getSelectedItem().toString()
-                    .equals(arrPublisher.get(i).getName_publisher())) {
-                id = arrPublisher.get(i).getId_publisher();
+                id = i;
             }
         }
         return id;
