@@ -1,7 +1,7 @@
 package View;
 
-import Controller.Services.CustomerService;
-import Controller.Services.MainService;
+import Controller.Services.CustomerController;
+import Controller.Services.MainController;
 import Model.ModelUser;
 import Swing.Button;
 import Swing.ImageLogo;
@@ -69,7 +69,7 @@ public class MainView extends JFrame {
         changePanel.setBounds(310, 0, 800, 800);
         //Pa
         CustomerView cusView = new CustomerView();
-        CustomerService cusSer = new CustomerService(cusView);
+        CustomerController cusSer = new CustomerController(cusView);
         changePanel.add(cusView);
 
         changePanel.setVisible(true);
@@ -80,7 +80,7 @@ public class MainView extends JFrame {
 
     public static void main(String[] args) throws SQLException {
         MainView newMain = new MainView();
-        MainService mainSer = new MainService(newMain);
+        MainController mainSer = new MainController(newMain);
         newMain.setVisible(true);
     }
 
@@ -122,7 +122,7 @@ public class MainView extends JFrame {
         changePanel.setBounds(310, 0, 800, 800);
 //        //Pa
         CustomerView cusView = new CustomerView();
-        CustomerService cusSer = new CustomerService(cusView);
+        CustomerController cusSer = new CustomerController(cusView);
         changePanel.add(cusView);
 ////        AccountView accView= new AccountView();
 ////        AccountService accSer = new AccountService(accView);
@@ -165,7 +165,7 @@ public class MainView extends JFrame {
         //Button author
         btnAuthor = new Button();
         btnAuthor.setFont(new Font("sansserif", 1, 15));
-        btnAuthor.setText("Quản lý tác giả");
+        btnAuthor.setText("Quản lý nhà xuất bản");
         btnAuthor.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/author.png")));
         btnAuthor.setBounds(10, 288, 280, 40);
         menuAdmin.add(btnAuthor);

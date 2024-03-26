@@ -7,20 +7,19 @@ import Swing.MyTextField;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 /**
  *
  * @author ADMIN
  */
-public class AccountView extends javax.swing.JPanel {
+public class AccountView extends JPanel {
 
-    private JLabel titleLb, titleAccLb, line,line2, lb1, lb2, lb3,
+    private JLabel titleLb, titleAccLb, line,line2, lb1, lb2,
             lb4, lb5, lb6,lb7,lb8,lb9;
-    private MyTextField idLb, nameLb, genderLb,
+    private MyTextField idLb, nameLb,
             addreddLb, phoneLb, emailLb,usNameLb,pass,role;
     private ImageLogo accLogo;
     private Button btnChangepass;
@@ -62,37 +61,32 @@ public class AccountView extends javax.swing.JPanel {
         accLogo = new ImageLogo();
         accLogo.setBounds(20, 175, 360, 350);
         accLogo.setNeedSize(360, 350);
-        accLogo.setIcon(new ImageIcon(getClass().getResource("/Icon/account.png")));
+        accLogo.setIcon(new ImageIcon(getClass().getResource("/Icon/manager.png")));
         add(accLogo);
         //Label id
         lb1 = new JLabel("Id:");
         lb1.setFont(new Font("sansserif", 1, 18));
-        lb1.setBounds(400, 175, 130, 40);
+        lb1.setBounds(415, 206, 130, 40);
         add(lb1);
         //Label name
         lb2 = new JLabel("Họ và tên:");
         lb2.setFont(new Font("sansserif", 1, 18));
-        lb2.setBounds(400, 237, 130, 40);
+        lb2.setBounds(415, 268, 130, 40);
         add(lb2);
-        //Label Gender
-        lb3 = new JLabel("Giới tính:");
-        lb3.setFont(new Font("sansserif", 1, 18));
-        lb3.setBounds(400, 299, 130, 40);
-        add(lb3);
         //Label Address
         lb4 = new JLabel("Địa chỉ:");
         lb4.setFont(new Font("sansserif", 1, 18));
-        lb4.setBounds(400, 361, 130, 40);
+        lb4.setBounds(415, 330, 130, 40);
         add(lb4);
         //Label Phone
         lb5 = new JLabel("Số điện thoại:");
         lb5.setFont(new Font("sansserif", 1, 18));
-        lb5.setBounds(400, 423, 130, 40);
+        lb5.setBounds(415,392, 130, 40);
         add(lb5);
         //Label Email
         lb6 = new JLabel("Email:");
         lb6.setFont(new Font("sansserif", 1, 18));
-        lb6.setBounds(400, 485, 130, 40);
+        lb6.setBounds(415, 454, 130, 40);
         add(lb6);
         ////////////////Data
         //id
@@ -100,42 +94,35 @@ public class AccountView extends javax.swing.JPanel {
         idLb.setHorizontalAlignment(JTextField.CENTER);
         idLb.setEditable(false);
         idLb.setFont(new Font("sansserif", 1, 18));
-        idLb.setBounds(540, 175, 230, 40);
+        idLb.setBounds(555, 206, 230, 40);
         add(idLb);
         //name
         nameLb = new MyTextField();
         nameLb.setHorizontalAlignment(JTextField.CENTER);
         nameLb.setEditable(false);
         nameLb.setFont(new Font("sansserif", 1, 18));
-        nameLb.setBounds(540, 237, 230, 40);
+        nameLb.setBounds(555, 268, 230, 40);
         add(nameLb);
-        //gender
-        genderLb = new MyTextField();
-        genderLb.setHorizontalAlignment(JTextField.CENTER);
-        genderLb.setEditable(false);
-        genderLb.setFont(new Font("sansserif", 1, 18));
-        genderLb.setBounds(540, 299, 230, 40);
-        add(genderLb);
         //address
         addreddLb = new MyTextField();
         addreddLb.setEditable(false);
         addreddLb.setHorizontalAlignment(JTextField.CENTER);
         addreddLb.setFont(new Font("sansserif", 1, 18));
-        addreddLb.setBounds(540, 361, 230, 40);
+        addreddLb.setBounds(555, 330, 230, 40);
         add(addreddLb);
         //phone
         phoneLb = new MyTextField();
         phoneLb.setEditable(false);
         phoneLb.setHorizontalAlignment(JTextField.CENTER);
         phoneLb.setFont(new Font("sansserif", 1, 18));
-        phoneLb.setBounds(540, 423, 230, 40);
+        phoneLb.setBounds(555, 392, 230, 40);
         add(phoneLb);
         //Email
         emailLb = new MyTextField();
         emailLb.setEditable(false);
         emailLb.setHorizontalAlignment(JTextField.CENTER);
         emailLb.setFont(new Font("sansserif", 1, 13));
-        emailLb.setBounds(540, 485, 230, 40);
+        emailLb.setBounds(555, 454, 230, 40);
         add(emailLb);
         //Black line
         line2 = new JLabel();
@@ -195,16 +182,16 @@ public class AccountView extends javax.swing.JPanel {
         add(btnChangepass);
     }
 
-    public static void main(String[] args) {
-        AccountView acc = new AccountView();
-        JFrame jf = new JFrame();
-        jf.setSize(800, 800);
-        jf.setLayout(null);
-        jf.setLocationRelativeTo(null);
-        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jf.add(acc);
-        jf.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        AccountView acc = new AccountView();
+//        JFrame jf = new JFrame();
+//        jf.setSize(800, 800);
+//        jf.setLayout(null);
+//        jf.setLocationRelativeTo(null);
+//        jf.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        jf.add(acc);
+//        jf.setVisible(true);
+//    }
 
     public MyTextField getIdLb() {
         return idLb;
@@ -220,14 +207,6 @@ public class AccountView extends javax.swing.JPanel {
 
     public void setNameLb(MyTextField nameLb) {
         this.nameLb = nameLb;
-    }
-
-    public MyTextField getGenderLb() {
-        return genderLb;
-    }
-
-    public void setGenderLb(MyTextField genderLb) {
-        this.genderLb = genderLb;
     }
 
     public MyTextField getAddreddLb() {

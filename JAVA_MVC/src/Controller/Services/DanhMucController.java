@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controller.Serviece;
+package Controller.Services;
 
 import Controller.DbConnection.DataConnection;
 import Model.DanhMuc;
-import Model.ModelCustomer;
 import Swing.Table;
 import View.DanhMucView;
 import java.awt.event.ActionEvent;
@@ -20,14 +19,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author admin
  */
-public class DanhMucService {
+public class DanhMucController {
 
     private DataConnection databaseConnection;
     private Connection con;
@@ -35,7 +33,7 @@ public class DanhMucService {
     private Table tblDanhmuc;
     private ArrayList<DanhMuc> listDM = new ArrayList<>();
 
-    public DanhMucService(DanhMucView newDM) throws SQLException {
+    public DanhMucController(DanhMucView newDM) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.dmView = newDM;
@@ -71,7 +69,7 @@ public class DanhMucService {
                 try {
                     addDanhmuc();
                 } catch (SQLException ex) {
-                    Logger.getLogger(DanhMucService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DanhMucController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -82,7 +80,7 @@ public class DanhMucService {
                 try {
                     updateDanhmuc();
                 } catch (SQLException ex) {
-                    Logger.getLogger(DanhMucService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DanhMucController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -93,7 +91,7 @@ public class DanhMucService {
                 try {
                     deleteDanhmuc();
                 } catch (SQLException ex) {
-                    Logger.getLogger(DanhMucService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DanhMucController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

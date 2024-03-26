@@ -17,16 +17,16 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
  *
  * @author ADMIN
  */
-public class IDMView extends JPanel {
+public class InsertModifyView extends JPanel {
     private JLabel titleLb,lb1,lb2,lb3,lb4;
     private JLabel line,line2;
     private MyTextField txtId,txtName,txtPhone,txtEmail;
     private Button btnConfirm, btnCancel;
     private ImageLogo imgCus;
     
-    public IDMView(){
+    public InsertModifyView(){
         setLayout(null);
-        setBounds(100, 125, 600, 550);
+        setBounds(0, 125, 800, 550);
         //
         addInsertGUI();
         setBackground(Color.WHITE);
@@ -38,13 +38,13 @@ public class IDMView extends JPanel {
         ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/customer.png"));
         titleLb = new JLabel("Thêm khách hàng", icon, JLabel.LEFT);
         titleLb.setFont(new Font("sansserif", 1, 30));
-        titleLb.setBounds(10, 20, 320, 50);
+        titleLb.setBounds(10, 20, 420, 50);
         add(titleLb);
         //line
         line = new JLabel();
         line.setBackground(Color.BLACK);
         line.setOpaque(true);
-        line.setBounds(20, 115, 550, 2);
+        line.setBounds(20, 115, 760, 2);
         add(line);
         //ImageCustomer
         imgCus = new ImageLogo();
@@ -78,17 +78,17 @@ public class IDMView extends JPanel {
         txtId.setEditable(false);
         txtId.setFont(new Font("sansserif", Font.BOLD, 18));
         txtId.setForeground(new java.awt.Color(89, 89, 89));
-        txtId.setBounds(440, 187, 130, 40);
+        txtId.setBounds(440, 187, 315, 40);
         add(txtId);
         //txtName
         txtName = new MyTextField();
         txtName.setFont(new Font("sansserif", 1, 18));
-        txtName.setBounds(440, 249, 130, 40);
+        txtName.setBounds(440, 249, 315, 40);
         add(txtName);
         //txtPhone
         txtPhone = new MyTextField();
         txtPhone.setFont(new Font("sansserif", 1, 18));
-        txtPhone.setBounds(440, 311, 130, 40);
+        txtPhone.setBounds(440, 311, 315, 40);
         txtPhone.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -108,20 +108,20 @@ public class IDMView extends JPanel {
         //txtEmail
         txtEmail = new MyTextField();
         txtEmail.setFont(new Font("sansserif", 1, 18));
-        txtEmail.setBounds(440, 373, 130, 40);
+        txtEmail.setBounds(440, 373, 315, 40);
         add(txtEmail);
         //
         line2 = new JLabel();
         line2.setBackground(Color.BLACK);
         line2.setOpaque(true);
-        line2.setBounds(20, 450, 550, 2);
+        line2.setBounds(20, 450, 760, 2);
         add(line2);
         //ButtonConfirm
         btnConfirm = new Button();
         btnConfirm.setFont(new Font("sansserif", 1, 15));
         btnConfirm.setText("Xác nhận");
         btnConfirm.setForeground(Color.GREEN);
-        btnConfirm.setBounds(120, 480, 130, 40);
+        btnConfirm.setBounds(495, 475, 130, 40);
         btnConfirm.setBackground(new java.awt.Color(240, 240, 240));
         add(btnConfirm);
         //ButtonCancel
@@ -130,7 +130,7 @@ public class IDMView extends JPanel {
         btnCancel.setText("Hủy");
         btnCancel.setForeground(Color.red);
         btnCancel.setBackground(new java.awt.Color(240, 240, 240));
-        btnCancel.setBounds(335, 480, 130, 40);
+        btnCancel.setBounds(175, 475, 130, 40);
         add(btnCancel);
     }
     public static void main(String[] args) {
@@ -141,7 +141,7 @@ public class IDMView extends JPanel {
         jf.setResizable(false);
         jf.setLayout(null);
         //
-        IDMView idm =  new IDMView();
+        InsertModifyView idm =  new InsertModifyView();
         jf.add(idm);
         jf.setVisible(true);
     }

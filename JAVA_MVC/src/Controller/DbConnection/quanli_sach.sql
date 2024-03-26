@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2024 at 09:11 AM
+-- Generation Time: Mar 26, 2024 at 04:04 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -114,28 +114,6 @@ INSERT INTO `tbl_khachhang` (`id`, `hoten`, `sdt`, `email`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_nhanvien`
---
-
-CREATE TABLE `tbl_nhanvien` (
-  `id` int(11) NOT NULL,
-  `hoten` varchar(100) NOT NULL,
-  `ngaysinh` datetime DEFAULT NULL,
-  `diachi` text DEFAULT NULL,
-  `sdt` varchar(10) NOT NULL,
-  `email` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_nhanvien`
---
-
-INSERT INTO `tbl_nhanvien` (`id`, `hoten`, `ngaysinh`, `diachi`, `sdt`, `email`) VALUES
-(1, 'luong', '2024-03-14 10:14:45', 'NinhBinh', '0347568883', 'luong383223@gmail.com');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_nxb`
 --
 
@@ -204,17 +182,21 @@ INSERT INTO `tbl_sanpham` (`id_sanpham`, `ten_sanpham`, `id_danhmuc`, `id_nxb`, 
 
 CREATE TABLE `tbl_taikhoan` (
   `id` int(11) NOT NULL,
+  `hoten` varchar(100) NOT NULL,
+  `diachi` text DEFAULT NULL,
+  `sdt` varchar(10) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `tentaikhoan` varchar(100) NOT NULL,
   `matkhau` varchar(100) NOT NULL,
-  `vaitro` varchar(15) NOT NULL
+  `vaitro` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_taikhoan`
 --
 
-INSERT INTO `tbl_taikhoan` (`id`, `tentaikhoan`, `matkhau`, `vaitro`) VALUES
-(1, '1', '11', 'Admin');
+INSERT INTO `tbl_taikhoan` (`id`, `hoten`, `diachi`, `sdt`, `email`, `tentaikhoan`, `matkhau`, `vaitro`) VALUES
+(1, 'asd', 'asd', '1231231231', 'asd', 'asd', 'asd', 'asd');
 
 --
 -- Indexes for dumped tables
@@ -251,12 +233,6 @@ ALTER TABLE `tbl_khachhang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_nhanvien`
---
-ALTER TABLE `tbl_nhanvien`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbl_nxb`
 --
 ALTER TABLE `tbl_nxb`
@@ -280,7 +256,8 @@ ALTER TABLE `tbl_sanpham`
 -- Indexes for table `tbl_taikhoan`
 --
 ALTER TABLE `tbl_taikhoan`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tentaikhoan` (`tentaikhoan`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -338,7 +315,7 @@ ALTER TABLE `tbl_sanpham`
 -- AUTO_INCREMENT for table `tbl_taikhoan`
 --
 ALTER TABLE `tbl_taikhoan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

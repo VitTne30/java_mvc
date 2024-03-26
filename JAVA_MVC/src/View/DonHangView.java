@@ -4,7 +4,7 @@
  */
 package View;
 
-import Controller.Serviece.DanhMucService;
+import Controller.Services.DanhMucController;
 import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,7 +29,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author admin
  */
-public class DonHangView extends JFrame {
+public class DonHangView extends JPanel {
 
     private JLabel lblTenDM = new JLabel("Tên danh mục: ");
     private JLabel lblMota = new JLabel("Mô tả: ");
@@ -52,14 +53,9 @@ public class DonHangView extends JFrame {
     }
 
     public void GUI() {
-        this.setTitle("danhmuc");
-        this.setSize(800, 800);
-        this.getContentPane().setLayout(null);
-//        this.getContentPane().setBackground(Color.DARK_GRAY);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setResizable(false);
+        setLayout(null);
+        setBounds(0, 0, 800, 800);
+        setVisible(true);
     }
 
     public void add() {
@@ -146,7 +142,7 @@ public class DonHangView extends JFrame {
 
     public static void main(String[] args) throws SQLException {
         DanhMucView view = new DanhMucView();
-        new DanhMucService(view);
+        new DanhMucController(view);
     }
 
     public JTextField getTxtTenDM() {

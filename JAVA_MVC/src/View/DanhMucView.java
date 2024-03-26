@@ -4,7 +4,7 @@
  */
 package View;
 
-import Controller.Serviece.DanhMucService;
+import Controller.Services.DanhMucController;
 import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -30,7 +31,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author admin
  */
-public class DanhMucView extends JFrame {
+public class DanhMucView extends JPanel {
 
     private SimpleDateFormat simpleDate = new SimpleDateFormat("dd - MM - YYYY");
     private JLabel dateLb = new JLabel(simpleDate.format(new Date()) + "");
@@ -53,25 +54,20 @@ public class DanhMucView extends JFrame {
     Font TitleFont = new Font("Arial", Font.BOLD, 20);
 
     public DanhMucView() {
-
         GUI();
         add();
     }
 
     public void GUI() {
-        this.setTitle("danhmuc");
-        this.setSize(800, 600);
-        this.getContentPane().setLayout(null);
-//        this.getContentPane().setBackground(Color.DARK_GRAY);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setResizable(false);
+        setLayout(null);
+        setBounds(0, 100, 800, 600);
+        setBackground(Color.WHITE);
+        setVisible(true);
+        
     }
 
     public void add() {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-
         lblTitle.setBounds(10, 10, 320, 40);
         lblTitle.setFont(TitleFont);
         lblTitle.setForeground(Color.RED);
@@ -171,11 +167,6 @@ public class DanhMucView extends JFrame {
 
     public void setNumberLb(JLabel numberLb) {
         this.numberLb = numberLb;
-    }
-
-    public static void main(String[] args) throws SQLException {
-        DanhMucView view = new DanhMucView();
-        new DanhMucService(view);
     }
 
     public JTextField getTxtTenDM() {

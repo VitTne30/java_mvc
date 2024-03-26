@@ -1,7 +1,7 @@
 package java_mvc;
 
-import Controller.Services.LoginAndRegisterService;
-import View.LoginAndRegisterView;
+import Controller.Services.LoginController;
+import View.LoginView;
 import java.sql.SQLException;
 
 /**
@@ -14,8 +14,8 @@ public class JAVA_MVC {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        LoginAndRegisterView lgView = new LoginAndRegisterView();
-        LoginAndRegisterService loginManager = new LoginAndRegisterService(lgView);
+        LoginView lgView = new LoginView();
+        LoginController loginManager = new LoginController(lgView);
         lgView.setVisible(true);
     }
     

@@ -8,10 +8,12 @@ import EasyXLS.ExcelWorksheet;
 import Model.ModelCustomer;
 import Swing.Table;
 import View.CustomerView;
-import View.IDMView;
+import View.InsertModifyView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ADMIN
  */
-public class CustomerService {
+public class CustomerController {
 
     private DataConnection databaseConnection;
     private Connection con;
@@ -39,7 +41,7 @@ public class CustomerService {
     private boolean or;
     private SimpleDateFormat simpleDateFormat;
 
-    public CustomerService(CustomerView newMS) throws SQLException {
+    public CustomerController(CustomerView newMS) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.cusView = newMS;
@@ -69,7 +71,7 @@ public class CustomerService {
                 try {
                     insertComponent();
                 } catch (SQLException ex) {
-                    Logger.getLogger(CustomerService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -86,7 +88,7 @@ public class CustomerService {
                                 "Thông báo", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(CustomerService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -110,7 +112,7 @@ public class CustomerService {
                             getData();
                             databaseConnection.releaseConnection(con);
                         } catch (SQLException ex) {
-                            Logger.getLogger(CustomerService.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 } else {
@@ -124,6 +126,19 @@ public class CustomerService {
             @Override
             public void actionPerformed(ActionEvent e) {
                 exportToExcel(tableNv);
+            }
+        });
+        //Button Import 
+        cusView.getBtnImport().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    importExcel(tableNv);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -159,8 +174,8 @@ public class CustomerService {
     }
 
     private void insertComponent() throws SQLException {
-        IDMView insert = new IDMView();
-        IDMService idmSer = new IDMService(insert, this.cusView);
+        InsertModifyView insert = new InsertModifyView();
+        InsertModifyController idmSer = new InsertModifyController(insert, this.cusView);
         cusView.removeAll();
         cusView.add(insert);
         cusView.revalidate();
@@ -169,8 +184,8 @@ public class CustomerService {
     }
 
     private void modifyComponent(int id) throws SQLException {
-        IDMView modify = new IDMView();
-        IDMService idmSer = new IDMService(modify, this.cusView, id);
+        InsertModifyView modify = new InsertModifyView();
+        InsertModifyController idmSer = new InsertModifyController(modify, this.cusView, id);
         cusView.removeAll();
         cusView.add(modify);
         cusView.revalidate();
@@ -184,7 +199,6 @@ public class CustomerService {
         choose.setDialogTitle("Lưu Excel");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx");
         choose.setFileFilter(filter);
-
         int select = choose.showSaveDialog(null);
 
         if (select == JFileChooser.APPROVE_OPTION) {
@@ -197,10 +211,10 @@ public class CustomerService {
 //            
             try {
                 ExcelDocument workbook = new ExcelDocument(1);
-                workbook.easy_getSheetAt(0).setSheetName("Danh sách Hóa Đơn");
+                workbook.easy_getSheetAt(0).setSheetName("Sheet1");
                 ExcelTable xlsTable = ((ExcelWorksheet) workbook.easy_getSheetAt(0)).easy_getExcelTable();
                 //Header
-                DefaultTableModel model = (DefaultTableModel) tableNv.getModel();
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
                 for (int col = 0; col < model.getColumnCount(); col++) {
                     xlsTable.easy_getCell(0, col).setValue(model.getColumnName(col));
                     xlsTable.easy_getCell(0, col).setDataType(DataType.STRING);
@@ -221,5 +235,80 @@ public class CustomerService {
             JOptionPane.showMessageDialog(null, "File saved successfully!");
         }
     }
-}
 
+    /////////////Import
+    private void importExcel(Table table) throws FileNotFoundException, SQLException {
+        int id = 0;
+        String name = "";
+        String phone = "";
+        String email = "";
+        ModelCustomer cus;
+        ArrayList<ModelCustomer> newList = new ArrayList<>();
+        JFileChooser choose = new JFileChooser();
+        choose.setDialogTitle("Lưu Excel");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx");
+        choose.setFileFilter(filter);
+
+        int select = choose.showSaveDialog(null);
+        String path = null;
+        if (select == JFileChooser.APPROVE_OPTION) {
+            File fileSave = choose.getSelectedFile();
+            path = fileSave.getAbsolutePath();
+        }
+        ExcelDocument workbook = new ExcelDocument();
+
+        workbook.easy_LoadXLSFile(path);
+        FileInputStream file = new FileInputStream(path);
+        EasyXLS.Util.Objects.Internal.ResultSet rs = (EasyXLS.Util.Objects.Internal.ResultSet) workbook.easy_ReadXLSXSheet_AsResultSet(file, "Sheet1");
+        /////
+        int columnCount = rs.getMetaData().getColumnCount();
+        int row = 0;
+        while (rs.next()) {
+            for (int column = 1; column <= columnCount; column++) {
+                if (row > 0) {
+                    switch (column) {
+                        case 1:
+                            id = Integer.parseInt(rs.getString(column));
+                            break;
+                        case 2:
+                            name = rs.getString(column);
+                            break;
+                        case 3:
+                            phone = rs.getString(column);
+                            break;
+                        case 4:
+                            email = rs.getString(column);
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
+                }
+
+            }
+            if (id > 0 || !name.isEmpty()
+                    || !phone.isEmpty() || !email.isEmpty()) {
+                cus = new ModelCustomer(id, name, phone, email);
+                newList.add(cus);
+            }
+
+            row++;
+        }
+        /////
+        String sql = "TRUNCATE tbl_khachhang";
+        PreparedStatement pr = con.prepareStatement(sql);
+        pr.close();
+        for (ModelCustomer data : newList) {
+            String sql_ND = "INSERT INTO tbl_khachhang (id,hoten, sdt,email) VALUES (?,?,?,?)";
+            PreparedStatement p = con.prepareStatement(sql_ND);
+            p.setInt(1, data.getId());
+            p.setString(2, data.getName());
+            p.setString(3, data.getPhone());
+            p.setString(4, data.getEmail());
+            p.execute();
+            p.close();
+        }
+        getData();
+
+    }
+
+}

@@ -4,7 +4,7 @@
  */
 package View;
 
-import Controller.Services.NxbService;
+import Controller.Services.NxbController;
 import Swing.Button;
 import Swing.MyTextField;
 import Swing.Table;
@@ -184,7 +184,7 @@ public class NxbView extends JPanel {
 
     public static void main(String[] args) throws SQLException {
         NxbView view = new NxbView();
-        new NxbService(view);
+        new NxbController(view);
     }
 
     public JLabel getNumberLb() {

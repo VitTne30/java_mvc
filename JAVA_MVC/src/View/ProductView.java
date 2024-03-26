@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
@@ -21,8 +22,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author PV
  */
-public class ProductView extends JFrame {
-
+public class ProductView extends JPanel {
     private JScrollPane scroll;
     private Table table_product;
     private JLabel title, name, author, id, id_nhaxb, price, number, category;
@@ -31,10 +31,8 @@ public class ProductView extends JFrame {
     private final JComboBox Jcb_category, Jcb_publisher;
 
     public ProductView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Quản lý sách");
-        setSize(800, 800);
-        setLocationRelativeTo(null);
+        
+        setBounds(0, 0, 800, 800);
         setVisible(true);
         Color xanh = new Color(179, 224, 255);
         this.setLayout(null);

@@ -3,8 +3,7 @@ package Controller.Services;
 import Controller.DbConnection.DataConnection;
 import Model.ModelCustomer;
 import View.CustomerView;
-import View.IDMView;
-import View.MainView;
+import View.InsertModifyView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -21,16 +20,16 @@ import javax.swing.JOptionPane;
  *
  * @author ADMIN
  */
-public class IDMService {
+public class InsertModifyController {
 
     private DataConnection databaseConnection;
     private Connection con;
-    private IDMView idmView;
+    private InsertModifyView idmView;
     private CustomerView cusView;
     private boolean check;
     private int CusId;
 
-    public IDMService(IDMView newIdm, CustomerView newCus) throws SQLException {
+    public InsertModifyController(InsertModifyView newIdm, CustomerView newCus) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.idmView = newIdm;
@@ -46,9 +45,9 @@ public class IDMService {
                 if (check) {
                     CustomerView newcus = new CustomerView();
                     try {
-                        CustomerService newSer = new CustomerService(newcus);
+                        CustomerController newSer = new CustomerController(newcus);
                     } catch (SQLException ex) {
-                        Logger.getLogger(IDMService.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(InsertModifyController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     cusView.removeAll();
                     cusView.add(newcus);
@@ -65,9 +64,9 @@ public class IDMService {
             public void actionPerformed(ActionEvent e) {
                 CustomerView newcus = new CustomerView();
                 try {
-                    CustomerService newSer = new CustomerService(newcus);
+                    CustomerController newSer = new CustomerController(newcus);
                 } catch (SQLException ex) {
-                    Logger.getLogger(IDMService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InsertModifyController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 cusView.removeAll();
                 cusView.add(newcus);
@@ -78,7 +77,7 @@ public class IDMService {
         });
     }
     /////////////////////////////////
-    public IDMService(IDMView newIdm, CustomerView newCusView,int cusId ) throws SQLException{
+    public InsertModifyController(InsertModifyView newIdm, CustomerView newCusView,int cusId ) throws SQLException{
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.idmView = newIdm;
@@ -101,9 +100,9 @@ public class IDMService {
                 if (check) {
                     CustomerView newcus = new CustomerView();
                     try {
-                        CustomerService newSer = new CustomerService(newcus);
+                        CustomerController newSer = new CustomerController(newcus);
                     } catch (SQLException ex) {
-                        Logger.getLogger(IDMService.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(InsertModifyController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     cusView.removeAll();
                     cusView.add(newcus);
@@ -120,9 +119,9 @@ public class IDMService {
             public void actionPerformed(ActionEvent e) {
                 CustomerView newcus = new CustomerView();
                 try {
-                    CustomerService newSer = new CustomerService(newcus);
+                    CustomerController newSer = new CustomerController(newcus);
                 } catch (SQLException ex) {
-                    Logger.getLogger(IDMService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InsertModifyController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 cusView.removeAll();
                 cusView.add(newcus);
@@ -156,7 +155,7 @@ public class IDMService {
                         p.close();
                         databaseConnection.releaseConnection(con);
                     } catch (SQLException ex) {
-                        Logger.getLogger(LoginAndRegisterService.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     JOptionPane.showMessageDialog(idmView, "Email không hợp lệ!",
@@ -184,7 +183,7 @@ public class IDMService {
             if (idmView.getTxtPhone().getText().length() == 10) {
                 if (checkEmail(email)) {
                     try {
-                        //Insert customer
+                        //Modify customer
                         String sql_ND = "UPDATE tbl_khachhang SET hoten=?,sdt=?,email=? WHERE id=?";
                         PreparedStatement p = con.prepareStatement(sql_ND);
                         p.setString(1, idmView.getTxtName().getText().trim());
@@ -198,7 +197,7 @@ public class IDMService {
                         p.close();
                         databaseConnection.releaseConnection(con);
                     } catch (SQLException ex) {
-                        Logger.getLogger(LoginAndRegisterService.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     JOptionPane.showMessageDialog(idmView, "Email không hợp lệ!",
@@ -245,7 +244,6 @@ public class IDMService {
     
 
     private boolean checkEmail(String s) {
-
         final String EMAIL_PATTERN
                 = "^[_A-Za-z0-9]+(\\.[_A-Za-z0-9]+)*@gmail\\.com$";
         Pattern pattern;

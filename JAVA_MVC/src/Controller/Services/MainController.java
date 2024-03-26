@@ -4,8 +4,11 @@ import Controller.DbConnection.DataConnection;
 import View.AccountView;
 import View.MainView;
 import View.CustomerView;
-import View.LoginAndRegisterView;
+import View.DanhMucView;
+import View.DonHangView;
+import View.LoginView;
 import View.NxbView;
+import View.ProductView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -18,13 +21,13 @@ import javax.swing.JOptionPane;
  *
  * @author ADMIN
  */
-public class MainService {
+public class MainController {
 
     private DataConnection databaseConnection;
     private Connection con;
     private MainView mainView;
 
-    public MainService(MainView newView) throws SQLException {
+    public MainController(MainView newView) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.mainView = newView;
@@ -35,9 +38,9 @@ public class MainService {
                 mainView.getChangePanel().removeAll();
                 AccountView accView = new AccountView(mainView.getLoginUser());
                 try {
-                    AccountService accSer = new AccountService(accView);
+                    AccountController accSer = new AccountController(accView);
                 } catch (SQLException ex) {
-                    Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 mainView.getChangePanel().add(accView);
                 mainView.getChangePanel().revalidate();
@@ -54,9 +57,9 @@ public class MainService {
                 mainView.getChangePanel().removeAll();
                 CustomerView accView = new CustomerView();
                 try {
-                    CustomerService accSer = new CustomerService(accView);
+                    CustomerController accSer = new CustomerController(accView);
                 } catch (SQLException ex) {
-                    Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 mainView.getChangePanel().add(accView);
                 mainView.getChangePanel().revalidate();
@@ -68,21 +71,31 @@ public class MainService {
         mainView.getBtnStaff().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
             }
         });
         //ShowProducts
         mainView.getBtnProduct().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            
+                mainView.getChangePanel().removeAll();
+                ProductView productView = new ProductView();
+                try {
+                    ProductController proSer = new ProductController(productView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(productView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
             }
         });
         //ShowRevenue
         mainView.getBtnRevenue().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
             }
         });
         //ShowAuthor
@@ -92,9 +105,9 @@ public class MainService {
                 mainView.getChangePanel().removeAll();
                 NxbView nxbView = new NxbView();
                 try {
-                    NxbService nxbSer = new NxbService(nxbView);
+                    NxbController nxbSer = new NxbController(nxbView);
                 } catch (SQLException ex) {
-                    Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 mainView.getChangePanel().add(nxbView);
                 mainView.getChangePanel().revalidate();
@@ -106,28 +119,48 @@ public class MainService {
         mainView.getBtnCate().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                mainView.getChangePanel().removeAll();
+                DanhMucView dmView = new DanhMucView();
+                try {
+                    DanhMucController dmSer = new DanhMucController(dmView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(dmView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
             }
         });
         //ShowOrder
         mainView.getBtnOrder().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                mainView.getChangePanel().removeAll();
+                DonHangView orderView = new DonHangView();
+//                try {
+//                    DanhMucController dmSer = new DanhMucController(orderView);
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                mainView.getChangePanel().add(orderView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
             }
         });
         //ButtonLogout
         mainView.getBtnLogout().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int result = JOptionPane.showConfirmDialog(mainView, "Bạn có chắc chắn muốn đăng xuất?"
-                        , "Thông báo", JOptionPane.YES_NO_OPTION);
-                if(result == JOptionPane.YES_OPTION){
-                    LoginAndRegisterView loginView = new LoginAndRegisterView();
+                int result = JOptionPane.showConfirmDialog(mainView, "Bạn có chắc chắn muốn đăng xuất?",
+                        "Thông báo", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    LoginView loginView = new LoginView();
                     try {
-                        LoginAndRegisterService loginSer = new LoginAndRegisterService(loginView);
+                        LoginController loginSer = new LoginController(loginView);
                     } catch (SQLException ex) {
-                        Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     loginView.setVisible(true);
                     mainView.dispose();
@@ -138,9 +171,9 @@ public class MainService {
         mainView.getBtnExit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int result = JOptionPane.showConfirmDialog(mainView, "Bạn có chắc chắn muốn thoát chương trình?"
-                        , "Thông báo", JOptionPane.YES_NO_OPTION);
-                if(result == JOptionPane.YES_OPTION){
+                int result = JOptionPane.showConfirmDialog(mainView, "Bạn có chắc chắn muốn thoát chương trình?",
+                        "Thông báo", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
                     mainView.dispose();
                 }
             }
