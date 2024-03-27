@@ -4,18 +4,15 @@
  */
 package View;
 
-import Controller.Services.NxbController;
 import Swing.Button;
 import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -63,13 +60,13 @@ public class NxbView extends JPanel {
     private void GUI() {
         setBounds(0, 0, 800, 800);
         setLayout(null);
-        setBackground(Color.WHITE);
+        setBackground(new Color(240, 240, 240));
     }
 
     private void add() {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 
-        lblTitle.setBounds(10, 10, 320, 40);
+        lblTitle.setBounds(10, 0, 320, 40);
         lblTitle.setFont(TitleFont);
         lblTitle.setForeground(Color.decode("#0066FF"));
         this.add(lblTitle);
@@ -78,7 +75,7 @@ public class NxbView extends JPanel {
         numberLb.setBounds(50, 420, 285, 40);
         this.add(numberLb);
 
-        dateLb.setBounds(650, 10, 300, 40);
+        dateLb.setBounds(650, 0, 300, 40);
         dateLb.setBackground(Color.red);
         dateLb.setFont(TitleFont);
         this.add(dateLb);
@@ -180,11 +177,6 @@ public class NxbView extends JPanel {
         sp.setBounds(50, 60, 700, 355);
         sp.getViewport().setBackground(Color.WHITE);
         add(sp);
-    }
-
-    public static void main(String[] args) throws SQLException {
-        NxbView view = new NxbView();
-        new NxbController(view);
     }
 
     public JLabel getNumberLb() {

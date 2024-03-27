@@ -189,7 +189,7 @@ public class NxbController {
             JOptionPane.showMessageDialog(null, "Tên nhà xuất bản mới không được trùng!");
         }
         else{
-            String query = "UPDATE tbl_nxb SET tennxb =? , sdt =?, diachi =? WHERE id =?";
+            String query = "UPDATE tbl_nxb SET tennxb =? , sdt =?, diachi =? WHERE id_nxb =?";
             PreparedStatement p = con.prepareStatement(query);
             p.setString(1, tennxb);
             p.setString(2, sdt);

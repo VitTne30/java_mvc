@@ -5,6 +5,7 @@ import View.AccountView;
 import View.MainView;
 import View.CustomerView;
 import View.DanhMucView;
+import View.DoanhThuView;
 import View.DonHangView;
 import View.LoginView;
 import View.NxbView;
@@ -95,7 +96,17 @@ public class MainController {
         mainView.getBtnRevenue().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                mainView.getChangePanel().removeAll();
+                DoanhThuView dtView = new DoanhThuView();
+                try {
+                    DoanhThuController dtSer = new DoanhThuController(dtView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(dtView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
             }
         });
         //ShowAuthor
