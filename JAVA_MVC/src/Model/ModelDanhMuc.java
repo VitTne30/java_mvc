@@ -8,22 +8,22 @@ package Model;
  *
  * @author admin
  */
-public class DanhMuc {
+public class ModelDanhMuc {
     private int id;
     private String tendanhmuc;
     private String mota;
     
-    public DanhMuc(){
+    public ModelDanhMuc(){
         
     }
 
-    public DanhMuc(int id, String tendanhmuc, String mota) {
+    public ModelDanhMuc(int id, String tendanhmuc, String mota) {
         this.id = id;
         this.tendanhmuc = tendanhmuc;
         this.mota = mota;
     }
     
-    public DanhMuc(String tendanhmuc, String mota) {
+    public ModelDanhMuc(String tendanhmuc, String mota) {
         this.tendanhmuc = tendanhmuc;
         this.mota = mota;
     }

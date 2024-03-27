@@ -30,7 +30,27 @@ public class ModelUser {
         this.phone = phone;
         this.email = email;
     }
+
+    public ModelUser(int userId, String userName, String password, String role, String name, String address, String phone, String email) {
+        this.userId = userId;
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+    }
     
+    public ModelUser(String userName, String password, String role, String name, String address, String phone, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+    }
 
     public ModelUser(String userName, String password) {
         this.userName = userName;

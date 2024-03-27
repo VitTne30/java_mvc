@@ -96,11 +96,11 @@ public class MainController {
             public void actionPerformed(ActionEvent e) {
                 mainView.getChangePanel().removeAll();
                 NhanVienView nvView = new NhanVienView();
-//                try {
-//                    NhanVienController nvCon = new NhanVienController(nvView);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    NhanVienController nvCon = new NhanVienController(nvView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 mainView.getChangePanel().add(nvView);
                 mainView.getChangePanel().revalidate();
                 mainView.getChangePanel().repaint();

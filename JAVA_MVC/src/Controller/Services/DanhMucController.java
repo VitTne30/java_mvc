@@ -5,7 +5,7 @@
 package Controller.Services;
 
 import Controller.DbConnection.DataConnection;
-import Model.DanhMuc;
+import Model.ModelDanhMuc;
 import Swing.Table;
 import View.DanhMucView;
 import java.awt.event.ActionEvent;
@@ -31,7 +31,7 @@ public class DanhMucController {
     private Connection con;
     private DanhMucView dmView;
     private Table tblDanhmuc;
-    private ArrayList<DanhMuc> listDM = new ArrayList<>();
+    private ArrayList<ModelDanhMuc> listDM = new ArrayList<>();
 
     public DanhMucController(DanhMucView newDM) throws SQLException {
         databaseConnection = DataConnection.getInstance();
@@ -54,7 +54,7 @@ public class DanhMucController {
             public void actionPerformed(ActionEvent e) {
                 tblDanhmuc.removeAllRow();
                 String search = dmView.getTxtResult().getText();
-                for (DanhMuc data : listDM) {
+                for (ModelDanhMuc data : listDM) {
                     if(data.getTendanhmuc().toLowerCase().contains(search.toLowerCase())){
                         tblDanhmuc.addRow(new Object[]{data.getId(),data.getTendanhmuc(),
             data.getMota()});
@@ -105,8 +105,8 @@ public class DanhMucController {
         
     }
 
-    public ArrayList<DanhMuc> getListDM() throws SQLException {
-        ArrayList<DanhMuc> list = new ArrayList();
+    public ArrayList<ModelDanhMuc> getListDM() throws SQLException {
+        ArrayList<ModelDanhMuc> list = new ArrayList();
         String sql = "SELECT * FROM tbl_danhmuc";
         PreparedStatement p = con.prepareStatement(sql);
         ResultSet r = p.executeQuery();
@@ -114,7 +114,7 @@ public class DanhMucController {
             int id = r.getInt(1);
             String tendanhmuc = r.getString(2);
             String mota = r.getString(3);
-            DanhMuc data = new DanhMuc(id, tendanhmuc, mota);
+            ModelDanhMuc data = new ModelDanhMuc(id, tendanhmuc, mota);
             list.add(data);
         }
         p.close();
@@ -150,8 +150,11 @@ public class DanhMucController {
         if(isDuplicate(tendanhmuc) == true){
             JOptionPane.showMessageDialog(null, "Tên danh mục mới không được trùng");
         }
+        else if(tendanhmuc.equals("") || mota.equals("")){
+            JOptionPane.showMessageDialog(null, "Các trường dữ liệu không được để trống");
+        }
         else{
-            DanhMuc danhmuc = new DanhMuc(tendanhmuc, mota);
+            ModelDanhMuc danhmuc = new ModelDanhMuc(tendanhmuc, mota);
             
             String query = "INSERT INTO tbl_danhmuc (tendanhmuc, mota) VALUES (?, ?)";
             PreparedStatement p = con.prepareStatement(query);
@@ -176,10 +179,13 @@ public class DanhMucController {
         if(isDuplicate(tendanhmuc) == true && check != tendanhmuc){
             JOptionPane.showMessageDialog(null, "Tên danh mục mới không được trùng");
         }
+        else if(tendanhmuc.equals("") || mota.equals("")){
+            JOptionPane.showMessageDialog(null, "Các trường dữ liệu không được để trống");
+        }
         else{
-            DanhMuc danhmuc = new DanhMuc(tendanhmuc, mota);
+            ModelDanhMuc danhmuc = new ModelDanhMuc(tendanhmuc, mota);
             
-            String query = "UPDATE tbl_danhmuc SET tendanhmuc =? , mota =? WHERE id =?";
+            String query = "UPDATE tbl_danhmuc SET tendanhmuc =? , mota =? WHERE id_danhmuc =?";
             PreparedStatement p = con.prepareStatement(query);
             p.setString(1, tendanhmuc);
             p.setString(2, mota);
@@ -195,8 +201,11 @@ public class DanhMucController {
 
         DefaultTableModel model = (DefaultTableModel) dmView.getTblDanhmuc().getModel();
         int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+        String name = String.valueOf(tblDanhmuc.getModel().getValueAt(tblDanhmuc.getSelectedRow(), 1));
+        int result = JOptionPane.showConfirmDialog(dmView, "Xác nhận xóa danh mục: " + name + "?",
+                "Thông báo", JOptionPane.YES_NO_OPTION);
         
-        String query = "DELETE FROM tbl_danhmuc WHERE id = ?";
+        String query = "DELETE FROM tbl_danhmuc WHERE id_danhmuc = ?";
         PreparedStatement p = con.prepareStatement(query);
         p.setInt(1, id);
         p.executeUpdate();
@@ -212,7 +221,7 @@ public class DanhMucController {
     private void getData() throws SQLException{
         tblDanhmuc.removeAllRow();
         listDM = getListDM();
-        for (DanhMuc data : listDM) {
+        for (ModelDanhMuc data : listDM) {
             tblDanhmuc.addRow(new Object[]{data.getId(), data.getTendanhmuc(), data.getMota()});
         }
     }

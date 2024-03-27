@@ -16,7 +16,11 @@ public class TableHeader extends JLabel{
         setForeground(new Color(102,102,102));
         setBorder(new EmptyBorder(10,5,10,5));
     }
-
+    
+    public TableHeader(Font newFont) {
+        setFont(newFont);
+    }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
