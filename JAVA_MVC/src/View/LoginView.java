@@ -1,7 +1,6 @@
 package View;
 
 import Swing.Button;
-import Swing.ButtonOutLine;
 import Swing.ImageLogo;
 import Swing.MyPasswordField;
 import Swing.MyTextField;
@@ -32,11 +31,11 @@ public class LoginView extends JFrame {
     private ImageLogo logo; //Logo nhà hàng
     private JLabel titleName;
     private JLabel storeName;
-    private JLabel description,des2;
+    private JLabel description, des2;
     private Button btnLogin;
     private JButton btnForget;
     private MyTextField userField;
-    private MyPasswordField  passField;
+    private MyPasswordField passField;
 
     public LoginView() {
         super("JAVA_MVC");
@@ -51,7 +50,7 @@ public class LoginView extends JFrame {
         //
         login = new JPanel() {
             @Override
-            protected void paintComponent(Graphics g){
+            protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 int panelWidth = getWidth();
@@ -106,7 +105,7 @@ public class LoginView extends JFrame {
         });
         login.add(passField);
         //ForgetPass
-        btnForget = new JButton("Quên mật khẩu của bạn ?");
+        btnForget = new JButton("Quên mật khẩu của bạn?");
         btnForget.setBounds(460, 300, 200, 15);
         btnForget.setForeground(new Color(245, 245, 245));
         btnForget.setFont(new Font("sansserif", 1, 15));
@@ -140,28 +139,29 @@ public class LoginView extends JFrame {
         titleName = new JLabel("Chào mừng bạn đến với cửa hàng", JLabel.CENTER);
         titleName.setFont(new Font("sansserif", 1, 12));
         titleName.setForeground(new Color(245, 245, 245));
-        titleName.setBounds(59, 231, 207, 34);
+        titleName.setBounds(59, 220, 207, 34);
         login.add(titleName);
         //LoginStoreName
-        storeName = new JLabel("Sơn phế store", JLabel.CENTER);
-        storeName.setFont(new Font("sansserif", 1, 18));
+        storeName = new JLabel("Something store", JLabel.CENTER);
+        storeName.setFont(new Font("sansserif", 1, 24));
         storeName.setForeground(new Color(245, 245, 245));
-        storeName.setBounds(100, 265, 125, 30);
+        storeName.setBounds(62, 250, 200, 30);
         login.add(storeName);
         ////Description
         description = new JLabel("Bắt đầu làm việc", JLabel.CENTER);
         description.setForeground(new Color(245, 245, 245));
-        description.setBounds(70, 309, 180, 40);
+        description.setFont(new Font("sansserif", 1, 20));
+        description.setBounds(72, 280, 180, 40);
         login.add(description);
         //
-        des2 = new JLabel("Cống hiến hết mình cho công việc", JLabel.CENTER);
+        des2 = new JLabel("Cống hiến hết mình", JLabel.CENTER);
         des2.setForeground(new Color(245, 245, 245));
-        des2.setBounds(70, 350, 200, 40);
+        des2.setFont(new Font("sansserif", 1, 18));
+        des2.setBounds(65, 320, 180, 40);
         login.add(des2);
-        
+
     }
 
-    
     public JPanel getLogin() {
         return login;
     }
@@ -174,11 +174,9 @@ public class LoginView extends JFrame {
         return logo;
     }
 
-
     public JLabel getDes2() {
         return des2;
     }
-
 
     public Button getBtnLogin() {
         return btnLogin;
@@ -204,7 +202,6 @@ public class LoginView extends JFrame {
         return userField;
     }
 
-
     public MyPasswordField getPassField() {
         return passField;
     }
@@ -220,6 +217,5 @@ public class LoginView extends JFrame {
     public void setDescription(JLabel description) {
         this.description = description;
     }
-
 
 }

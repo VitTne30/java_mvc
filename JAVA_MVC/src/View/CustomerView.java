@@ -126,7 +126,7 @@ public class CustomerView extends JPanel {
         btnImport.setFont(new Font("sansserif", 1, 14));
         btnImport.setText("Nhập Excel");
         btnImport.setBackground(new Color(240,240,240));
-        btnImport.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/excel.png")));
+        btnImport.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/import.png")));
         btnImport.setBounds(468, 745, 140, 40);
         add(btnImport);
         //

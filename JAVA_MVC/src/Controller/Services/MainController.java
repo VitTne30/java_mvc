@@ -1,6 +1,7 @@
 package Controller.Services;
 
 import Controller.DbConnection.DataConnection;
+import Model.ModelUser;
 import View.AccountView;
 import View.MainView;
 import View.CustomerView;
@@ -8,7 +9,9 @@ import View.DanhMucView;
 import View.DoanhThuView;
 import View.DonHangView;
 import View.LoginView;
+import View.NhanVienView;
 import View.NxbView;
+import View.OrderView;
 import View.ProductView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,11 +30,30 @@ public class MainController {
     private DataConnection databaseConnection;
     private Connection con;
     private MainView mainView;
+    private ModelUser inUseUser;
 
     public MainController(MainView newView) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.mainView = newView;
+        //Role
+        inUseUser = mainView.getLoginUser();
+        if ("Admin".equals(inUseUser.getRole())) {
+//            mainView.getMenuAdmin().setVisible(true);
+//            mainView.getMenuStaff().setVisible(false);
+            mainView.add(mainView.getMenuAdmin());
+            mainView.addMainGui();
+            adminService();
+        } else if ("Staff".equals(inUseUser.getRole())) {
+//            mainView.getMenuStaff().setVisible(true);
+//            mainView.getMenuAdmin().setVisible(false);
+            mainView.add(mainView.getMenuStaff());
+            mainView.addMenuStaff();
+            staffService();
+        }
+    }
+    ////////////////////////////////////
+    private void adminService(){
         //ShowAccountInfo
         mainView.getBtnInfo().addActionListener(new ActionListener() {
             @Override
@@ -72,7 +94,17 @@ public class MainController {
         mainView.getBtnStaff().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                mainView.getChangePanel().removeAll();
+                NhanVienView nvView = new NhanVienView();
+//                try {
+//                    NhanVienController nvCon = new NhanVienController(nvView);
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                mainView.getChangePanel().add(nvView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
             }
         });
         //ShowProducts
@@ -99,7 +131,7 @@ public class MainController {
                 mainView.getChangePanel().removeAll();
                 DoanhThuView dtView = new DoanhThuView();
                 try {
-                    DoanhThuController dtSer = new DoanhThuController(dtView);
+                    DoanhThuController proSer = new DoanhThuController(dtView);
                 } catch (SQLException ex) {
                     Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -143,6 +175,25 @@ public class MainController {
                 databaseConnection.releaseConnection(con);
             }
         });
+        //////////////////
+        //Button Create
+        mainView.getBtnCreate().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.getChangePanel().removeAll();
+                OrderView orderView = new OrderView();
+//                try {
+//                    DanhMucController dmSer = new DanhMucController(orderView);
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                mainView.getChangePanel().add(orderView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
+            }
+        });
+
         //ShowOrder
         mainView.getBtnOrder().addActionListener(new ActionListener() {
             @Override
@@ -189,7 +240,110 @@ public class MainController {
                 }
             }
         });
-
     }
+////////////////////////
+    private void staffService(){
+        //ShowAccountInfo
+        mainView.getSbtnInfo().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.getChangePanel().removeAll();
+                AccountView accView = new AccountView(mainView.getLoginUser());
+                try {
+                    AccountController accSer = new AccountController(accView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(accView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
+                System.out.println("111");
 
+            }
+        });
+        //ShowCustemer
+        mainView.getSbtnCustomer().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.getChangePanel().removeAll();
+                CustomerView accView = new CustomerView();
+                try {
+                    CustomerController accSer = new CustomerController(accView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(accView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
+            }
+        });
+        
+        //////////////////
+        //Button Create
+        mainView.getSbtnCreate().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.getChangePanel().removeAll();
+                OrderView orderView = new OrderView();
+//                try {
+//                    DanhMucController dmSer = new DanhMucController(orderView);
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                mainView.getChangePanel().add(orderView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
+            }
+        });
+
+        //ShowOrder
+        mainView.getSbtnOrder().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainView.getChangePanel().removeAll();
+                DonHangView orderView = new DonHangView();
+//                try {
+//                    DanhMucController dmSer = new DanhMucController(orderView);
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                mainView.getChangePanel().add(orderView);
+                mainView.getChangePanel().revalidate();
+                mainView.getChangePanel().repaint();
+                databaseConnection.releaseConnection(con);
+            }
+        });
+        //ButtonLogout
+        mainView.getSbtnLogout().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(mainView, "Bạn có chắc chắn muốn đăng xuất?",
+                        "Thông báo", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    LoginView loginView = new LoginView();
+                    try {
+                        LoginController loginSer = new LoginController(loginView);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    loginView.setVisible(true);
+                    mainView.dispose();
+                }
+            }
+        });
+        //ButtonExit
+        mainView.getSbtnExit().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(mainView, "Bạn có chắc chắn muốn thoát chương trình?",
+                        "Thông báo", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    mainView.dispose();
+                }
+            }
+        });
+    }
 }

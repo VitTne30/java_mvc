@@ -16,19 +16,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
 /**
  *
  * @author ADMIN
  */
 public class MainView extends JFrame {
 
-    private JPanel menuAdmin,menuNhanVien,changePanel;
+    private JPanel menuAdmin, menuStaff, changePanel;
     private ModelUser loginUser;
-    private JLabel infoLb, roleLb;
-    private Button btnInfo, btnExit, btnLogout,btnStaff,
-                btnProduct, btnRevenue,btnAuthor,btnCate,btnOrder,btnCustomer;
-    private ImageLogo mainLogo;
+    private JLabel infoLb, roleLb, sInfoLb, sRoleLb, line, sLine;
+    private Button btnInfo, btnExit, btnLogout, btnStaff,
+            btnProduct, btnRevenue, btnAuthor, btnCate, btnOrder, btnCustomer, btnCreate;
+    private Button sbtnInfo, sbtnExit, sbtnLogout, sbtnOrder, sbtnCustomer, sbtnCreate;
+
+    private ImageLogo mainLogo, sMainLogo;
 
     public MainView(ModelUser newUser) throws SQLException {
         super("Cửa hàng sách");
@@ -55,15 +56,24 @@ public class MainView extends JFrame {
         };
         menuAdmin.setLayout(null);
         menuAdmin.setBounds(0, 0, 300, 850);
-        add(menuAdmin);
         //
-//        menuNhanVien = new JPanel(){
-//        };
-//        menuNhanVien.setLayout(null);
-//        menuNhanVien.setBounds(0, 0, 300, 800);
-//        menuNhanVien.setBackground(Color.red);
-//        add(menuNhanVien);
-        //changePanel
+        menuStaff = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                int panelWidth = getWidth();
+                int panelHeight = getHeight();
+                Color startColor = Color.decode("#4286f4");
+                Color endColor = Color.decode("#373B44");
+                GradientPaint gradientPaint = new GradientPaint(0, 0, startColor, 0, panelHeight, endColor);
+                g2.setPaint(gradientPaint);
+                g2.fillRect(0, 0, panelWidth, panelHeight);
+            }
+        };
+        menuStaff.setLayout(null);
+        menuStaff.setBounds(0, 0, 300, 850);
+        ////
         changePanel = new JPanel();
         changePanel.setLayout(null);
         changePanel.setBounds(310, 0, 800, 800);
@@ -75,7 +85,7 @@ public class MainView extends JFrame {
         changePanel.setVisible(true);
         add(changePanel);
         //
-        addMainGui();
+//        addMainGui();
     }
 
     public static void main(String[] args) throws SQLException {
@@ -110,37 +120,52 @@ public class MainView extends JFrame {
         menuAdmin.setBounds(0, 0, 300, 850);
         add(menuAdmin);
         //
-//        menuNhanVien = new JPanel(){
-//        };
-//        menuNhanVien.setLayout(null);
-//        menuNhanVien.setBounds(0, 0, 300, 800);
-//        menuNhanVien.setBackground(Color.red);
-//        add(menuNhanVien);
+        menuStaff = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                int panelWidth = getWidth();
+                int panelHeight = getHeight();
+                Color startColor = Color.decode("#4286f4");
+                Color endColor = Color.decode("#373B44");
+                GradientPaint gradientPaint = new GradientPaint(0, 0, startColor, 0, panelHeight, endColor);
+                g2.setPaint(gradientPaint);
+                g2.fillRect(0, 0, panelWidth, panelHeight);
+            }
+        };
+        menuStaff.setLayout(null);
+        menuStaff.setBounds(0, 0, 300, 850);
+        add(menuStaff);
         //changePanel
         changePanel = new JPanel();
         changePanel.setLayout(null);
         changePanel.setBounds(310, 0, 800, 800);
-//        //Pa
+        ////
         CustomerView cusView = new CustomerView();
         CustomerController cusSer = new CustomerController(cusView);
         changePanel.add(cusView);
-////        AccountView accView= new AccountView();
-////        AccountService accSer = new AccountService(accView);
-////        changePanel.add(accView);
         changePanel.setVisible(true);
         add(changePanel);
         //
-        addMainGui();
+//        addMainGui();
+//        addMenuStaff();
     }
 
-    private void addMainGui() {
+    public void addMainGui() {
         //Label Role
         ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/Admin.png"));
-        roleLb = new JLabel("Quản lý cửa hàng",icon, JLabel.CENTER);
+        roleLb = new JLabel("Quản lý cửa hàng", icon, JLabel.CENTER);
         roleLb.setFont(new Font("sansserif", 1, 24));
         roleLb.setForeground(new Color(255, 255, 255));
         roleLb.setBounds(10, 15, 280, 60);
         menuAdmin.add(roleLb);
+        //line
+        line = new JLabel();
+        line.setBackground(Color.WHITE);
+        line.setOpaque(true);
+        line.setBounds(10, 100, 280, 2);
+        menuAdmin.add(line);
         //Button Customer
         btnCustomer = new Button();
         btnCustomer.setFont(new Font("sansserif", 1, 15));
@@ -190,8 +215,14 @@ public class MainView extends JFrame {
         btnStaff.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/staff.png")));
         btnStaff.setBounds(10, 450, 280, 40);
         menuAdmin.add(btnStaff);
-        
-        
+        //Button Create
+        btnCreate = new Button();
+        btnCreate.setFont(new Font("sansserif", 1, 15));
+        btnCreate.setText("Tạo đơn");
+//        btnCreate.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/staff.png")));
+        btnCreate.setBounds(50, 600, 200, 40);
+        menuAdmin.add(btnCreate);
+
         ///////////////////////////////
         //Label Info
         infoLb = new JLabel("Thông tin tài khoản", JLabel.CENTER);
@@ -225,6 +256,74 @@ public class MainView extends JFrame {
         menuAdmin.add(btnExit);
     }
 
+    public void addMenuStaff() {
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/Admin.png"));
+        sRoleLb = new JLabel("Nhân viên cửa hàng", icon, JLabel.CENTER);
+        sRoleLb.setFont(new Font("sansserif", 1, 22));
+        sRoleLb.setForeground(new Color(255, 255, 255));
+        sRoleLb.setBounds(10, 15, 280, 60);
+        menuStaff.add(sRoleLb);
+        //
+        line = new JLabel();
+        line.setBackground(Color.WHITE);
+        line.setOpaque(true);
+        line.setBounds(10, 100, 280, 2);
+        menuStaff.add(line);
+        //Button Customer
+        sbtnCustomer = new Button();
+        sbtnCustomer.setFont(new Font("sansserif", 1, 15));
+        sbtnCustomer.setText("Quản lý khách hàng");
+        sbtnCustomer.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/customer.png")));
+        sbtnCustomer.setBounds(10, 126, 280, 40);
+        menuStaff.add(sbtnCustomer);
+        //Button Order
+        sbtnOrder = new Button();
+        sbtnOrder.setFont(new Font("sansserif", 1, 15));
+        sbtnOrder.setText("Quản lý đơn hàng");
+        sbtnOrder.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/order.png")));
+        sbtnOrder.setBounds(10, 180, 280, 40);
+        menuStaff.add(sbtnOrder);
+        //Button Create
+        sbtnCreate = new Button();
+        sbtnCreate.setFont(new Font("sansserif", 1, 15));
+        sbtnCreate.setText("Tạo đơn");
+//        btnCreate.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/staff.png")));
+        sbtnCreate.setBounds(50, 600, 200, 40);
+        menuStaff.add(sbtnCreate);
+
+        ///////////////////////////////
+        //Label Info
+        sInfoLb = new JLabel("Thông tin tài khoản", JLabel.CENTER);
+        sInfoLb.setForeground(new Color(245, 245, 245));
+        sInfoLb.setFont(new Font("sansserif", 1, 24));
+        sInfoLb.setBounds(0, 664, 300, 40);
+        menuStaff.add(sInfoLb);
+        //Button Show info
+        sbtnInfo = new Button();
+        sbtnInfo.setBackground(new Color(255, 255, 255));
+        sbtnInfo.setFont(new Font("sansserif", 1, 15));
+        sbtnInfo.setContentAreaFilled(false);
+        sbtnInfo.setBorder(null);
+        sbtnInfo.setText("Tài khoản cá nhân");
+        sbtnInfo.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/info.png")));
+        sbtnInfo.setBounds(10, 712, 280, 40);
+        menuStaff.add(sbtnInfo);
+        //Button Logout
+        sbtnLogout = new Button();
+        sbtnLogout.setFont(new Font("sansserif", 1, 15));
+        sbtnLogout.setText("Đăng xuất");
+        sbtnLogout.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/logout.png")));
+        sbtnLogout.setBounds(10, 760, 130, 40);
+        menuStaff.add(sbtnLogout);
+        //Button Exit
+        sbtnExit = new Button();
+        sbtnExit.setFont(new Font("sansserif", 1, 15));
+        sbtnExit.setText("Thoát");
+        sbtnExit.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/exit.png")));
+        sbtnExit.setBounds(160, 760, 130, 40);
+        menuStaff.add(sbtnExit);
+    }
+
     public JPanel getMenuAdmin() {
         return menuAdmin;
     }
@@ -233,12 +332,12 @@ public class MainView extends JFrame {
         this.menuAdmin = menuAdmin;
     }
 
-    public JPanel getMenuNhanVien() {
-        return menuNhanVien;
+    public JPanel getMenuStaff() {
+        return menuStaff;
     }
 
-    public void setMenuNhanVien(JPanel menuNhanVien) {
-        this.menuNhanVien = menuNhanVien;
+    public void setMenuStaff(JPanel menuNhanVien) {
+        this.menuStaff = menuNhanVien;
     }
 
     public JPanel getChangePanel() {
@@ -305,8 +404,6 @@ public class MainView extends JFrame {
         this.btnRevenue = btnRevenue;
     }
 
-    
-
     public Button getBtnAuthor() {
         return btnAuthor;
     }
@@ -346,4 +443,61 @@ public class MainView extends JFrame {
     public void setMainLogo(ImageLogo mainLogo) {
         this.mainLogo = mainLogo;
     }
+
+    public Button getBtnCreate() {
+        return btnCreate;
+    }
+
+    public void setBtnCreate(Button btnCreate) {
+        this.btnCreate = btnCreate;
+    }
+
+    public Button getSbtnInfo() {
+        return sbtnInfo;
+    }
+
+    public void setSbtnInfo(Button sbtnInfo) {
+        this.sbtnInfo = sbtnInfo;
+    }
+
+    public Button getSbtnExit() {
+        return sbtnExit;
+    }
+
+    public void setSbtnExit(Button sbtnExit) {
+        this.sbtnExit = sbtnExit;
+    }
+
+    public Button getSbtnLogout() {
+        return sbtnLogout;
+    }
+
+    public void setSbtnLogout(Button sbtnLogout) {
+        this.sbtnLogout = sbtnLogout;
+    }
+
+    public Button getSbtnOrder() {
+        return sbtnOrder;
+    }
+
+    public void setSbtnOrder(Button sbtnOrder) {
+        this.sbtnOrder = sbtnOrder;
+    }
+
+    public Button getSbtnCustomer() {
+        return sbtnCustomer;
+    }
+
+    public void setSbtnCustomer(Button sbtnCustomer) {
+        this.sbtnCustomer = sbtnCustomer;
+    }
+
+    public Button getSbtnCreate() {
+        return sbtnCreate;
+    }
+
+    public void setSbtnCreate(Button sbtnCreate) {
+        this.sbtnCreate = sbtnCreate;
+    }
+
 }
