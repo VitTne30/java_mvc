@@ -1,6 +1,6 @@
 package View;
 
-import Controller.Services.ProductController;
+import Controller.ProductController;
 import Swing.Button;
 import Swing.MyTextField;
 import Swing.Table;

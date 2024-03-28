@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controller.Services;
+package Controller;
 
-import Controller.DbConnection.DataConnection;
+import DbConnection.DataConnection;
 import Model.ModelDanhMuc;
 import Swing.Table;
 import View.DanhMucView;

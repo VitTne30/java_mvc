@@ -1,6 +1,6 @@
-package Controller.Services;
+package Controller;
 
-import Controller.DbConnection.DataConnection;
+import DbConnection.DataConnection;
 import Model.ModelCustomer;
 import View.CustomerView;
 import View.InsertModifyView;

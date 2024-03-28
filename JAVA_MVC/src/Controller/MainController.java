@@ -1,13 +1,13 @@
-package Controller.Services;
+package Controller;
 
-import Controller.DbConnection.DataConnection;
+import DbConnection.DataConnection;
 import Model.ModelUser;
 import View.AccountView;
 import View.MainView;
 import View.CustomerView;
 import View.DanhMucView;
 import View.DoanhThuView;
-import View.DonHangView;
+import View.BillView;
 import View.LoginView;
 import View.NhanVienView;
 import View.NxbView;
@@ -69,8 +69,6 @@ public class MainController {
                 mainView.getChangePanel().revalidate();
                 mainView.getChangePanel().repaint();
                 databaseConnection.releaseConnection(con);
-                System.out.println("111");
-
             }
         });
         //ShowCustemer
@@ -199,13 +197,13 @@ public class MainController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.getChangePanel().removeAll();
-                DonHangView orderView = new DonHangView();
-//                try {
-//                    DanhMucController dmSer = new DanhMucController(orderView);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-                mainView.getChangePanel().add(orderView);
+                BillView billView = new BillView();
+                try {
+                    BillController billSer = new BillController(billView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(billView);
                 mainView.getChangePanel().revalidate();
                 mainView.getChangePanel().repaint();
                 databaseConnection.releaseConnection(con);
@@ -304,7 +302,7 @@ public class MainController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.getChangePanel().removeAll();
-                DonHangView orderView = new DonHangView();
+                BillView orderView = new BillView();
 //                try {
 //                    DanhMucController dmSer = new DanhMucController(orderView);
 //                } catch (SQLException ex) {

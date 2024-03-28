@@ -1,7 +1,7 @@
 package View;
 
-import Controller.Services.CustomerController;
-import Controller.Services.MainController;
+import Controller.CustomerController;
+import Controller.MainController;
 import Model.ModelUser;
 import Swing.Button;
 import Swing.ImageLogo;

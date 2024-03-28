@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Controller.Services;
 
-import Controller.DbConnection.DataConnection;
+package Controller;
+
+import DbConnection.DataConnection;
 import View.DoanhThuView;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,6 +1,6 @@
 package java_mvc;
 
-import Controller.Services.LoginController;
+import Controller.LoginController;
 import View.LoginView;
 import java.sql.SQLException;
 

@@ -26,15 +26,16 @@ public class CustomerView extends JPanel {
     private SimpleDateFormat simpleDate;
     private MyTextField searchField;
     private Button btnAdd, btnRemove, btnModify,btnExcel,btnImport;
-    private Table tableStaff;
+    private Table tblCus;
     private JScrollPane jScrollPane1;
 
     public CustomerView() {
         setLayout(null);
-        setVisible(true);
+        
         setBounds(0, 0, 800, 800);
         //
         addCusGUI();
+        setVisible(true);
     }
 
     private void addCusGUI() {
@@ -60,7 +61,7 @@ public class CustomerView extends JPanel {
         Thread clockThread = new Thread(() -> {
             while (true) {
                 Date currentTime = new Date();
-                simpleDate = new SimpleDateFormat("dd - MM - YYYY HH:mm:ss");
+                simpleDate = new SimpleDateFormat("dd - MM - YYYY   HH:mm:ss");
                 String time = simpleDate.format(currentTime);
                 //
                 dateLb.setText(time);
@@ -130,10 +131,10 @@ public class CustomerView extends JPanel {
         btnImport.setBounds(468, 745, 140, 40);
         add(btnImport);
         //
-        tableStaff = new Table();
+        tblCus = new Table();
         jScrollPane1 = new JScrollPane();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        tableStaff.setModel(new javax.swing.table.DefaultTableModel(
+        tblCus.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
                     "Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email"
@@ -148,7 +149,7 @@ public class CustomerView extends JPanel {
                 return canEdit[columnIndex];
             }
         });
-        TableColumnModel columnModel = tableStaff.getColumnModel();
+        TableColumnModel columnModel = tblCus.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(150);
         columnModel.getColumn(1).setPreferredWidth(200);
         columnModel.getColumn(2).setPreferredWidth(200);
@@ -157,9 +158,9 @@ public class CustomerView extends JPanel {
             TableColumn column = columnModel.getColumn(i);
             column.setResizable(false);
         }
-        JTableHeader header = tableStaff.getTableHeader();
+        JTableHeader header = tblCus.getTableHeader();
         header.setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tableStaff);
+        jScrollPane1.setViewportView(tblCus);
         jScrollPane1.setBounds(0, 225, 800, 580);
         jScrollPane1.getViewport().setBackground(Color.WHITE);
         add(jScrollPane1);
@@ -184,8 +185,8 @@ public class CustomerView extends JPanel {
         return btnModify;
     }
 
-    public Table getTableStaff() {
-        return tableStaff;
+    public Table getTblCus() {
+        return tblCus;
     }
 
     public Button getBtnExcel() {

@@ -1,4 +1,4 @@
-package Controller.DbConnection;
+package DbConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

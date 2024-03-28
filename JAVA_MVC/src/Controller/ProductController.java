@@ -1,6 +1,6 @@
-package Controller.Services;
+package Controller;
 
-import Controller.DbConnection.DataConnection;
+import DbConnection.DataConnection;
 import EasyXLS.Constants.DataType;
 import EasyXLS.ExcelDocument;
 import EasyXLS.ExcelTable;

@@ -4,7 +4,7 @@
  */
 package View;
 
-import Controller.Services.NhanVienController;
+import Controller.NhanVienController;
 import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;

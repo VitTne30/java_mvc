@@ -1,6 +1,6 @@
-package Controller.Services;
+package Controller;
 
-import Controller.DbConnection.DataConnection;
+import DbConnection.DataConnection;
 import EasyXLS.Constants.DataType;
 import EasyXLS.ExcelDocument;
 import EasyXLS.ExcelTable;
@@ -38,14 +38,13 @@ public class CustomerController {
     private CustomerView cusView;
     private Table tableNv;
     private ArrayList<ModelCustomer> listCus = new ArrayList<>();
-    private boolean or;
     private SimpleDateFormat simpleDateFormat;
 
     public CustomerController(CustomerView newMS) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.cusView = newMS;
-        tableNv = cusView.getTableStaff();
+        tableNv = cusView.getTblCus();
         //GetSTaffData
         getData();
         ////
@@ -144,7 +143,7 @@ public class CustomerController {
 
     }
 
-    public ArrayList<ModelCustomer> getListNV() throws SQLException {
+    private ArrayList<ModelCustomer> getListCus() throws SQLException {
         ArrayList<ModelCustomer> list = new ArrayList();
         String sql = "SELECT id, hoten, sdt, email FROM tbl_khachhang;";
         PreparedStatement p = con.prepareStatement(sql);
@@ -165,7 +164,7 @@ public class CustomerController {
 
     private void getData() throws SQLException {
         tableNv.removeAllRow();
-        listCus = getListNV();
+        listCus = getListCus();
         for (ModelCustomer data : listCus) {
             tableNv.addRow(new Object[]{data.getId(), data.getName(),
                 data.getPhone(), data.getEmail()});
