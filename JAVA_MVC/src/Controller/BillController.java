@@ -88,7 +88,8 @@ public class BillController {
                             p.close();
                             p2.close();
                             tblDetail.removeAllRow();
-                            System.out.println("Xóa đơn hàng thành công");
+                            JOptionPane.showMessageDialog(tblBill, "Xóa đơn hàng thành công!",
+                                    "Thông báo", JOptionPane.OK_OPTION);
                             getData();
                             databaseConnection.releaseConnection(con);
                         } catch (SQLException ex) {
@@ -124,7 +125,7 @@ public class BillController {
         billView.getBtnSortNum().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               // Get the TableRowSorter from the table
+                // Get the TableRowSorter from the table
                 TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
                 tblBill.setRowSorter(sorter);
 
@@ -238,6 +239,7 @@ public class BillController {
                 data.getNum(), data.getMoney()});
         }
     }
+
     private void exportToExcel(Table table) {
         JFileChooser choose = new JFileChooser();
         choose.setDialogTitle("Lưu Excel");
@@ -279,6 +281,5 @@ public class BillController {
             JOptionPane.showMessageDialog(null, "File saved successfully!");
         }
     }
-
 
 }
