@@ -52,8 +52,9 @@ public class MainController {
             staffService();
         }
     }
+
     ////////////////////////////////////
-    private void adminService(){
+    private void adminService() {
         //ShowAccountInfo
         mainView.getBtnInfo().addActionListener(new ActionListener() {
             @Override
@@ -192,7 +193,7 @@ public class MainController {
             }
         });
 
-        //ShowOrder
+        //ShowBill
         mainView.getBtnOrder().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -240,7 +241,8 @@ public class MainController {
         });
     }
 ////////////////////////
-    private void staffService(){
+
+    private void staffService() {
         //ShowAccountInfo
         mainView.getSbtnInfo().addActionListener(new ActionListener() {
             @Override
@@ -277,7 +279,7 @@ public class MainController {
                 databaseConnection.releaseConnection(con);
             }
         });
-        
+
         //////////////////
         //Button Create
         mainView.getSbtnCreate().addActionListener(new ActionListener() {
@@ -302,13 +304,13 @@ public class MainController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.getChangePanel().removeAll();
-                BillView orderView = new BillView();
-//                try {
-//                    DanhMucController dmSer = new DanhMucController(orderView);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-                mainView.getChangePanel().add(orderView);
+                BillView billView = new BillView();
+                try {
+                    BillController billSer = new BillController(billView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                mainView.getChangePanel().add(billView);
                 mainView.getChangePanel().revalidate();
                 mainView.getChangePanel().repaint();
                 databaseConnection.releaseConnection(con);

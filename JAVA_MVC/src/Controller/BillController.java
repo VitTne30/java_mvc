@@ -18,8 +18,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -39,6 +41,7 @@ public class BillController {
     private ArrayList<ModelBill> listBill = new ArrayList<>();
     private ArrayList<ModelDetail> listDetail = new ArrayList<>();
     private DefaultTableModel model;
+    private SimpleDateFormat simpleDate;
 
     public BillController(BillView newBill) throws SQLException {
         databaseConnection = DataConnection.getInstance();
@@ -50,6 +53,22 @@ public class BillController {
         //
         getData();
         billView.getNumberLb().setText("Tổng số đơn hàng: " + listBill.size());
+        Thread clockThread = new Thread(() -> {
+            while (true) {
+                Date currentTime = new Date();
+                simpleDate = new SimpleDateFormat("dd - MM - YYYY   HH:mm:ss");
+                String time = simpleDate.format(currentTime);
+                //
+                billView.getDateLb().setText(time);
+                //
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        clockThread.start();
         //
         tblBill.addMouseListener(new MouseAdapter() {
             @Override

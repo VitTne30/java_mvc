@@ -5,8 +5,6 @@ import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,7 +21,6 @@ import javax.swing.table.TableColumnModel;
 public class CustomerView extends JPanel {
 
     private JLabel titleLb, numberLb, listLb, dateLb,line;
-    private SimpleDateFormat simpleDate;
     private MyTextField searchField;
     private Button btnAdd, btnRemove, btnModify,btnExcel,btnImport;
     private Table tblCus;
@@ -58,22 +55,6 @@ public class CustomerView extends JPanel {
         dateLb.setHorizontalTextPosition(SwingConstants.LEFT);
         dateLb.setBounds(400, 0, 400, 40);
         dateLb.setFont(new Font("sansserif", 1, 15));
-        Thread clockThread = new Thread(() -> {
-            while (true) {
-                Date currentTime = new Date();
-                simpleDate = new SimpleDateFormat("dd - MM - YYYY   HH:mm:ss");
-                String time = simpleDate.format(currentTime);
-                //
-                dateLb.setText(time);
-                //
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        clockThread.start();
         add(dateLb);
         //Black line
         line = new JLabel();
@@ -204,6 +185,11 @@ public class CustomerView extends JPanel {
     public void setBtnImport(Button btnImport) {
         this.btnImport = btnImport;
     }
+
+    public JLabel getDateLb() {
+        return dateLb;
+    }
+    
     
 
 }

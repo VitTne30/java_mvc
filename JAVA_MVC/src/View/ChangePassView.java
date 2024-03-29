@@ -23,7 +23,7 @@ public class ChangePassView extends JPanel {
     private JLabel titleLb, lbMessage, line, line1;
     private MyPasswordField txtOld, txtNew, txtConfirm;
     private char pas;
-    private Icon show, hide;
+    private Icon show;
     private Button btnConfirm, btnCancel;
     private ModelUser inUseUser;
 
@@ -31,7 +31,6 @@ public class ChangePassView extends JPanel {
         setLayout(null);
         setBounds(150, 175, 600, 450);
         setBackground(Color.WHITE);
-        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
         show = new ImageIcon(getClass().getResource("/Icon/show.png"));
         //
         changeGUI();
@@ -42,7 +41,6 @@ public class ChangePassView extends JPanel {
         setLayout(null);
         setBounds(100, 150, 600, 500);
         setBackground(Color.WHITE);
-        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
         show = new ImageIcon(getClass().getResource("/Icon/show.png"));
         //
         this.inUseUser = us;
@@ -70,19 +68,6 @@ public class ChangePassView extends JPanel {
         txtOld.setHint("Nhập mật khẩu hiện tại...");
         txtOld.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
         txtOld.setSuffixIcon(show);
-        pas = txtOld.getEchoChar();
-        txtOld.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (txtOld.getSuffixIcon().equals(hide)) {
-                    txtOld.setSuffixIcon(show);
-                    txtOld.setEchoChar((char) 0);
-                } else {
-                    txtOld.setSuffixIcon(hide);
-                    txtOld.setEchoChar(pas);
-                }
-            }
-        });
         add(txtOld);
         //errorLb
         lbMessage = new JLabel("", JLabel.LEFT);
@@ -97,19 +82,7 @@ public class ChangePassView extends JPanel {
         txtNew.setHint("Nhập mật khẩu mới...");
         txtNew.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
         txtNew.setSuffixIcon(show);
-        pas = txtNew.getEchoChar();
-        txtNew.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (txtNew.getSuffixIcon().equals(hide)) {
-                    txtNew.setSuffixIcon(show);
-                    txtNew.setEchoChar((char) 0);
-                } else {
-                    txtNew.setSuffixIcon(hide);
-                    txtNew.setEchoChar(pas);
-                }
-            }
-        });
+        
         add(txtNew);
         //RePass
         txtConfirm = new MyPasswordField();
@@ -118,19 +91,7 @@ public class ChangePassView extends JPanel {
         txtConfirm.setHint("Xác nhận mật khẩu...");
         txtConfirm.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
         txtConfirm.setSuffixIcon(show);
-        pas = txtConfirm.getEchoChar();
-        txtConfirm.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (txtConfirm.getSuffixIcon().equals(hide)) {
-                    txtConfirm.setSuffixIcon(show);
-                    txtConfirm.setEchoChar((char) 0);
-                } else {
-                    txtConfirm.setSuffixIcon(hide);
-                    txtConfirm.setEchoChar(pas);
-                }
-            }
-        });
+ 
         add(txtConfirm);
         //Black line
         line1 = new JLabel();

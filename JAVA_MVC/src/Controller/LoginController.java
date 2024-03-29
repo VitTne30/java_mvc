@@ -5,14 +5,19 @@ import Model.ModelUser;
 import View.ForgetView;
 import View.LoginView;
 import View.MainView;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,15 +29,43 @@ public class LoginController {
     private DataConnection databaseConnection;
     private LoginView loginView;
     private final Connection con;
-    private boolean isLogin;
+    private char pas;
+    private Icon show,hide;
 
     public LoginController(LoginView newLoginView) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         this.loginView = newLoginView;
 
         con = (Connection) databaseConnection.getConnection();
-        isLogin = true;
 
+        //
+        pas = loginView.getPassField().getEchoChar();
+        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
+        show = new ImageIcon(getClass().getResource("/Icon/show.png"));
+        loginView.getPassField().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (loginView.getPassField().getSuffixIcon().equals(hide)) {
+                    loginView.getPassField().setSuffixIcon(show);
+                    loginView.getPassField().setEchoChar((char) 0);
+                } else {
+                    loginView.getPassField().setSuffixIcon(hide);
+                    loginView.getPassField().setEchoChar(pas);
+                }
+            }
+        });
+        //
+        loginView.getBtnForget().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                loginView.getBtnForget().setForeground(Color.BLUE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                loginView.getBtnForget().setForeground(new Color(245, 245, 245));
+            }
+        });
         //LoginComponent
         loginView.getBtnLogin().addActionListener(new ActionListener() {
             @Override
@@ -40,16 +73,7 @@ public class LoginController {
                 loginComponent();
             }
         });
-        //RegisterComponent
-//        loginView.getBtnRegis().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                regisComponent();
-//            }
-//        });
-        //
-        
-        //
+        ////
         loginView.getBtnForget().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,12 +118,13 @@ public class LoginController {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     //
     private void forgetPassComponent() throws SQLException {
         ForgetView newFview = new ForgetView();
         ForgetController newFService = new ForgetController(newFview);
         newFview.setVisible(true);
-        
+
     }
 
 }

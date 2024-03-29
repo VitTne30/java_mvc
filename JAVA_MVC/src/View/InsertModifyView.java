@@ -89,21 +89,6 @@ public class InsertModifyView extends JPanel {
         txtPhone = new MyTextField();
         txtPhone.setFont(new Font("sansserif", 1, 18));
         txtPhone.setBounds(440, 311, 315, 40);
-        txtPhone.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                String text = txtPhone.getText();
-
-                if (!Character.isDigit(c)) {
-                    e.consume();
-                    return;
-                }
-                if (text.length() >= 10) {
-                    e.consume();
-                }
-            }
-        });
         add(txtPhone);
         //txtEmail
         txtEmail = new MyTextField();

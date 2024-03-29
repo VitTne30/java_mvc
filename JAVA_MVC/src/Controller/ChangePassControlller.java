@@ -7,14 +7,17 @@ import View.ChangePassView;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
 
 /**
  *
@@ -26,7 +29,8 @@ public class ChangePassControlller {
     private Connection con;
     private ChangePassView passView;
     private boolean found = false;
-    private String pass;
+    private char pas,pas2,pas3;
+    private Icon show, hide;
     private ModelUser u, inUseUser;
     private AccountView inUseAcc;
 
@@ -36,13 +40,56 @@ public class ChangePassControlller {
         this.passView = newView;
         this.inUseAcc = newAcc;
         inUseUser = passView.getInUseUser();
+        ////////
+        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
+        show = new ImageIcon(getClass().getResource("/Icon/show.png"));
+        pas = passView.getTxtOld().getEchoChar();
+        passView.getTxtOld().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (passView.getTxtOld().getSuffixIcon().equals(hide)) {
+                    passView.getTxtOld().setSuffixIcon(show);
+                    passView.getTxtOld().setEchoChar((char) 0);
+                } else {
+                    passView.getTxtOld().setSuffixIcon(hide);
+                    passView.getTxtOld().setEchoChar(pas);
+                }
+            }
+        });
+        pas2 = passView.getTxtNew().getEchoChar();
+        passView.getTxtNew().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (passView.getTxtNew().getSuffixIcon().equals(hide)) {
+                    passView.getTxtNew().setSuffixIcon(show);
+                    passView.getTxtNew().setEchoChar((char) 0);
+                } else {
+                    passView.getTxtNew().setSuffixIcon(hide);
+                    passView.getTxtNew().setEchoChar(pas);
+                }
+            }
+        });
+        pas3 = passView.getTxtConfirm().getEchoChar();
+        passView.getTxtConfirm().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (passView.getTxtConfirm().getSuffixIcon().equals(hide)) {
+                    passView.getTxtConfirm().setSuffixIcon(show);
+                    passView.getTxtConfirm().setEchoChar((char) 0);
+                } else {
+                    passView.getTxtConfirm().setSuffixIcon(hide);
+                    passView.getTxtConfirm().setEchoChar(pas);
+                }
+            }
+        });
+        /////////////////
         //Button Confirm
         passView.getBtnConfirm().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String newPass = String.valueOf(passView.getTxtNew().getPassword());
                 String rePass = String.valueOf(passView.getTxtConfirm().getPassword());
-                
+
                 if (checkPassword()) {
                     if (newPass != null && newPass.equals(rePass)) {
                         try {

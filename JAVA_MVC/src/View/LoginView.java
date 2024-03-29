@@ -10,8 +10,6 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,8 +24,7 @@ import javax.swing.JPanel;
 public class LoginView extends JFrame {
 
     private JPanel login;
-    private Icon show, hide;
-    private char pas;
+    private Icon show;
     private ImageLogo logo; //Logo nhà hàng
     private JLabel titleName;
     private JLabel storeName;
@@ -45,7 +42,6 @@ public class LoginView extends JFrame {
         setResizable(false);
         setLayout(null);
         //
-        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
         show = new ImageIcon(getClass().getResource("/Icon/show.png"));
         //
         login = new JPanel() {
@@ -90,19 +86,7 @@ public class LoginView extends JFrame {
         passField.setHint("Mật khẩu ...");
         passField.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
         passField.setSuffixIcon(show);
-        pas = passField.getEchoChar();
-        passField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (passField.getSuffixIcon().equals(hide)) {
-                    passField.setSuffixIcon(show);
-                    passField.setEchoChar((char) 0);
-                } else {
-                    passField.setSuffixIcon(hide);
-                    passField.setEchoChar(pas);
-                }
-            }
-        });
+        
         login.add(passField);
         //ForgetPass
         btnForget = new JButton("Quên mật khẩu của bạn?");
@@ -111,17 +95,6 @@ public class LoginView extends JFrame {
         btnForget.setFont(new Font("sansserif", 1, 15));
         btnForget.setContentAreaFilled(false);
         btnForget.setBorder(null);
-        btnForget.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnForget.setForeground(Color.BLUE);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnForget.setForeground(new Color(245, 245, 245));
-            }
-        });
         btnForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         login.add(btnForget);
         //LoginButton
@@ -166,9 +139,6 @@ public class LoginView extends JFrame {
         return login;
     }
 
-    public Icon getShow() {
-        return show;
-    }
 
     public ImageLogo getLogo() {
         return logo;
