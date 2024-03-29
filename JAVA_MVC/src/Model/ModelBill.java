@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author ADMIN
@@ -8,6 +10,7 @@ public class ModelBill {
     private int idBill;
     private int idCus;
     private String date;
+    private Date datef;
     private int money;
 
     public ModelBill(int idBill, int idCus, String date, int money) {
@@ -16,6 +19,12 @@ public class ModelBill {
         this.date = date;
         this.money = money;
     }
+
+    public ModelBill(String date, int money) {
+        this.date = date;
+        this.money = money;
+    }
+    
 
     public int getIdBill() {
         return idBill;
@@ -48,6 +57,5 @@ public class ModelBill {
     public void setMoney(int money) {
         this.money = money;
     }
-    
     
 }

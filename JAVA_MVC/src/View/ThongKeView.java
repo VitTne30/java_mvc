@@ -10,28 +10,31 @@ import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.jfree.chart.ChartPanel;
 
 
 /**
  *
  * @author haqan
  */
-public class DoanhThuView extends JPanel{
+public class ThongKeView extends JPanel{
     private SimpleDateFormat simpleDate = new SimpleDateFormat("dd - MM - YYYY");
     private JLabel dateLb = new JLabel(simpleDate.format(new Date()) + "");
     private JLabel lblTitle = new JLabel("THỐNG KÊ DOANH THU");
     private JLabel lblDt = new JLabel();
     private JTextField txtDt = new JTextField();
     private Button btnExcel = new Button();
-   
+    private JComboBox cboNam = new JComboBox();
+    private ChartPanel chartPanel = new ChartPanel(null);
     
-    Font buttonFont = new Font("Arial", Font.BOLD, 20);
+    Font buttonFont = new Font("Arial", Font.BOLD, 16);
     Font TitleFont = new Font("Arial", Font.BOLD, 20);
     
-    public DoanhThuView() {
+    public ThongKeView() {
         GUI();
         add();
         this.setVisible(true);
@@ -45,6 +48,14 @@ public class DoanhThuView extends JPanel{
     
     private void add(){
     
+        chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
+        chartPanel.setBounds(20, 80, 700, 500);
+        add(chartPanel);
+        
+        cboNam.setBounds(600, 600, 120, 50);
+        cboNam.setFont(buttonFont);
+        add(cboNam);
+        
         lblTitle.setBounds(10, 0, 320, 40);
         lblTitle.setFont(TitleFont);
         lblTitle.setForeground(Color.decode("#0066FF"));
@@ -55,16 +66,16 @@ public class DoanhThuView extends JPanel{
         dateLb.setFont(TitleFont);
         this.add(dateLb);
         
-        lblDt.setBounds(50, 500, 150, 30);
+        lblDt.setBounds(50, 700, 150, 50);
         lblDt.setFont(buttonFont);
         lblDt.setText("Doanh thu: ");
         this.add(lblDt);
         
-        txtDt.setBounds(200, 500, 300, 30);
-        txtDt.setFont(TitleFont);
+        txtDt.setBounds(180, 700, 300, 50);
+        txtDt.setFont(buttonFont);
         this.add(txtDt);
         
-        btnExcel.setBounds(640, 680, 120, 50);
+        btnExcel.setBounds(600, 700, 120, 50);
         btnExcel.setFont(buttonFont);
         btnExcel.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/excelout.png")));
         btnExcel.setText("Excel");
@@ -87,4 +98,22 @@ public class DoanhThuView extends JPanel{
     public void setTxtDt(JTextField txtDt) {
         this.txtDt = txtDt;
     }
+
+    public ChartPanel getChartPanel() {
+        return chartPanel;
+    }
+
+    public void setChartPanel(ChartPanel chartPanel) {
+        this.chartPanel = chartPanel;
+    }
+
+    public JComboBox getCboNam() {
+        return cboNam;
+    }
+
+    public void setCboNam(JComboBox cboNam) {
+        this.cboNam = cboNam;
+    }
+    
+    
 }

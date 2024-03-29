@@ -6,7 +6,7 @@ import View.AccountView;
 import View.MainView;
 import View.CustomerView;
 import View.DanhMucView;
-import View.DoanhThuView;
+import View.ThongKeView;
 import View.BillView;
 import View.LoginView;
 import View.NhanVienView;
@@ -128,9 +128,9 @@ public class MainController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.getChangePanel().removeAll();
-                DoanhThuView dtView = new DoanhThuView();
+                ThongKeView dtView = new ThongKeView();
                 try {
-                    DoanhThuController proSer = new DoanhThuController(dtView);
+                    ThongKeController proSer = new ThongKeController(dtView);
                 } catch (SQLException ex) {
                     Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
