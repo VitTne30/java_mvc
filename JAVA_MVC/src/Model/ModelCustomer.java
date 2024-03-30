@@ -1,9 +1,5 @@
 package Model;
 
-/**
- *
- * @author ADMIN
- */
 public class ModelCustomer {
     private int id;
     private String Name;
@@ -48,5 +44,11 @@ public class ModelCustomer {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public ModelCustomer(int id, String Name) {
+        this.id = id;
+        this.Name = Name;
+    }
+    
     
 }

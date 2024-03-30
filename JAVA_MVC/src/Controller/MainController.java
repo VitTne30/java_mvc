@@ -180,12 +180,12 @@ public class MainController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.getChangePanel().removeAll();
-                OrderView orderView = new OrderView();
-//                try {
-//                    DanhMucController dmSer = new DanhMucController(orderView);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                OrderView orderView = new OrderView(mainView);
+                try {
+                    OrderController dmSer = new OrderController(orderView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 mainView.getChangePanel().add(orderView);
                 mainView.getChangePanel().revalidate();
                 mainView.getChangePanel().repaint();
@@ -286,12 +286,12 @@ public class MainController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainView.getChangePanel().removeAll();
-                OrderView orderView = new OrderView();
-//                try {
-//                    DanhMucController dmSer = new DanhMucController(orderView);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                OrderView orderView = new OrderView(mainView);
+                try {
+                    OrderController dmSer = new OrderController(orderView);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 mainView.getChangePanel().add(orderView);
                 mainView.getChangePanel().revalidate();
                 mainView.getChangePanel().repaint();

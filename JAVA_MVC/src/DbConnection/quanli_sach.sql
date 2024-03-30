@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2024 at 06:54 PM
+-- Generation Time: Mar 30, 2024 at 05:47 PM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.1.17
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,18 +32,20 @@ CREATE TABLE `tbl_chitietdonhang` (
   `id_donhang` int(11) NOT NULL,
   `id_sanpham` int(11) NOT NULL,
   `soluong` int(11) NOT NULL,
-  `tongtien` int(11) NOT NULL
+  `tong_tien` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_chitietdonhang`
 --
 
-INSERT INTO `tbl_chitietdonhang` (`id_chitiet`, `id_donhang`, `id_sanpham`, `soluong`, `tongtien`) VALUES
-(1, 1, 1, 3, 150000),
-(2, 1, 2, 10, 2900000),
-(3, 2, 2, 10, 2900000),
-(4, 2, 3, 5, 35000);
+INSERT INTO `tbl_chitietdonhang` (`id_chitiet`, `id_donhang`, `id_sanpham`, `soluong`, `tong_tien`) VALUES
+(20, 1, 3, 2, 140000),
+(21, 1, 2, 3, 870000),
+(22, 2, 3, 1, 70000),
+(23, 2, 2, 2, 580000),
+(24, 3, 3, 2, 140000),
+(25, 3, 2, 2, 580000);
 
 -- --------------------------------------------------------
 
@@ -93,20 +95,17 @@ INSERT INTO `tbl_danhmuc` (`id_danhmuc`, `tendanhmuc`, `mota`) VALUES
 
 CREATE TABLE `tbl_donhang` (
   `id_donhang` int(11) NOT NULL,
-  `id_khachhang` int(11) NOT NULL,
-  `ngaylap` datetime NOT NULL,
-  `tien` int(20) NOT NULL
+  `id_cus` int(11) DEFAULT NULL,
+  `ngaylap` date DEFAULT NULL,
+  `tong_tien` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_donhang`
 --
 
-INSERT INTO `tbl_donhang` (`id_donhang`, `id_khachhang`, `ngaylap`, `tien`) VALUES
-(1, 1, '2024-03-14 23:03:16', 200000),
-(2, 2, '2024-03-08 23:04:08', 300000),
-(3, 6, '2024-03-13 00:30:19', 600000),
-(4, 3, '2024-03-23 00:43:36', 100000);
+INSERT INTO `tbl_donhang` (`id_donhang`, `id_cus`, `ngaylap`, `tong_tien`) VALUES
+(1, 7, '2024-03-30', 1010000);
 
 -- --------------------------------------------------------
 
@@ -115,7 +114,7 @@ INSERT INTO `tbl_donhang` (`id_donhang`, `id_khachhang`, `ngaylap`, `tien`) VALU
 --
 
 CREATE TABLE `tbl_khachhang` (
-  `id` int(11) NOT NULL,
+  `id_cus` int(11) NOT NULL,
   `hoten` varchar(50) NOT NULL,
   `sdt` varchar(10) NOT NULL,
   `email` varchar(50) NOT NULL
@@ -125,33 +124,23 @@ CREATE TABLE `tbl_khachhang` (
 -- Dumping data for table `tbl_khachhang`
 --
 
-INSERT INTO `tbl_khachhang` (`id`, `hoten`, `sdt`, `email`) VALUES
+INSERT INTO `tbl_khachhang` (`id_cus`, `hoten`, `sdt`, `email`) VALUES
 (1, 'Báo an ', '1234567897', 'an@gmail.com'),
 (2, 'vanh', '1235647899', 'Vanh@gmail.com'),
 (3, 'nam', '1234567899', 'nam@gmail.com'),
-(6, 'luong', '1233232343', 'luong@gmail.com');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_muon`
---
-
-CREATE TABLE `tbl_muon` (
-  `id_muon` int(11) NOT NULL,
-  `id_ban` int(10) NOT NULL,
-  `id_sach` int(10) NOT NULL,
-  `num` int(100) NOT NULL,
-  `ngayMuon` date NOT NULL,
-  `tinhTrang` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_muon`
---
-
-INSERT INTO `tbl_muon` (`id_muon`, `id_ban`, `id_sach`, `num`, `ngayMuon`, `tinhTrang`) VALUES
-(1, 1, 1, 123, '2024-03-05', 'chưa duyệt');
+(5, 'Sơn ngu', '2645481321', 'Son@gmail.com'),
+(6, 'luong', '1233232343', 'luong@gmail.com'),
+(7, 'Nguyễn Văn Sơn', '0123446789', 'dunge5hat@gmail.com'),
+(8, 'Trương Ngọc Trang', '0123229398', 'trang@gmail.com'),
+(9, 'Hà Tiểu Nha', '0123456789', 'dung@edu.com'),
+(10, 'Hà', '0123456789', 'ha@gmail.com'),
+(11, 'Trang', '0123235296', 'hell@gmail.com'),
+(12, 'haf', '0123456789', 'ha@gmai.com'),
+(13, 'Nhân', '0123456789', 'dung@gmail.com'),
+(15, 'ma', '0987654321', 'ma@gmail.com'),
+(16, 'haii', '0123456789', 'haii@gmail.com'),
+(17, 'haiii', '0123456789', 'hai@gmail.com'),
+(18, 'nguyễn văn sơn', '0123456789', 'dung5@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -176,7 +165,7 @@ INSERT INTO `tbl_nxb` (`id_nxb`, `tennxb`, `sdt`, `diachi`) VALUES
 (6, 'hội nhà văn Việt Nam', '0124456786', 'Quận 10, Hồ Chí Minh'),
 (7, 'Lao động', '09882233771', 'Nghi Lộc, Nghệ An'),
 (8, 'Tư nhân Nhã Nam', '0112229998', 'Hà Đông, Hà Nội'),
-(9, 'Phụ nữ', '01223344499', 'Quận 12, Hà Nội');
+(9, 'Phụ nữ', '01223344498', 'Quận 12, Hà Nộii');
 
 -- --------------------------------------------------------
 
@@ -189,18 +178,6 @@ CREATE TABLE `tbl_phieu` (
   `ma` int(11) NOT NULL,
   `ngaylap` datetime NOT NULL,
   `id_taikhoan` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_sach`
---
-
-CREATE TABLE `tbl_sach` (
-  `id_sach` int(10) NOT NULL,
-  `soLuong` int(100) NOT NULL,
-  `tinhTrang` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -224,9 +201,9 @@ CREATE TABLE `tbl_sanpham` (
 --
 
 INSERT INTO `tbl_sanpham` (`id_sanpham`, `ten_sanpham`, `id_danhmuc`, `id_nxb`, `so_luong`, `gia_tien`, `tac_gia`) VALUES
-(1, 'Tôi tự học', 6, 6, 20, 50000, 'Nguyễn Duy Cần'),
 (2, 'Thiên nga trắng', 6, 7, 20, 290000, 'Nicholas Nassim Taleb'),
-(3, 'Tuổi thơ', 6, 8, 20, 70000, 'Nguyễn Nhật Ánh');
+(3, 'Tuổi thơ', 6, 8, 20, 70000, 'Nguyễn Nhật Ánh'),
+(4, 'Tôi thấy hoa vàng', 3, 6, 10, 20000, 'Nguyễn Nhật Ánh');
 
 -- --------------------------------------------------------
 
@@ -237,12 +214,12 @@ INSERT INTO `tbl_sanpham` (`id_sanpham`, `ten_sanpham`, `id_danhmuc`, `id_nxb`, 
 CREATE TABLE `tbl_taikhoan` (
   `id` int(11) NOT NULL,
   `hoten` varchar(100) NOT NULL,
-  `diachi` text DEFAULT NULL,
+  `diachi` text NOT NULL,
   `sdt` varchar(10) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
   `tentaikhoan` varchar(100) NOT NULL,
   `matkhau` varchar(100) NOT NULL,
-  `vaitro` varchar(100) NOT NULL
+  `vaitro` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -250,10 +227,8 @@ CREATE TABLE `tbl_taikhoan` (
 --
 
 INSERT INTO `tbl_taikhoan` (`id`, `hoten`, `diachi`, `sdt`, `email`, `tentaikhoan`, `matkhau`, `vaitro`) VALUES
-(1, 'asd', 'asd', '1231231231', 'asd', 'asd', 'asd', 'Admin'),
-(2, 'Vanh', 'Hà Nội', '1234569877', 'Vanh@gmail.com', '2', '2', 'Staff'),
-(3, 'Ngo Thuy Luong', 'Ninh Binh', '0987207803', 'Thuyluong.ap@gmail.com', '1', '1', 'Admin'),
-(4, 'Ha Quang An', 'Phu Tho', '4567891266', 'An@gmail.com', 'an', 'an', 'Staff');
+(1, 'hell', 'ha noi', '0123456789', 'hell@gmail.com', '1', '2', 'Admin'),
+(7, 'hai', 'ha noi', '0123456789', 'hai@gmail.com', 'haitk', 'haimk1234', 'Staff');
 
 --
 -- Indexes for dumped tables
@@ -287,13 +262,7 @@ ALTER TABLE `tbl_donhang`
 -- Indexes for table `tbl_khachhang`
 --
 ALTER TABLE `tbl_khachhang`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbl_muon`
---
-ALTER TABLE `tbl_muon`
-  ADD PRIMARY KEY (`id_muon`);
+  ADD PRIMARY KEY (`id_cus`);
 
 --
 -- Indexes for table `tbl_nxb`
@@ -308,12 +277,6 @@ ALTER TABLE `tbl_phieu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_sach`
---
-ALTER TABLE `tbl_sach`
-  ADD PRIMARY KEY (`id_sach`);
-
---
 -- Indexes for table `tbl_sanpham`
 --
 ALTER TABLE `tbl_sanpham`
@@ -325,8 +288,7 @@ ALTER TABLE `tbl_sanpham`
 -- Indexes for table `tbl_taikhoan`
 --
 ALTER TABLE `tbl_taikhoan`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `tentaikhoan` (`tentaikhoan`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -336,7 +298,7 @@ ALTER TABLE `tbl_taikhoan`
 -- AUTO_INCREMENT for table `tbl_chitietdonhang`
 --
 ALTER TABLE `tbl_chitietdonhang`
-  MODIFY `id_chitiet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_chitiet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_chitietphieu`
@@ -348,43 +310,31 @@ ALTER TABLE `tbl_chitietphieu`
 -- AUTO_INCREMENT for table `tbl_danhmuc`
 --
 ALTER TABLE `tbl_danhmuc`
-  MODIFY `id_danhmuc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_danhmuc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_donhang`
 --
 ALTER TABLE `tbl_donhang`
-  MODIFY `id_donhang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_donhang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_khachhang`
 --
 ALTER TABLE `tbl_khachhang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `tbl_muon`
---
-ALTER TABLE `tbl_muon`
-  MODIFY `id_muon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cus` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_nxb`
 --
 ALTER TABLE `tbl_nxb`
-  MODIFY `id_nxb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_nxb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_phieu`
 --
 ALTER TABLE `tbl_phieu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbl_sach`
---
-ALTER TABLE `tbl_sach`
-  MODIFY `id_sach` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_sanpham`
@@ -396,7 +346,7 @@ ALTER TABLE `tbl_sanpham`
 -- AUTO_INCREMENT for table `tbl_taikhoan`
 --
 ALTER TABLE `tbl_taikhoan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

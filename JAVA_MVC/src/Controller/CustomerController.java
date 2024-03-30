@@ -119,7 +119,7 @@ public class CustomerController {
                             "Thông báo", JOptionPane.YES_NO_OPTION);
                     if (result == JOptionPane.YES_OPTION) {
                         try {
-                            String sql = "DELETE FROM tbl_khachhang WHERE id = ?";
+                            String sql = "DELETE FROM tbl_khachhang WHERE id_cus = ?";
                             PreparedStatement p = con.prepareStatement(sql);
                             p.setInt(1, cusId);
                             p.execute();
@@ -162,7 +162,7 @@ public class CustomerController {
 
     private ArrayList<ModelCustomer> getListCus() throws SQLException {
         ArrayList<ModelCustomer> list = new ArrayList();
-        String sql = "SELECT id, hoten, sdt, email FROM tbl_khachhang;";
+        String sql = "SELECT id_cus, hoten, sdt, email FROM tbl_khachhang;";
         PreparedStatement p = con.prepareStatement(sql);
         ResultSet r = p.executeQuery();
         while (r.next()) {
@@ -314,7 +314,7 @@ public class CustomerController {
         PreparedStatement pr = con.prepareStatement(sql);
         pr.close();
         for (ModelCustomer data : newList) {
-            String sql_ND = "INSERT INTO tbl_khachhang (id,hoten, sdt,email) VALUES (?,?,?,?)";
+            String sql_ND = "INSERT INTO tbl_khachhang (id_cus,hoten, sdt,email) VALUES (?,?,?,?)";
             PreparedStatement p = con.prepareStatement(sql_ND);
             p.setInt(1, data.getId());
             p.setString(2, data.getName());

@@ -31,20 +31,21 @@ import javax.swing.table.DefaultTableModel;
  * @author haqan
  */
 public class NxbController {
+
     private DataConnection databaseConnection;
     private Connection con;
     private NxbView nxbView;
     private Table tblNxb;
     private ArrayList<ModelNxb> listNxb = new ArrayList<>();
-    
+
     public NxbController(NxbView newMs) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
         this.nxbView = newMs;
         tblNxb = nxbView.getTblNxb();
         getData();
-        
-        nxbView.getNumberLb().setText("Tổng số nhà xuất bản: "+ listNxb.size());
+
+        nxbView.getNumberLb().setText("Tổng số nhà xuất bản: " + listNxb.size());
 
         nxbView.getTblNxb().addMouseListener(new MouseAdapter() {
             @Override
@@ -59,13 +60,13 @@ public class NxbController {
                 tblNxb.removeAllRow();
                 String search = nxbView.getTxtResult().getText();
                 for (ModelNxb data : listNxb) {
-                    if(data.getTenNxb().toLowerCase().contains(search.toLowerCase())){
-                        tblNxb.addRow(new Object[]{data.getMaNxb(),data.getTenNxb(),data.getSdt(),data.getDiaChi()});
+                    if (data.getTenNxb().toLowerCase().contains(search.toLowerCase())) {
+                        tblNxb.addRow(new Object[]{data.getMaNxb(), data.getTenNxb(), data.getSdt(), data.getDiaChi()});
                     }
                 }
             }
         });
-        
+
         nxbView.getBtnThem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,7 +77,7 @@ public class NxbController {
                 }
             }
         });
-        
+
         nxbView.getBtnSua().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,32 +88,32 @@ public class NxbController {
                 }
             }
         });
-        
+
         nxbView.getBtnXoa().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     deleteNxb();
                 } catch (SQLException ex) {
-                  JOptionPane.showMessageDialog(null, "Lỗi!");
+                    JOptionPane.showMessageDialog(null, "Lỗi!");
                 }
             }
         });
-        
+
         nxbView.getBtnClear().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Clear();
             }
         });
-        
+
         nxbView.getBtnExcel().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 exportToExcel(tblNxb);
             }
         });
-        
+
     }
 
     public ArrayList<ModelNxb> getListNxb() throws SQLException {
@@ -145,25 +146,24 @@ public class NxbController {
             nxbView.getTxtDiachi().setText(model.getValueAt(selectedRow, 3).toString());
         }
     }
-    
-    private boolean isDuplicate(String tennxb) throws SQLException{
+
+    private boolean isDuplicate(String tennxb) throws SQLException {
         String query = "SELECT * FROM tbl_nxb WHERE tennxb =?";
         PreparedStatement p = con.prepareStatement(query);
         p.setString(1, tennxb);
         ResultSet r = p.executeQuery();
-        
+
         return r.next();
     }
-    
-    public void addNxb() throws SQLException{
+
+    public void addNxb() throws SQLException {
         String tennxb = nxbView.getTxtTen().getText();
         String sdt = nxbView.getTxtSdt().getText();
         String diachi = nxbView.getTxtDiachi().getText();
-        
-        if(isDuplicate(tennxb) == true){
+
+        if (isDuplicate(tennxb) == true) {
             JOptionPane.showMessageDialog(null, "Tên nhà xuất bản đã tồn tại!");
-        }
-        else{
+        } else {
             String query = "INSERT INTO tbl_nxb (tennxb, sdt, diachi) VALUES (?, ?, ?)";
             PreparedStatement p = con.prepareStatement(query);
             p.setString(1, tennxb);
@@ -174,62 +174,58 @@ public class NxbController {
         getData();
         Clear();
     }
-    
-    public void updateDanhmuc() throws SQLException{
+
+    public void updateDanhmuc() throws SQLException {
         String tennxb = nxbView.getTxtTen().getText();
         String sdt = nxbView.getTxtSdt().getText();
         String diachi = nxbView.getTxtDiachi().getText();
-        
+
         int selectedRow = nxbView.getTblNxb().getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) nxbView.getTblNxb().getModel();
         String id = model.getValueAt(selectedRow, 0).toString();
-        
-        if(isDuplicate(tennxb) == true){
-            JOptionPane.showMessageDialog(null, "Tên nhà xuất bản mới không được trùng!");
-        }
-        else{
-            String query = "UPDATE tbl_nxb SET tennxb =? , sdt =?, diachi =? WHERE id_nxb =?";
-            PreparedStatement p = con.prepareStatement(query);
-            p.setString(1, tennxb);
-            p.setString(2, sdt);
-            p.setString(3, diachi);
-            p.setString(4, id);
-            
-            p.executeUpdate();
-            getData();
-        }
+
+        String query = "UPDATE tbl_nxb SET tennxb =? , sdt =?, diachi =? WHERE id_nxb =?";
+        PreparedStatement p = con.prepareStatement(query);
+        p.setString(1, tennxb);
+        p.setString(2, sdt);
+        p.setString(3, diachi);
+        p.setString(4, id);
+
+        p.executeUpdate();
+        getData();
+
     }
-    
-    public void deleteNxb() throws SQLException{
+
+    public void deleteNxb() throws SQLException {
         int selectedRow = nxbView.getTblNxb().getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) nxbView.getTblNxb().getModel();
         int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
-        
-        String query = "DELETE FROM tbl_nxb WHERE id = ?";
+
+        String query = "DELETE FROM tbl_nxb WHERE id_nxb = ?";
         PreparedStatement p = con.prepareStatement(query);
         p.setInt(1, id);
         p.executeUpdate();
-        
+
         getData();
         Clear();
     }
-    
-    public void Clear(){
+
+    public void Clear() {
         nxbView.getTxtTen().setText("");
         nxbView.getTxtSdt().setText("");
         nxbView.getTxtDiachi().setText("");
     }
-    
-    private void getData() throws SQLException{
+
+    private void getData() throws SQLException {
         tblNxb.removeAllRow();
         listNxb = getListNxb();
         for (ModelNxb data : listNxb) {
             tblNxb.addRow(new Object[]{data.getMaNxb(), data.getTenNxb(), data.getSdt(), data.getDiaChi()});
         }
     }
-    
+
     private void exportToExcel(Table table) {
         JFileChooser choose = new JFileChooser();
         choose.setDialogTitle("Lưu Excel");

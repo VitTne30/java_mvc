@@ -65,7 +65,7 @@ public class ThongKeController {
     
     public int getDtNgay(int nam) throws SQLException{
         int result = 0;
-        String query = "SELECT SUM(tien) FROM tbl_donhang WHERE YEAR(ngaylap) = ?";
+        String query = "SELECT SUM(tong_tien) FROM tbl_donhang WHERE YEAR(ngaylap) = ?";
         PreparedStatement p = con.prepareStatement(query);
         p.setInt(1, nam);
         ResultSet r = p.executeQuery();
@@ -101,7 +101,7 @@ public class ThongKeController {
     
     private ArrayList<ModelBill> getListMonth(int nam) throws SQLException {
         ArrayList<ModelBill> list = new ArrayList();
-        String sql = "SELECT MONTH(ngaylap) as thang, SUM(tien) as money FROM tbl_donhang WHERE YEAR(ngaylap) = ? GROUP BY thang";
+        String sql = "SELECT MONTH(ngaylap) as thang, SUM(tong_tien) as money FROM tbl_donhang WHERE YEAR(ngaylap) = ? GROUP BY thang";
         PreparedStatement p = con.prepareStatement(sql);
         p.setInt(1, nam);
         ResultSet r = p.executeQuery();

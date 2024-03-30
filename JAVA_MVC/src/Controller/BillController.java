@@ -107,9 +107,10 @@ public class BillController {
                             p.close();
                             p2.close();
                             tblDetail.removeAllRow();
+                            getData();
                             JOptionPane.showMessageDialog(tblBill, "Xóa đơn hàng thành công!",
                                     "Thông báo", JOptionPane.OK_OPTION);
-                            getData();
+                            
                             databaseConnection.releaseConnection(con);
                         } catch (SQLException ex) {
                             Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,8 +165,8 @@ public class BillController {
 
     private ArrayList<ModelBill> getListBill() throws SQLException {
         ArrayList<ModelBill> list = new ArrayList();
-        String sql = "SELECT id_donhang, id_khachhang, "
-                + "DATE_FORMAT(ngaylap, '%d-%m-%Y') AS Ngay, tien FROM tbl_donhang;";
+        String sql = "SELECT id_donhang, id_cus, "
+                + "DATE_FORMAT(ngaylap, '%d-%m-%Y') AS Ngay, tong_tien FROM tbl_donhang;";
         PreparedStatement p = con.prepareStatement(sql);
         ResultSet r = p.executeQuery();
         while (r.next()) {
@@ -196,7 +197,7 @@ public class BillController {
 
     private String getNameCus(int newId) throws SQLException {
         String nameCus = null;
-        String sql = "SELECT hoten FROM tbl_khachhang WHERE id = ?";
+        String sql = "SELECT hoten FROM tbl_khachhang WHERE id_cus = ?";
 
         PreparedStatement p = con.prepareStatement(sql);
         p.setInt(1, newId);
@@ -229,7 +230,7 @@ public class BillController {
     private ArrayList<ModelDetail> getListDetail(int idBill) throws SQLException {
         ArrayList<ModelDetail> list = new ArrayList();
         String sql = "SELECT id_chitiet, id_sanpham, "
-                + "soluong, tongtien FROM tbl_chitietdonhang WHERE id_donhang = ?";
+                + "soluong, tong_tien FROM tbl_chitietdonhang WHERE id_donhang = ?";
         PreparedStatement p = con.prepareStatement(sql);
         p.setInt(1, idBill);
         ResultSet r = p.executeQuery();

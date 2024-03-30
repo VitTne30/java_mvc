@@ -173,7 +173,7 @@ public class InsertModifyController {
                 if (checkEmail(email)) {
                     try {
                         //Insert customer
-                        String sql_ND = "INSERT INTO tbl_khachhang (id,hoten, sdt,email) VALUES (?,?,?,?)";
+                        String sql_ND = "INSERT INTO tbl_khachhang (id_cus,hoten, sdt,email) VALUES (?,?,?,?)";
                         PreparedStatement p = con.prepareStatement(sql_ND);
                         p.setInt(1, getMaxId());
                         p.setString(2, idmView.getTxtName().getText().trim());
@@ -216,7 +216,7 @@ public class InsertModifyController {
                 if (checkEmail(email)) {
                     try {
                         //Modify customer
-                        String sql_ND = "UPDATE tbl_khachhang SET hoten=?,sdt=?,email=? WHERE id=?";
+                        String sql_ND = "UPDATE tbl_khachhang SET hoten=?,sdt=?,email=? WHERE id_cus=?";
                         PreparedStatement p = con.prepareStatement(sql_ND);
                         p.setString(1, idmView.getTxtName().getText().trim());
                         p.setString(2, idmView.getTxtPhone().getText());
@@ -249,7 +249,7 @@ public class InsertModifyController {
     }
 
     private int getMaxId() throws SQLException {
-        PreparedStatement p = con.prepareStatement("SELECT MAX(id) as id FROM tbl_khachhang");
+        PreparedStatement p = con.prepareStatement("SELECT MAX(id_cus) as id FROM tbl_khachhang");
         ResultSet r = p.executeQuery();
         r.next();
         int id = r.getInt("id") + 1;
@@ -259,7 +259,7 @@ public class InsertModifyController {
     }
     private ModelCustomer getCustomer(int id) throws SQLException {
          ModelCustomer customer = null;
-        PreparedStatement p = con.prepareStatement("SELECT hoten,sdt,email FROM tbl_khachhang WHERE id = ?");
+        PreparedStatement p = con.prepareStatement("SELECT hoten,sdt,email FROM tbl_khachhang WHERE id_cus = ?");
         p.setInt(1, id);
         ResultSet r = p.executeQuery();
         while(r.next()){

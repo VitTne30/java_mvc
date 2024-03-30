@@ -359,12 +359,12 @@ public final class ProductController {
     private ArrayList<ModelBook> getListProductWithWords(String word) throws SQLException {
         ArrayList<ModelBook> list = new ArrayList();
         String sql = "SELECT `id_sanpham`, `ten_sanpham`, `so_luong`, `gia_tien`, `tac_gia`,"
-                + " tbl_nxb.ten_nxb, tbl_danhmuc.tendanhmuc FROM `tbl_sanpham`"
+                + " tbl_nxb.tennxb, tbl_danhmuc.tendanhmuc FROM `tbl_sanpham`"
                 + " INNER JOIN tbl_nxb ON tbl_sanpham.id_nxb = tbl_nxb.id_nxb"
                 + " INNER JOIN tbl_danhmuc ON tbl_sanpham.id_danhmuc = tbl_danhmuc.id_danhmuc"
                 + " WHERE ten_sanpham LIKE '%" + word + "%' OR tac_gia LIKE '%" + word + "%' "
                 + "OR so_luong LIKE '%" + word + "%' OR gia_tien LIKE '%" + word + "%' "
-                + "OR tbl_nxb.ten_nxb LIKE '%" + word + "%' "
+                + "OR tbl_nxb.tennxb LIKE '%" + word + "%' "
                 + "OR tbl_danhmuc.tendanhmuc LIKE '%" + word + "%';";
         ResultSet result;
         try (PreparedStatement preStmt = conn.prepareStatement(sql)) {

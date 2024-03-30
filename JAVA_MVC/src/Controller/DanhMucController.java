@@ -176,10 +176,8 @@ public class DanhMucController {
         String id = model.getValueAt(selectedRow, 0).toString();
         String check = model.getValueAt(selectedRow, 1).toString();
         
-        if(isDuplicate(tendanhmuc) == true && check != tendanhmuc){
-            JOptionPane.showMessageDialog(null, "Tên danh mục mới không được trùng");
-        }
-        else if(tendanhmuc.equals("") || mota.equals("")){
+        
+        if(tendanhmuc.equals("") || mota.equals("")){
             JOptionPane.showMessageDialog(null, "Các trường dữ liệu không được để trống");
         }
         else{
