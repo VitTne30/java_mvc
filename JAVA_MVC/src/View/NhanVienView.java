@@ -190,7 +190,7 @@ public class NhanVienView extends JPanel {
                 }
         ) {
             boolean[] canEdit = new boolean[]{
-                false, false, false, false, false, false, 
+                false, false, false, false, false, false, false, false
             };
 
             @Override

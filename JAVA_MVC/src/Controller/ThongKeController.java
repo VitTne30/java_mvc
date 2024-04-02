@@ -190,7 +190,7 @@ public class ThongKeController {
                 }
                 ExcelChart xlsChart = new ExcelChart("A15", 600, 300);
                 xlsChart.easy_setChartType(Chart.CHART_TYPE_LINE);
-                xlsChart.easy_addSeries("=Doanh thu!$B$1", "=Doanh thu!$B$2:$B$13");
+                xlsChart.easy_addSeries("=Doanh thu!$B$1", "=Doanh thu!$B$2:$B$"+(list.size()+1)+"");
                 xlsChart.easy_setCategoryXAxisLabels("=Doanh thu!$A$2:$A$13");
                 
                 ((ExcelWorksheet)workbook.easy_getSheet("Doanh thu")).easy_addChart(xlsChart);

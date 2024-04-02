@@ -108,8 +108,6 @@ public class BillController {
                             p2.close();
                             tblDetail.removeAllRow();
                             getData();
-                            JOptionPane.showMessageDialog(tblBill, "Xóa đơn hàng thành công!",
-                                    "Thông báo", JOptionPane.OK_OPTION);
                             
                             databaseConnection.releaseConnection(con);
                         } catch (SQLException ex) {
