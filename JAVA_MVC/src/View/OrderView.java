@@ -6,6 +6,7 @@ import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Label;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 
 import javax.swing.JLabel;
@@ -120,7 +121,8 @@ public class OrderView extends JPanel {
         btnAddBook = new Button();
         btnAddBook.setText("Thêm vào đơn");
         btnAddBook.setFont(chuNho);
-        btnAddBook.setBounds(450, 215, 200, 40);
+        btnAddBook.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book.png")));
+        btnAddBook.setBounds(450, 215, 250, 40);
         add(btnAddBook);
 
         tableOrder = new Table();
@@ -175,38 +177,29 @@ public class OrderView extends JPanel {
         printPDf.setFont(chuNho);
         printPDf.setBounds(10, 740, 120, 40);
         add(printPDf);
-        
+
         jcPrintPDF = new JCheckBox();
-        jcPrintPDF.setBounds(140, 740, 50, 40);       
+        jcPrintPDF.setBounds(140, 740, 50, 40);
         add(jcPrintPDF);
 
         btnAddOrder = new Button();
         btnAddOrder.setText("Tạo đơn hàng");
         btnAddOrder.setFont(chuNho);
-        btnAddOrder.setBounds(240, 740, 160, 40);
+        btnAddOrder.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_order.png")));
+        btnAddOrder.setBounds(240, 740, 250, 40);
         add(btnAddOrder);
 
         btnCancelOrder = new Button();
         btnCancelOrder.setText("Hủy đơn hàng");
+        btnCancelOrder.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/delete_bill.png")));
         btnCancelOrder.setFont(chuNho);
-        btnCancelOrder.setBounds(520, 740, 160, 40);
+        btnCancelOrder.setBounds(520, 740, 250, 40);
         add(btnCancelOrder);
 
         setVisible(true);
         this.repaint();
     }
 
-//    public static void main(String Arg[]) throws SQLException {
-//        OrderView one = new OrderView();
-//        OrderController two = new OrderController(one);
-//        JFrame jf = new JFrame();
-//        jf.setSize(800, 800);
-//        jf.setLayout(null);
-//        jf.setLocationRelativeTo(null);
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        jf.add(one);
-//        jf.setVisible(true);
-//    }
     public MainView getTwo() {
         return two;
     }

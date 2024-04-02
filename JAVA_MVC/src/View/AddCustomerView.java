@@ -18,7 +18,7 @@ public class AddCustomerView extends JFrame {
         setBounds(0, 0, 400, 400);
         setTitle("Thêm khách hàng");
         setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
         Font chuTo = new Font("Times New Roman", Font.ITALIC, 32);

@@ -9,8 +9,6 @@ import java.awt.Font;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,6 +21,7 @@ import javax.swing.table.TableColumnModel;
  * @author PV
  */
 public class ProductView extends JPanel {
+
     private JScrollPane scroll;
     private Table table_product;
     private JLabel title, name, author, id, id_nhaxb, price, number, category;
@@ -31,7 +30,7 @@ public class ProductView extends JPanel {
     private final JComboBox Jcb_category, Jcb_publisher;
 
     public ProductView() {
-        
+
         setBounds(0, 0, 800, 800);
         setVisible(true);
         Color xanh = new Color(179, 224, 255);
@@ -96,72 +95,67 @@ public class ProductView extends JPanel {
 
         name = new JLabel("Tiêu đề:");
         name.setFont(fontLB);
-        name.setBounds(285, 560, 100, 40);
+        name.setBounds(315, 560, 100, 40);
         this.add(name);
 
         author = new JLabel("Tác giả:");
         author.setFont(fontLB);
-        author.setBounds(10, 610, 80, 40);
+        author.setBounds(10, 615, 80, 40);
         this.add(author);
 
         price = new JLabel("Giá tiền:");
         price.setFont(fontLB);
-        price.setBounds(285, 610, 100, 40);
+        price.setBounds(315, 615, 100, 40);
         this.add(price);
 
         id_nhaxb = new JLabel("NXB: ");
         id_nhaxb.setFont(fontLB);
-        id_nhaxb.setBounds(10, 660, 80, 40);
+        id_nhaxb.setBounds(10, 670, 80, 40);
         this.add(id_nhaxb);
 
         category = new JLabel("Danh mục:");
         category.setFont(fontLB);
-        category.setBounds(285, 660, 80, 40);
+        category.setBounds(315, 670, 100, 40);
         this.add(category);
 
         number = new JLabel("Số lượng:");
         number.setFont(fontLB);
-        number.setBounds(10, 710, 80, 40);
+        number.setBounds(10, 725, 80, 40);
         this.add(number);
 
         jtf_id = new MyTextField();
         jtf_id.setFont(fontLB);
-        jtf_id.setHint("ID sản phẩm");
-        jtf_id.setBounds(75, 560, 200, 40);
+        jtf_id.setBounds(85, 560, 200, 40);
         this.add(jtf_id);
 
         jtf_name = new MyTextField();
         jtf_name.setFont(fontLB);
-        jtf_name.setHint("Tên sản phẩm");
-        jtf_name.setBounds(375, 560, 200, 40);
+        jtf_name.setBounds(410, 560, 220, 40);
         this.add(jtf_name);
 
         jtf_author = new MyTextField();
         jtf_author.setFont(fontLB);
-        jtf_author.setHint("Tác giả");
-        jtf_author.setBounds(75, 610, 200, 40);
+        jtf_author.setBounds(85, 615, 200, 40);
         this.add(jtf_author);
 
         jtf_price = new MyTextField();
         jtf_price.setFont(fontLB);
-        jtf_price.setHint("Nhập giá tiền");
-        jtf_price.setBounds(375, 610, 200, 40);
+        jtf_price.setBounds(410, 615, 220, 40);
         this.add(jtf_price);
 
         Jcb_publisher = new JComboBox();
         Jcb_publisher.setFont(fontLB);
-        Jcb_publisher.setBounds(75, 660, 200, 40);
+        Jcb_publisher.setBounds(85, 670, 200, 40);
         this.add(Jcb_publisher);
 
         Jcb_category = new JComboBox();
         Jcb_category.setFont(fontLB);
-        Jcb_category.setBounds(375, 660, 200, 40);
+        Jcb_category.setBounds(410, 670, 220, 40);
         this.add(Jcb_category);
 
         jtf_number = new MyTextField();
         jtf_number.setFont(fontLB);
-        jtf_number.setHint("Số lượng");
-        jtf_number.setBounds(85, 710, 190, 40);
+        jtf_number.setBounds(85, 725, 200, 40);
         this.add(jtf_number);
 
         jtf_search = new MyTextField();
@@ -175,44 +169,44 @@ public class ProductView extends JPanel {
         add = new Button();
         add.setFont(buttonF);
         add.setText("Thêm");
-        add.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book_1.png")));
-        add.setBounds(610, 510, 120, 40);
+        add.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book.png")));
+        add.setBounds(660, 515, 120, 40);
         this.add(add);
 
         change = new Button();
         change.setFont(buttonF);
         change.setText("Sửa");
-        //add.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book_1.png")));
-        change.setBounds(610, 560, 120, 40);
+        change.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/edit_book.png")));
+        change.setBounds(660, 570, 120, 40);
         this.add(change);
-
-        save = new Button();
-        save.setFont(buttonF);
-        save.setText("Lưu");
-        //add.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book_1.png")));
-        save.setBounds(610, 610, 120, 40);
-        this.add(save);
 
         delete = new Button();
         delete.setFont(buttonF);
         delete.setText("Xóa");
-        //add.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book_1.png")));
-        delete.setBounds(610, 660, 120, 40);
+        delete.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/delete_book.png")));
+        delete.setBounds(660, 625, 120, 40);
         this.add(delete);
+        
+        save = new Button();
+        save.setFont(buttonF);
+        save.setText("Lưu");
+        save.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/save_book.png")));
+        save.setBounds(660, 680, 120, 40);
+        this.add(save);
 
         put_excel = new Button();
         put_excel.setFont(buttonF);
-        put_excel.setText("Xuất Excel");
-        //add.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book_1.png")));
-        put_excel.setBounds(610, 710, 120, 40);
+        put_excel.setText("Excel");
+        put_excel.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/put_excel.png")));
+        put_excel.setBounds(660, 735, 120, 40);
         this.add(put_excel);
 
         search = new Button();
         search.setFont(buttonF);
         search.setText("Tìm kiếm");
-        //add.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/add_book_1.png")));
-        search.setBounds(450, 510, 120, 40);
-        search.setForeground(xanh);
+        search.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/search_book.png")));
+        search.setBounds(450, 510, 170, 40);
+        
         this.add(search);
 
         this.repaint();

@@ -59,15 +59,17 @@ public class AddCustomerController {
 
         });
         AView.getCancel().addActionListener((ActionEvent e) -> {
-            OView.getJtfCustomer().setText(name);
-            try {
-                getAllCustomer();
-                updateCus(arrCus.size() - 1);
-            } catch (SQLException ex) {
-                Logger.getLogger(AddCustomerController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            if (AView.getAdd().getModel().isPressed()) {
+                OView.getJtfCustomer().setText(name);
+                try {
+                    getAllCustomer();
+                    updateCus(arrCus.size() - 1);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AddCustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-            OView.getAddNewCustomer().setText("Thêm");
+                OView.getAddNewCustomer().setText("Thêm");
+            }
             AView.dispose();
         });
     }
@@ -126,7 +128,7 @@ public class AddCustomerController {
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet result = stmt.executeQuery();
         while (result.next()) {
-            ModelCustomer temp = new ModelCustomer(result.getInt("id"),
+            ModelCustomer temp = new ModelCustomer(result.getInt("id_cus"),
                     result.getString("hoten"));
             arrCus.add(temp);
         }
