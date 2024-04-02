@@ -5,8 +5,6 @@ import Swing.MyPasswordField;
 import Swing.MyTextField;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -49,7 +47,7 @@ public class ForgetView extends JFrame {
         findAcc = new MyTextField();
         findAcc.setBounds(50, 105, 300, 40);
         findAcc.setBackground(Color.white);
-        findAcc.setHint("Nhập tài khoản cần tìm...");
+        findAcc.setHint("Nhập email tài khoản cần tìm...");
         add(findAcc);
         //errorLb
         errorLb = new JLabel("", JLabel.LEFT);

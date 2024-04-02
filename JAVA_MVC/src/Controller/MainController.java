@@ -38,15 +38,12 @@ public class MainController {
         this.mainView = newView;
         //Role
         inUseUser = mainView.getLoginUser();
-        if ("Admin".equals(inUseUser.getRole())) {
-//            mainView.getMenuAdmin().setVisible(true);
-//            mainView.getMenuStaff().setVisible(false);
+        if ("Quản lý".equals(inUseUser.getRole())) {
             mainView.add(mainView.getMenuAdmin());
             mainView.addMainGui();
             adminService();
-        } else if ("Staff".equals(inUseUser.getRole())) {
-//            mainView.getMenuStaff().setVisible(true);
-//            mainView.getMenuAdmin().setVisible(false);
+        } else if ("Nhân viên".equals(inUseUser.getRole())) {
+
             mainView.add(mainView.getMenuStaff());
             mainView.addMenuStaff();
             staffService();

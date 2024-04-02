@@ -31,7 +31,7 @@ public class DataConnection {
     }
 
     private static class ConnectionPool {
-        private static final int MAX_CONNECTIONS = 4;
+        private static final int MAX_CONNECTIONS = 10;
         private Connection[] connections;
         private boolean[] isConnectionInUse;
 

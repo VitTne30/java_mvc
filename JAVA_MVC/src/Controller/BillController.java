@@ -28,6 +28,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -101,7 +103,7 @@ public class BillController {
                             p.execute();
                             //
                             String sql2 = "DELETE FROM tbl_chitietdonhang WHERE id_donhang = ?";
-                            PreparedStatement p2 = con.prepareStatement(sql);
+                            PreparedStatement p2 = con.prepareStatement(sql2);
                             p2.setInt(1, cusId);
                             p2.execute();
                             p.close();
@@ -133,8 +135,6 @@ public class BillController {
             public void actionPerformed(ActionEvent e) {
                 TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
                 tblBill.setRowSorter(sorter);
-
-                // Sort by the second column (Name)
                 sorter.setSortKeys(java.util.List.of(new RowSorter.SortKey(1, SortOrder.ASCENDING)));
                 sorter.sort();
             }
@@ -143,11 +143,9 @@ public class BillController {
         billView.getBtnSortNum().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get the TableRowSorter from the table
                 TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
                 tblBill.setRowSorter(sorter);
 
-                // Sort by the third column (Age) using a Comparator for integers
                 sorter.setComparator(2, new Comparator<Integer>() {
                     @Override
                     public int compare(Integer o1, Integer o2) {
@@ -263,6 +261,12 @@ public class BillController {
         choose.setDialogTitle("Lưu Excel");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx");
         choose.setFileFilter(filter);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(choose);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         int select = choose.showSaveDialog(null);
 
         if (select == JFileChooser.APPROVE_OPTION) {

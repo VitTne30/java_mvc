@@ -40,7 +40,7 @@ public class NhanVienController {
     private Connection con;
     private Table tblNhanvien;
     private ArrayList<ModelUser> listNV = new ArrayList<>();
-    private String[] arr = {"Admin", "Staff"};
+    private String[] arr = {"Quản lý", "Nhân viên"};
     
     public NhanVienController(NhanVienView newNV) throws SQLException {
         databaseConnection = DataConnection.getInstance();

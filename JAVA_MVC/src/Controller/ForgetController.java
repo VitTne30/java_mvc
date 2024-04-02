@@ -63,7 +63,7 @@ public class ForgetController {
                     forgetView.getRePass().setEchoChar((char) 0);
                 } else {
                     forgetView.getRePass().setSuffixIcon(hide);
-                    forgetView.getRePass().setEchoChar(pas);
+                    forgetView.getRePass().setEchoChar(pas2);
                 }
             }
         });
@@ -81,7 +81,7 @@ public class ForgetController {
             public void actionPerformed(ActionEvent e) {
                 String newPass = String.valueOf(forgetView.getNewPass().getPassword());
                 String rePass = String.valueOf(forgetView.getRePass().getPassword());
-                if (checkName()) {
+                if (checkMail()) {
                     if (newPass != null && newPass.equals(rePass)) {
                         try {
                             String sql_ND = "UPDATE tbl_taikhoan SET matkhau=? WHERE id=?";
@@ -98,7 +98,7 @@ public class ForgetController {
                             Logger.getLogger(ForgetController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(forgetView, "Xác nhận mật khẩu không đúng!",
+                        JOptionPane.showMessageDialog(forgetView, "Xác nhận mật khẩu chưa chính xác!",
                                 "Thông báo", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -107,9 +107,9 @@ public class ForgetController {
         });
     }
 
-    private boolean checkName() {
+    private boolean checkMail() {
         try {
-            String sql = "SELECT * FROM tbl_taikhoan WHERE tentaikhoan=?";
+            String sql = "SELECT * FROM tbl_taikhoan WHERE email=?";
             PreparedStatement p = con.prepareStatement(sql);
             p.setString(1, forgetView.getFindAcc().getText());
             ResultSet r = p.executeQuery();

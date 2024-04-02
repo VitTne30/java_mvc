@@ -25,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -215,6 +217,12 @@ public class CustomerController {
         choose.setDialogTitle("Lưu Excel");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx");
         choose.setFileFilter(filter);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(choose);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         int select = choose.showSaveDialog(null);
 
         if (select == JFileChooser.APPROVE_OPTION) {
@@ -264,7 +272,12 @@ public class CustomerController {
         choose.setDialogTitle("Lưu Excel");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx");
         choose.setFileFilter(filter);
-
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(choose);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         int select = choose.showSaveDialog(null);
         String path = null;
         if (select == JFileChooser.APPROVE_OPTION) {
@@ -275,6 +288,12 @@ public class CustomerController {
 
         workbook.easy_LoadXLSFile(path);
         FileInputStream file = new FileInputStream(path);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(choose);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         EasyXLS.Util.Objects.Internal.ResultSet rs = (EasyXLS.Util.Objects.Internal.ResultSet) workbook.easy_ReadXLSXSheet_AsResultSet(file, "Sheet1");
         /////
         int columnCount = rs.getMetaData().getColumnCount();

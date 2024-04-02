@@ -5,8 +5,6 @@ import Swing.ImageLogo;
 import Swing.MyTextField;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
