@@ -1,8 +1,5 @@
 package Controller;
 
-import Controller.AddCustomerController;
-import Controller.BillController;
-import Controller.MainController;
 import DbConnection.DataConnection;
 import Model.ModelBook;
 import Model.ModelCustomer;
@@ -10,6 +7,9 @@ import Swing.Table;
 import View.AddCustomerView;
 import View.BillView;
 import View.OrderView;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -27,6 +27,14 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.Paper;
+import static java.awt.print.Printable.NO_SUCH_PAGE;
+import static java.awt.print.Printable.PAGE_EXISTS;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import javax.swing.ImageIcon;
 
 public class OrderController {
 
@@ -45,16 +53,21 @@ public class OrderController {
     private SimpleDateFormat simpleDate;
     private boolean checkClickProduct = false;
     private boolean checkClickBook = false;
+    private ArrayList<ModelBook> detailOrder;
+    private double bHeight = 0.0;
 
     public OrderController(OrderView ov) throws SQLException {
         this.OView = ov;
         db = DataConnection.getInstance();
         conn = (Connection) db.getConnection();
         table = OView.getTableOrder();
-        getAllCustomer();
-        getAllProduct();
         OView.getJtfIdOrder().setEditable(false);
         id_order = getId();
+        detailOrder = new ArrayList<>();
+        arrCus = new ArrayList<>();
+        arrBook = new ArrayList<>();
+        getAllCustomer();
+        getAllProduct();
         OView.getJtfIdOrder().setText(id_order + "");
 
         OView.getJtfCustomer().addMouseListener(new MouseListener() {
@@ -199,7 +212,6 @@ public class OrderController {
                 }
 
             }
-
         });
 
         OView.getJtfNumber().addKeyListener(new KeyListener() {
@@ -219,6 +231,16 @@ public class OrderController {
                     int temp_price = Integer.parseInt(OView.getJtfNumber().getText())
                             * arrBook.get(index_book).getPrice();
                     OView.getJtfPrice().setText(temp_price + "");
+                }
+
+                if (!OView.getJtfNumber().getText().equals("")) {
+                    int soLuong = Integer.parseInt(OView.getJtfNumber().getText());
+                    int soLuongDangCo = arrBook.get(index_book).getNumber();
+                    if (soLuong > soLuongDangCo) {
+                        JOptionPane.showMessageDialog(OView,
+                                "Số lượng sách đang có là " + soLuongDangCo + ". Vui lòng nhập số bé hơn hoặc bằng! ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        OView.getJtfNumber().setText("");
+                    }
                 }
             }
         });
@@ -264,6 +286,8 @@ public class OrderController {
                 String sql = "INSERT INTO `tbl_chitietdonhang`(`id_donhang`, `id_sanpham`, `soluong`, `tong_tien`) "
                         + "VALUES ('" + id_order + "','" + arrBook.get(index_book).getId() + "',"
                         + "'" + number + "','" + price + "')";
+                ModelBook temp = new ModelBook(arrBook.get(index_book).getName(), arrBook.get(index_book).getId(), number, price);
+                detailOrder.add(temp);
                 PreparedStatement stmt;
                 try {
                     stmt = conn.prepareStatement(sql);
@@ -279,6 +303,7 @@ public class OrderController {
                         OView.getJtfProduct().setText("");
                         OView.getJtfPrice().setText("");
                         OView.getJtfNumber().setText("");
+                        getAllProduct();
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
@@ -290,32 +315,39 @@ public class OrderController {
         OView.getBtnAddOrder().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                long millis = System.currentTimeMillis();
-                java.sql.Date date = new java.sql.Date(millis);
-                String totalPrice = OView.getJtfTotalPrice().getText();
-
-                String sql = "UPDATE `tbl_donhang` SET `ngaylap`='" + date + "',"
-                        + "`tong_tien`='" + totalPrice + "' WHERE id_donhang = '" + id_order + "';";
-                PreparedStatement stmt;
-                try {
-                    stmt = conn.prepareStatement(sql);
-
-                    int affectefRow = stmt.executeUpdate();
-                    if (affectefRow > 0) {
-                        OView.getTwo().getChangePanel().removeAll();
-                        BillView billView = new BillView();
-                        try {
-                            BillController billSer = new BillController(billView);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        OView.getTwo().getChangePanel().add(billView);
-                        OView.getTwo().getChangePanel().revalidate();
-                        OView.getTwo().getChangePanel().repaint();
+                if (table.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(OView, "Vui lòng thêm 1 sản phẩm vào đơn hàng!",
+                            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    long millis = System.currentTimeMillis();
+                    java.sql.Date date = new java.sql.Date(millis);
+                    String totalPrice = OView.getJtfTotalPrice().getText();
+                    if (OView.getJcPrintPDF().isSelected()) {
+                        print();
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+                    String sql = "UPDATE `tbl_donhang` SET `ngaylap`='" + date + "',"
+                            + "`tong_tien`='" + totalPrice + "' WHERE id_donhang = '" + id_order + "';";
+
+                    PreparedStatement stmt;
+                    try {
+                        stmt = conn.prepareStatement(sql);
+                        updateSoLuong();
+                        int affectefRow = stmt.executeUpdate();
+                        if (affectefRow > 0) {
+                            OView.getTwo().getChangePanel().removeAll();
+                            BillView billView = new BillView();
+                            try {
+                                BillController billSer = new BillController(billView);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            OView.getTwo().getChangePanel().add(billView);
+                            OView.getTwo().getChangePanel().revalidate();
+                            OView.getTwo().getChangePanel().repaint();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
             }
@@ -337,6 +369,29 @@ public class OrderController {
         });
         clockThread.start();
 
+    }
+
+    private void updateSoLuong() throws SQLException {
+
+        PreparedStatement stmt = null;
+        int soluong = 0;
+        for (int i = 0; i < detailOrder.size(); i++) {
+            soluong = getSoLuong(detailOrder.get(i).getId()) - detailOrder.get(i).getNumber();
+            String sql = "UPDATE `tbl_sanpham` SET `so_luong`='" + soluong + "'"
+                    + " WHERE `id_sanpham`='" + detailOrder.get(i).getId() + "';";
+            stmt = conn.prepareStatement(sql);
+            stmt.execute();
+        }
+        stmt.close();
+    }
+
+    private int getSoLuong(int id) {
+        for (int i = 0; i < arrBook.size(); i++) {
+            if (id == arrBook.get(i).getId()) {
+                return arrBook.get(i).getNumber();
+            }
+        }
+        return -1;
     }
 
     private boolean checkProduct(String book) {
@@ -378,22 +433,27 @@ public class OrderController {
     }
 
     private void getAllProduct() throws SQLException {
-        arrBook = new ArrayList<>();
-        String sql = "SELECT `id_sanpham`, `ten_sanpham`, `gia_tien` FROM `tbl_sanpham`";
+        arrBook.clear();
+        String sql = "SELECT `id_sanpham`, `ten_sanpham`, `gia_tien`,`so_luong` FROM `tbl_sanpham`";
         ResultSet result;
         PreparedStatement stmt = conn.prepareStatement(sql);
         result = stmt.executeQuery();
         while (result.next()) {
             ModelBook temp = new ModelBook(result.getString("ten_sanpham"),
-                    result.getInt("id_sanpham"), result.getInt("gia_tien"));
+                    result.getInt("id_sanpham"), result.getInt("so_luong"), result.getInt("gia_tien"));
             arrBook.add(temp);
+        }
+        for (int i = 0; i < arrBook.size(); i++) {
+            if (arrBook.get(i).getNumber() == 0) {
+                arrBook.remove(i);
+            }
         }
         result.close();
         stmt.close();
     }
 
     private void getAllCustomer() throws SQLException {
-        arrCus = new ArrayList<>();
+        arrCus.clear();
         String sql = "SELECT id_cus, hoten FROM tbl_khachhang;";
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet result = stmt.executeQuery();
@@ -430,5 +490,100 @@ public class OrderController {
         result.close();
         return -1;
     }
+    
+    private void print(){
+        bHeight = Double.valueOf(detailOrder.size());
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        pj.setPrintable(new BillPrintable(),pageFormat(pj));
+        try{
+            pj.print();
+        }catch(PrinterException e){
+            e.printStackTrace();
+        }
+    }
+    
+    private PageFormat pageFormat(PrinterJob pj) {
+        PageFormat pf = pj.defaultPage();
+        Paper paper = pf.getPaper();
 
+        double bodyHeight = bHeight;
+        double headerHeight = 10.0;
+        double footerHeight = 10.0;
+        double witdh = cm_to_pp(20);
+        double height = cm_to_pp(headerHeight + bodyHeight + footerHeight);
+        paper.setSize(witdh, height);
+        paper.setImageableArea(0, 10, witdh, height - cm_to_pp(1));
+
+        pf.setOrientation(PageFormat.PORTRAIT);
+        pf.setPaper(paper);
+
+        return pf;
+    }
+
+    private static double cm_to_pp(double cm) {
+        return toPPI(cm * 0.393600787);
+    }
+
+    private static double toPPI(double inch) {
+        return inch * 72d;
+    }
+
+    public class BillPrintable implements Printable {
+
+        @Override
+        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+            int r = detailOrder.size();
+            ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/bookstore.png"));
+            int result = NO_SUCH_PAGE;
+            if (pageIndex == 0) {
+                Graphics2D g2d = (Graphics2D) graphics;
+                double witdh = pageFormat.getImageableWidth();
+                g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
+
+                try {
+                    int y = 30;
+                    int yShift = 20;
+                    int headerRectHeight = 30;
+                    int dot = 20; int dot2 =18;
+                    g2d.setFont(new Font("Arial", Font.BOLD, 20));
+                    g2d.drawImage(icon.getImage(), 150, 20, 60, 60, OView);
+                    y += yShift + 50;
+                    g2d.drawString("----------------------------------------------------", dot, y);y += yShift;
+                    g2d.drawString("                   Book Store                       ", dot, y);y += yShift;
+                    g2d.drawString("  No "+id_order+" Address 01 Ha Noi                       ", dot, y);y += yShift;
+                    g2d.drawString("  Address 02 Ho Chi Minh                            ", dot, y);y += yShift;
+                    g2d.drawString("  www.facebook.com/nhanampublishing                 ", dot, y);y += yShift;
+                    g2d.drawString("----------------------------------------------------", dot, y);y += headerRectHeight;
+                    
+                    g2d.drawString("  Item                                  Price",dot,y);y += yShift;
+                    g2d.drawString("----------------------------------------------------", dot, y);y += headerRectHeight;
+                    for(int i = 0; i < detailOrder.size();i++){
+                        g2d.drawString("  " +detailOrder.get(i).getName()+ "                          ",dot,y);y += yShift;
+                        g2d.drawString("  Quantity: "+detailOrder.get(i).getNumber()+"                    "+detailOrder.get(i).getPrice(),dot,y);y += yShift;
+                    }
+                    
+                    g2d.drawString("-----------------------------------------------------", dot, y);y += yShift;
+                    g2d.drawString("  Total price:                         "+OView.getJtfTotalPrice().getText() +" VND",dot,y);y += yShift;
+                    g2d.drawString("-----------------------------------------------------", dot, y);y += yShift;
+                    g2d.drawString("  Discount:                                     0.0 %",dot,y);y += yShift;
+                    g2d.drawString("-----------------------------------------------------", dot, y);y += yShift;
+                    g2d.drawString("  Price:                               "+OView.getJtfTotalPrice().getText() +" VND",dot,y);y += yShift;
+                    
+                    g2d.drawString("*---------------------------------------------------*",dot,y);y += yShift;
+                    g2d.drawString("        Thank you come agian!!                       ",dot,y);y += yShift;
+                    g2d.drawString("*---------------------------------------------------*",dot,y);y += yShift;
+                    g2d.drawString("        Have a good day!!                            ",dot,y); y += yShift;
+                    g2d.drawString("*---------------------------------------------------*",dot,y);y += yShift;
+                    g2d.drawString("        Contact: 012345789                           ",dot,y);y += yShift;
+
+                    result = PAGE_EXISTS;                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return result;
+        }
+
+    }
 }

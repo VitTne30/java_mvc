@@ -23,9 +23,15 @@ public class ModelBook {
         this.id = id;
         this.price = price;
     }
-    
-    
-    
+
+    public ModelBook(String name, int id, int number, int price) {
+        this.name = name;
+        this.id = id;
+        this.number = number;
+        this.price = price;
+        
+    }
+
     public String getName() {
         return name;
     }

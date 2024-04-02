@@ -1,13 +1,13 @@
 package View;
 
-import Controller.OrderController;
 import Swing.Button;
 import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
-import java.sql.SQLException;
-import javax.swing.JFrame;
+import java.awt.Label;
+import javax.swing.JCheckBox;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,12 +17,14 @@ import javax.swing.table.TableColumnModel;
 
 public class OrderView extends JPanel {
 
-    private JLabel title, idOrder, customer, product, number, lbDateTime, dateTime, totalPrice, noticeCus, noticeProduct;
+    private JLabel title, idOrder, customer, product, number, lbDateTime, dateTime, totalPrice, noticeCus, noticeProduct, printPDf;
     private Button btnAddBook, btnAddOrder, btnCancelOrder, addNewCustomer;
     private Table tableOrder;
     private JScrollPane scroll;
     private MyTextField jtfIdOrder, jtfCustomer, jtfNumber, jtfPrice, jtfTotalPrice, jtfProduct;
     private MainView two;
+    private JCheckBox jcPrintPDF;
+
     public OrderView(MainView one) {
         this.two = one;
         setLayout(null);
@@ -82,7 +84,7 @@ public class OrderView extends JPanel {
         jtfProduct.setFont(chuNho);
         jtfProduct.setBounds(130, 140, 200, 40);
         add(jtfProduct);
-        
+
         noticeProduct = new JLabel("");
         noticeProduct.setFont(new Font("Time news roman", Font.CENTER_BASELINE, 14));
         noticeProduct.setBounds(130, 175, 200, 20);
@@ -169,16 +171,25 @@ public class OrderView extends JPanel {
         jtfTotalPrice.setBounds(670, 675, 110, 30);
         add(jtfTotalPrice);
 
+        printPDf = new JLabel("Xuất PDF:");
+        printPDf.setFont(chuNho);
+        printPDf.setBounds(10, 740, 120, 40);
+        add(printPDf);
+        
+        jcPrintPDF = new JCheckBox();
+        jcPrintPDF.setBounds(140, 740, 50, 40);       
+        add(jcPrintPDF);
+
         btnAddOrder = new Button();
         btnAddOrder.setText("Tạo đơn hàng");
         btnAddOrder.setFont(chuNho);
-        btnAddOrder.setBounds(160, 710, 160, 40);
+        btnAddOrder.setBounds(240, 740, 160, 40);
         add(btnAddOrder);
 
         btnCancelOrder = new Button();
         btnCancelOrder.setText("Hủy đơn hàng");
         btnCancelOrder.setFont(chuNho);
-        btnCancelOrder.setBounds(480, 710, 160, 40);
+        btnCancelOrder.setBounds(520, 740, 160, 40);
         add(btnCancelOrder);
 
         setVisible(true);
@@ -196,13 +207,16 @@ public class OrderView extends JPanel {
 //        jf.add(one);
 //        jf.setVisible(true);
 //    }
-
     public MainView getTwo() {
         return two;
     }
 
     public void setTwo(MainView two) {
         this.two = two;
+    }
+
+    public JCheckBox getJcPrintPDF() {
+        return jcPrintPDF;
     }
 
     public JLabel getDateTime() {
@@ -216,7 +230,6 @@ public class OrderView extends JPanel {
     public JLabel getNoticeProduct() {
         return noticeProduct;
     }
-
 
     public Button getBthAddBook() {
         return btnAddBook;
