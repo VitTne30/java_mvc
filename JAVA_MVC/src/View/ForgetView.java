@@ -27,7 +27,6 @@ public class ForgetView extends JFrame {
 
     public ForgetView() {
         super("Quên mật khẩu");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 400);
         setLocationRelativeTo(null);
         setResizable(false);

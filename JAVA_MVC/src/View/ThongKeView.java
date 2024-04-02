@@ -114,6 +114,14 @@ public class ThongKeView extends JPanel{
     public void setCboNam(JComboBox cboNam) {
         this.cboNam = cboNam;
     }
+
+    public Button getBtnExcel() {
+        return btnExcel;
+    }
+
+    public void setBtnExcel(Button btnExcel) {
+        this.btnExcel = btnExcel;
+    }
     
     
 }
