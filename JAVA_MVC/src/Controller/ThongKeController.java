@@ -11,6 +11,7 @@ import EasyXLS.ExcelWorksheet;
 import Model.ModelBill;
 import Swing.Table;
 import View.ThongKeView;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,17 +20,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -54,10 +57,10 @@ public class ThongKeController {
         chartPanel = dtView.getChartPanel();
         cboNam = dtView.getCboNam();
         
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = year; i >= year - 5; i--)
-            cboNam.addItem(i);
-        
+        for (int nam : getYear()) {
+            cboNam.addItem(nam);
+        }
+            
         chartPanel.setChart(createLineChart());
         String dt = String.valueOf(getDtNgay(Integer.parseInt(cboNam.getSelectedItem() + "")));
         dtView.getTxtDt().setText(dt);
@@ -121,11 +124,39 @@ public class ThongKeController {
                 "Biểu đồ doanh thu".toUpperCase(),
 
 
-                "Tháng", "Vnđ (đ)", createDataset(),
+                "Tháng", "Đồng", createDataset(),
 
 
                 PlotOrientation.VERTICAL, false, false, false);
+        CategoryPlot plot = lineChart.getCategoryPlot();
+      
+        Font lfont = new Font("SansSerif", Font.PLAIN, 14);
+        Font tfont = new Font("SansSerif", Font.BOLD, 18);
+        
+        plot.getDomainAxis().setLabelFont(tfont);
+        plot.getDomainAxis().setTickLabelFont(lfont);
+        
+        plot.getRangeAxis().setLabelFont(tfont);
+        plot.getRangeAxis().setTickLabelFont(lfont);
+            
+        
         return lineChart;
+    }
+    
+    private ArrayList<Integer> getYear() throws SQLException {
+        ArrayList<Integer> list = new ArrayList();
+        String sql = "SELECT YEAR(ngaylap) as nam FROM tbl_donhang GROUP BY nam DESC";
+        PreparedStatement p = con.prepareStatement(sql);
+        
+        ResultSet r = p.executeQuery();
+        while (r.next()) {
+            int date = r.getInt(1);
+            list.add(date);
+        }
+        p.close();
+        r.close();
+        databaseConnection.releaseConnection(con);
+        return list;
     }
     
     private ArrayList<ModelBill> getListMonth(int nam) throws SQLException {
@@ -159,6 +190,12 @@ public class ThongKeController {
         choose.setDialogTitle("Lưu Excel");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx");
         choose.setFileFilter(filter);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(choose);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         int select = choose.showSaveDialog(null);
 
@@ -188,7 +225,7 @@ public class ThongKeController {
                         xlsTable.easy_getCell(row + 1, col).setDataType(DataType.NUMERIC);
                     }
                 }
-                ExcelChart xlsChart = new ExcelChart("A15", 600, 300);
+                ExcelChart xlsChart = new ExcelChart("D1", 600, 300);
                 xlsChart.easy_setChartType(Chart.CHART_TYPE_LINE);
                 xlsChart.easy_addSeries("=Doanh thu!$B$1", "=Doanh thu!$B$2:$B$"+(list.size()+1)+"");
                 xlsChart.easy_setCategoryXAxisLabels("=Doanh thu!$A$2:$A$13");

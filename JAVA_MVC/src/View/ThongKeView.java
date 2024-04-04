@@ -73,11 +73,12 @@ public class ThongKeView extends JPanel{
         
         txtDt.setBounds(180, 700, 300, 50);
         txtDt.setFont(buttonFont);
+        txtDt.setEditable(false);
         this.add(txtDt);
         
         btnExcel.setBounds(600, 700, 120, 50);
         btnExcel.setFont(buttonFont);
-        btnExcel.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/excelout.png")));
+        btnExcel.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/excel.png")));
         btnExcel.setText("Excel");
         this.add(btnExcel);
 
