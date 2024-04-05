@@ -49,6 +49,7 @@ public class AddCustomerController {
                         if (affectedRow > 0) {
                             JOptionPane.showMessageDialog(AView, "Thêm khách hàng thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             stmt.close();
+                            db.releaseConnection(conn);
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(AddCustomerController.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,6 +85,7 @@ public class AddCustomerController {
             JOptionPane.showMessageDialog(OView, "Cập nhập đơn hàng không thành công!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         stmt.close();
+        db.releaseConnection(conn);
     }
 
     private boolean validateEmail(String email) {
@@ -119,6 +121,7 @@ public class AddCustomerController {
         }
         stmt.close();
         result.close();
+        db.releaseConnection(conn);
         return id;
     }
 
@@ -134,6 +137,7 @@ public class AddCustomerController {
         }
         result.close();
         stmt.close();
+        db.releaseConnection(conn);
     }
 
     private boolean validateNumberPhone(String sdt) {
