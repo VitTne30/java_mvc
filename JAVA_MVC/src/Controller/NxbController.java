@@ -153,7 +153,9 @@ public class NxbController {
         String diachi = nxbView.getTxtDiachi().getText();
 
         try {
-            if (!tennxb.isEmpty() || !sdt.isEmpty() || !diachi.isEmpty()) {
+            if (tennxb.isEmpty() || sdt.isEmpty() || diachi.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập đủ thông tin!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            } else {
                 if (isDuplicate(tennxb) == true) {
                     JOptionPane.showMessageDialog(null, "Tên nhà xuất bản đã tồn tại!");
                 } else {
@@ -166,8 +168,6 @@ public class NxbController {
                     p.close();
                     getData();
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Vui lòng nhập đủ thông tin!", "Thông báo", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
