@@ -55,7 +55,6 @@ public class AccountController {
                 accView.removeAll();
                 accView.setBackground(new Color(240,240,240));
                 accView.add(changeView);
-                changeView.setVisible(true);
                 accView.revalidate();
                 accView.repaint();
                 databaseConnection.releaseConnection(con);

@@ -40,20 +40,6 @@ public class InsertModifyController {
         //
         idmView.getTxtId().setText(String.valueOf(getMaxId()));
         //
-        idmView.getTxtPhone().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                String text = idmView.getTxtPhone().getText();
-                if (!Character.isDigit(c)) {
-                    e.consume();
-                    return;
-                }
-                if (text.length() >= 10) {
-                    e.consume();
-                }
-            }
-        });
         ////insert component
         idmView.getBtnConfirm().addActionListener(new ActionListener() {
             @Override
@@ -110,20 +96,6 @@ public class InsertModifyController {
         idmView.getTxtPhone().setText(fillCus.getPhone());
         idmView.getTxtEmail().setText(fillCus.getEmail());
         //
-        idmView.getTxtPhone().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                String text = idmView.getTxtPhone().getText();
-                if (!Character.isDigit(c)) {
-                    e.consume();
-                    return;
-                }
-                if (text.length() >= 10) {
-                    e.consume();
-                }
-            }
-        });
         ////modify component
         idmView.getBtnConfirm().addActionListener(new ActionListener() {
             @Override
@@ -270,7 +242,6 @@ public class InsertModifyController {
         }
         r.close();
         p.close();
-        
         return customer;
     }
     

@@ -29,43 +29,12 @@ public class LoginController {
     private DataConnection databaseConnection;
     private LoginView loginView;
     private final Connection con;
-    private char pas;
-    private Icon show,hide;
 
     public LoginController(LoginView newLoginView) throws SQLException {
         databaseConnection = DataConnection.getInstance();
-        this.loginView = newLoginView;
-
         con = (Connection) databaseConnection.getConnection();
-
+        this.loginView = newLoginView;
         //
-        pas = loginView.getPassField().getEchoChar();
-        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
-        show = new ImageIcon(getClass().getResource("/Icon/show.png"));
-        loginView.getPassField().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (loginView.getPassField().getSuffixIcon().equals(hide)) {
-                    loginView.getPassField().setSuffixIcon(show);
-                    loginView.getPassField().setEchoChar((char) 0);
-                } else {
-                    loginView.getPassField().setSuffixIcon(hide);
-                    loginView.getPassField().setEchoChar(pas);
-                }
-            }
-        });
-        //
-        loginView.getBtnForget().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                loginView.getBtnForget().setForeground(Color.BLUE);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                loginView.getBtnForget().setForeground(new Color(245, 245, 245));
-            }
-        });
         //LoginComponent
         loginView.getBtnLogin().addActionListener(new ActionListener() {
             @Override
@@ -123,8 +92,6 @@ public class LoginController {
     private void forgetPassComponent() throws SQLException {
         ForgetView newFview = new ForgetView();
         ForgetController newFService = new ForgetController(newFview);
-        newFview.setVisible(true);
-
     }
 
 }

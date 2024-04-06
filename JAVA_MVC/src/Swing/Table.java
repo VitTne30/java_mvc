@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,11 +16,13 @@ public class Table extends JTable {
         setRowHeight(40);
         getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
                 TableHeader header = new TableHeader(value + "");
                 return header;
             }
         });
+        getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -49,11 +52,12 @@ public class Table extends JTable {
         dm.getDataVector().removeAllElements();
         revalidate();
     }
-    public int getFirstCol_RowSelected(int row){
-        row=Math.max(row, 0);
+
+    public int getFirstCol_RowSelected(int row) {
+        row = Math.max(row, 0);
         int id;
         DefaultTableModel dm = (DefaultTableModel) getModel();
-        id=(Integer)dm.getValueAt(row, 0);
+        id = (Integer) dm.getValueAt(row, 0);
         return id;
     }
 }

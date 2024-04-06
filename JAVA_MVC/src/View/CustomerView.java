@@ -5,6 +5,8 @@ import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,15 +22,16 @@ import javax.swing.table.TableColumnModel;
  */
 public class CustomerView extends JPanel {
 
-    private JLabel titleLb, numberLb, listLb, dateLb,line;
+    private JLabel titleLb, numberLb, listLb, dateLb, line;
     private MyTextField searchField;
-    private Button btnAdd, btnRemove, btnModify,btnExcel,btnImport;
+    private Button btnAdd, btnRemove, btnModify, btnExcel, btnImport;
     private Table tblCus;
     private JScrollPane jScrollPane1;
+    private SimpleDateFormat simpleDate;
 
     public CustomerView() {
         setLayout(null);
-        
+
         setBounds(0, 0, 800, 800);
         //
         addCusGUI();
@@ -48,13 +51,28 @@ public class CustomerView extends JPanel {
         numberLb.setBounds(0, 50, 285, 40);
         add(numberLb);
         //Time
-        
-        
+
         ImageIcon icon2 = new ImageIcon(getClass().getResource("/Icon/cal.png"));
-        dateLb = new JLabel( "", icon2, SwingConstants.RIGHT);
+        dateLb = new JLabel("", icon2, SwingConstants.RIGHT);
         dateLb.setHorizontalTextPosition(SwingConstants.LEFT);
         dateLb.setBounds(400, 0, 400, 40);
         dateLb.setFont(new Font("sansserif", 1, 15));
+        Thread clockThread = new Thread(() -> {
+            while (true) {
+                Date currentTime = new Date();
+                simpleDate = new SimpleDateFormat("dd - MM - YYYY   HH:mm:ss");
+                String time = simpleDate.format(currentTime);
+                //
+                dateLb.setText(time);
+                //
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        clockThread.start();
         add(dateLb);
         //Black line
         line = new JLabel();
@@ -99,7 +117,7 @@ public class CustomerView extends JPanel {
         btnExcel = new Button();
         btnExcel.setFont(new Font("sansserif", 1, 14));
         btnExcel.setText("Xuất Excel");
-        btnExcel.setBackground(new Color(240,240,240));
+        btnExcel.setBackground(new Color(240, 240, 240));
         btnExcel.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/excel.png")));
         btnExcel.setBounds(638, 745, 140, 40);
         add(btnExcel);
@@ -107,7 +125,7 @@ public class CustomerView extends JPanel {
         btnImport = new Button();
         btnImport.setFont(new Font("sansserif", 1, 14));
         btnImport.setText("Nhập Excel");
-        btnImport.setBackground(new Color(240,240,240));
+        btnImport.setBackground(new Color(240, 240, 240));
         btnImport.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/import.png")));
         btnImport.setBounds(468, 745, 140, 40);
         add(btnImport);
@@ -146,6 +164,7 @@ public class CustomerView extends JPanel {
         jScrollPane1.getViewport().setBackground(Color.WHITE);
         add(jScrollPane1);
     }
+
     public JLabel getNumberLb() {
         return numberLb;
     }
@@ -189,7 +208,5 @@ public class CustomerView extends JPanel {
     public JLabel getDateLb() {
         return dateLb;
     }
-    
-    
 
 }

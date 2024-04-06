@@ -5,6 +5,8 @@ import Swing.MyPasswordField;
 import Swing.MyTextField;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -20,7 +22,8 @@ public class ForgetView extends JFrame {
     private MyTextField findAcc;
     private MyPasswordField newPass, rePass;
     private Button btnBack, btnConfirm;
-    private Icon show;
+    private char pas,pas2;
+    private Icon hide,show;
 
     public ForgetView() {
         super("Quên mật khẩu");
@@ -29,9 +32,10 @@ public class ForgetView extends JFrame {
         setResizable(false);
         setLayout(null);
         //
-        show = new ImageIcon(getClass().getResource("/Icon/show.png"));
-        //
+        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
+        show = new ImageIcon(getClass().getResource("/Icon/show.png"));        //
         addGUI();
+        setVisible(true);
         //
     }
 
@@ -61,6 +65,20 @@ public class ForgetView extends JFrame {
         newPass.setHint("Nhập mật khẩu mới...");
         newPass.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
         newPass.setSuffixIcon(show);
+
+        pas = newPass.getEchoChar();
+        newPass.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (newPass.getSuffixIcon().equals(hide)) {
+                    newPass.setSuffixIcon(show);
+                    newPass.setEchoChar((char) 0);
+                } else {
+                    newPass.setSuffixIcon(hide);
+                    newPass.setEchoChar(pas);
+                }
+            }
+        });
         add(newPass);
         //RePass
         rePass = new MyPasswordField();
@@ -69,6 +87,19 @@ public class ForgetView extends JFrame {
         rePass.setHint("Xác nhận mật khẩu...");
         rePass.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
         rePass.setSuffixIcon(show);
+        pas2 = rePass.getEchoChar();
+        rePass.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (rePass.getSuffixIcon().equals(hide)) {
+                    rePass.setSuffixIcon(show);
+                    rePass.setEchoChar((char) 0);
+                } else {
+                    rePass.setSuffixIcon(hide);
+                    rePass.setEchoChar(pas2);
+                }
+            }
+        });
         add(rePass);
         //ButtonBack
         btnBack = new Button();

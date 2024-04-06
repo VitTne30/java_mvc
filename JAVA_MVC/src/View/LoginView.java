@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,8 +26,9 @@ import javax.swing.JPanel;
 public class LoginView extends JFrame {
 
     private JPanel login;
-    private Icon show;
-    private ImageLogo logo; //Logo nhà hàng
+    private char pas;
+    private Icon show,hide;
+    private ImageLogo logo;
     private JLabel titleName;
     private JLabel storeName;
     private JLabel description, des2;
@@ -86,7 +89,22 @@ public class LoginView extends JFrame {
         passField.setHint("Mật khẩu ...");
         passField.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/pass.png")));
         passField.setSuffixIcon(show);
-        
+        pas = passField.getEchoChar();
+        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
+        show = new ImageIcon(getClass().getResource("/Icon/show.png"));
+        passField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (passField.getSuffixIcon().equals(hide)) {
+                    passField.setSuffixIcon(show);
+                    passField.setEchoChar((char) 0);
+                } else {
+                    passField.setSuffixIcon(hide);
+                    passField.setEchoChar(pas);
+                }
+            }
+        });
+        //
         login.add(passField);
         //ForgetPass
         btnForget = new JButton("Quên mật khẩu của bạn?");
@@ -130,7 +148,7 @@ public class LoginView extends JFrame {
         des2 = new JLabel("Cống hiến hết mình", JLabel.CENTER);
         des2.setForeground(new Color(245, 245, 245));
         des2.setFont(new Font("sansserif", 1, 18));
-        des2.setBounds(65, 320, 180, 40);
+        des2.setBounds(72, 320, 180, 40);
         login.add(des2);
 
     }

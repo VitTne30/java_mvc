@@ -24,12 +24,12 @@ public class MainView extends JFrame {
 
     private JPanel menuAdmin, menuStaff, changePanel;
     private ModelUser loginUser;
-    private JLabel infoLb, roleLb, sInfoLb, sRoleLb, line, sLine;
+    private JLabel infoLb, roleLb, sInfoLb, sRoleLb, line;
     private Button btnInfo, btnExit, btnLogout, btnStaff,
             btnProduct, btnRevenue, btnAuthor, btnCate, btnOrder, btnCustomer, btnCreate;
     private Button sbtnInfo, sbtnExit, sbtnLogout, sbtnOrder, sbtnCustomer, sbtnCreate;
 
-    private ImageLogo mainLogo, sMainLogo;
+    private ImageLogo mainLogo;
 
     public MainView(ModelUser newUser) throws SQLException {
         super("Cửa hàng sách");
@@ -84,14 +84,7 @@ public class MainView extends JFrame {
 
         changePanel.setVisible(true);
         add(changePanel);
-        //
-//        addMainGui();
-    }
 
-    public static void main(String[] args) throws SQLException {
-        MainView newMain = new MainView();
-        MainController mainSer = new MainController(newMain);
-        newMain.setVisible(true);
     }
 
     public MainView() throws SQLException {
@@ -284,12 +277,12 @@ public class MainView extends JFrame {
         sbtnOrder.setBounds(10, 180, 280, 40);
         menuStaff.add(sbtnOrder);
         //Button Create
-        sbtnCreate = new Button();
-        sbtnCreate.setFont(new Font("sansserif", 1, 15));
-        sbtnCreate.setText("Tạo đơn");
+        btnCreate = new Button();
+        btnCreate.setFont(new Font("sansserif", 1, 15));
+        btnCreate.setText("Tạo đơn");
 //        btnCreate.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/staff.png")));
-        sbtnCreate.setBounds(50, 600, 200, 40);
-        menuStaff.add(sbtnCreate);
+        btnCreate.setBounds(50, 600, 200, 40);
+        menuStaff.add(btnCreate);
 
         ///////////////////////////////
         //Label Info
@@ -309,19 +302,19 @@ public class MainView extends JFrame {
         sbtnInfo.setBounds(10, 712, 280, 40);
         menuStaff.add(sbtnInfo);
         //Button Logout
-        sbtnLogout = new Button();
-        sbtnLogout.setFont(new Font("sansserif", 1, 15));
-        sbtnLogout.setText("Đăng xuất");
-        sbtnLogout.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/logout.png")));
-        sbtnLogout.setBounds(10, 760, 130, 40);
-        menuStaff.add(sbtnLogout);
+        btnLogout = new Button();
+        btnLogout.setFont(new Font("sansserif", 1, 15));
+        btnLogout.setText("Đăng xuất");
+        btnLogout.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/logout.png")));
+        btnLogout.setBounds(10, 760, 130, 40);
+        menuStaff.add(btnLogout);
         //Button Exit
-        sbtnExit = new Button();
-        sbtnExit.setFont(new Font("sansserif", 1, 15));
-        sbtnExit.setText("Thoát");
-        sbtnExit.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/exit.png")));
-        sbtnExit.setBounds(160, 760, 130, 40);
-        menuStaff.add(sbtnExit);
+        btnExit = new Button();
+        btnExit.setFont(new Font("sansserif", 1, 15));
+        btnExit.setText("Thoát");
+        btnExit.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/exit.png")));
+        btnExit.setBounds(160, 760, 130, 40);
+        menuStaff.add(btnExit);
     }
 
     public JPanel getMenuAdmin() {

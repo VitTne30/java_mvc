@@ -4,6 +4,8 @@ import Swing.Button;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +26,7 @@ public class BillView extends JPanel {
     private Button  btnRemove, btnExcel,btnSort,btnSortNum;
     private Table tblBill,tblDetail;
     private JScrollPane jScrollBill,jScrollDetail;
+    private SimpleDateFormat simpleDate;
 
     public BillView() {
         setLayout(null);
@@ -56,13 +59,27 @@ public class BillView extends JPanel {
         numberLb.setBounds(0, 50, 285, 40);
         add(numberLb);
         //Time
-        
-        
         ImageIcon icon2 = new ImageIcon(getClass().getResource("/Icon/cal.png"));
         dateLb = new JLabel( "", icon2, SwingConstants.RIGHT);
         dateLb.setHorizontalTextPosition(SwingConstants.LEFT);
         dateLb.setBounds(400, 0, 400, 40);
         dateLb.setFont(new Font("sansserif", 1, 15));
+        Thread clockThread = new Thread(() -> {
+            while (true) {
+                Date currentTime = new Date();
+                simpleDate = new SimpleDateFormat("dd - MM - YYYY   HH:mm:ss");
+                String time = simpleDate.format(currentTime);
+                //
+                dateLb.setText(time);
+                //
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        clockThread.start();
         add(dateLb);
         //Black line
         line = new JLabel();
@@ -233,13 +250,4 @@ public class BillView extends JPanel {
     public void setBtnSortNum(Button btnSortNum) {
         this.btnSortNum = btnSortNum;
     }
-
-    public JLabel getDateLb() {
-        return dateLb;
-    }
-
-    public void setDateLb(JLabel dateLb) {
-        this.dateLb = dateLb;
-    }
-    
 }

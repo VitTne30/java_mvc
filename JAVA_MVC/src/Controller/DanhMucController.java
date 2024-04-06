@@ -139,7 +139,6 @@ public class DanhMucController {
         PreparedStatement p = con.prepareStatement(query);
         p.setString(1, tendanhmuc);
         ResultSet r = p.executeQuery();
-        
         return r.next();
     }
     
@@ -155,7 +154,6 @@ public class DanhMucController {
         }
         else{
             ModelDanhMuc danhmuc = new ModelDanhMuc(tendanhmuc, mota);
-            
             String query = "INSERT INTO tbl_danhmuc (tendanhmuc, mota) VALUES (?, ?)";
             PreparedStatement p = con.prepareStatement(query);
             p.setString(1, tendanhmuc);
