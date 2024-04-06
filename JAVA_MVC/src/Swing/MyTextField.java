@@ -12,7 +12,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
-//Custom JTextField
 public class MyTextField extends JTextField {
 
     public String getHint() {
@@ -95,13 +94,10 @@ public class MyTextField extends JTextField {
     private void initBorder() {
         int left = 15;
         int right = 15;
-        //  5 is default
         if (prefixIcon != null) {
-            //  prefix is left
             left = prefixIcon.getIconWidth() + 15;
         }
         if (suffixIcon != null) {
-            //  suffix is right
             right = suffixIcon.getIconWidth() + 15;
         }
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, left, 10, right));

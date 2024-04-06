@@ -20,7 +20,6 @@ public class ForgetView extends JFrame {
     private MyTextField findAcc;
     private MyPasswordField newPass, rePass;
     private Button btnBack, btnConfirm;
-    private char pas;
     private Icon show;
 
     public ForgetView() {
@@ -109,10 +108,6 @@ public class ForgetView extends JFrame {
 
     public Button getBtnConfirm() {
         return btnConfirm;
-    }
-    
-    public static void main(String[] args) {
-        new ForgetView().setVisible(true);
     }
 
 }

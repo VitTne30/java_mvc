@@ -11,7 +11,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-//Custom Icon cho JLabel
+
 public class ImageLogo extends JComponent {
     
     private int w,h;
@@ -29,7 +29,6 @@ public class ImageLogo extends JComponent {
     
     @Override
     protected void paintComponent(Graphics g) {
-        //Draw Image
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         Rectangle size=getAutoSize(icon);
@@ -37,7 +36,7 @@ public class ImageLogo extends JComponent {
         super.paintComponent(g); 
     }
     
-    //Fix kích thước ảnh
+
     private Rectangle getAutoSize(Icon image){
         
         int iw=image.getIconWidth();
@@ -60,6 +59,4 @@ public class ImageLogo extends JComponent {
         this.w = i;
         this.h = i0;
     }
-
-
 }

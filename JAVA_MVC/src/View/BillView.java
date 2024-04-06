@@ -165,16 +165,16 @@ public class BillView extends JPanel {
             }
         });
         TableColumnModel columnModel2 = tblDetail.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(150);
-        columnModel.getColumn(1).setPreferredWidth(250);
-        columnModel.getColumn(2).setPreferredWidth(200);
-        columnModel.getColumn(3).setPreferredWidth(200);
-        for (int i = 0; i < columnModel.getColumnCount(); i++) {
-            TableColumn column = columnModel.getColumn(i);
+        columnModel2.getColumn(0).setPreferredWidth(150);
+        columnModel2.getColumn(1).setPreferredWidth(250);
+        columnModel2.getColumn(2).setPreferredWidth(200);
+        columnModel2.getColumn(3).setPreferredWidth(200);
+        for (int i = 0; i < columnModel2.getColumnCount(); i++) {
+            TableColumn column = columnModel2.getColumn(i);
             column.setResizable(false);
         }
         JTableHeader header2 = tblDetail.getTableHeader();
-        header.setReorderingAllowed(false);
+        header2.setReorderingAllowed(false);
         jScrollDetail.setViewportView(tblDetail);
         jScrollDetail.setBounds(0, 600, 800, 200);
         jScrollDetail.getViewport().setBackground(Color.WHITE);

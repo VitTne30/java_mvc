@@ -46,7 +46,6 @@ public class NxbView extends JPanel {
     private Button btnClear = new Button();
     private Button btnExcel = new Button();
     Table tblNxb;
-    DefaultTableModel model;
 
     Font buttonFont = new Font("Arial", Font.BOLD, 14);
     Font TitleFont = new Font("Arial", Font.BOLD, 20);
@@ -154,7 +153,7 @@ public class NxbView extends JPanel {
                 }
         ) {
             boolean[] canEdit = new boolean[]{
-                false, false, false
+                false, false, false,false
             };
 
             @Override

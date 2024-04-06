@@ -5,7 +5,6 @@ import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Label;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 
@@ -271,5 +270,4 @@ public class OrderView extends JPanel {
     public MyTextField getJtfPrice() {
         return jtfPrice;
     }
-
 }

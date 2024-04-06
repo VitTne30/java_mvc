@@ -8,11 +8,7 @@ import java.awt.RenderingHints;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-//Custom JButton
 public class ButtonOutLine extends JButton {
-
-
-
     public ButtonOutLine() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(5, 0, 5, 0));

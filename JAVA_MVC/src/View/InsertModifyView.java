@@ -116,18 +116,6 @@ public class InsertModifyView extends JPanel {
         btnCancel.setBounds(175, 475, 130, 40);
         add(btnCancel);
     }
-    public static void main(String[] args) {
-        JFrame jf = new JFrame();
-        jf.setSize(800, 800);
-        jf.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        jf.setLocationRelativeTo(null);
-        jf.setResizable(false);
-        jf.setLayout(null);
-        //
-        InsertModifyView idm =  new InsertModifyView();
-        jf.add(idm);
-        jf.setVisible(true);
-    }
 
     public JLabel getTitleLb() {
         return titleLb;

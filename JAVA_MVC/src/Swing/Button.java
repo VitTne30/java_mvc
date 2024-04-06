@@ -20,7 +20,6 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-//Custom Button
 public class Button extends JButton {
 
     private Icon prefixIcon;
@@ -132,13 +131,10 @@ public class Button extends JButton {
     private void initBorder() {
         int left = 15;
         int right = 15;
-        //  5 is default
         if (prefixIcon != null) {
-            //  prefix is left
             left = prefixIcon.getIconWidth() + 15;
         }
         if (suffixIcon != null) {
-            //  suffix is right
             right = suffixIcon.getIconWidth() + 15;
         }
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, left, 10, right));

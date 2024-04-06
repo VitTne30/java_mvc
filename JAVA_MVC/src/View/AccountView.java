@@ -182,17 +182,6 @@ public class AccountView extends JPanel {
         add(btnChangepass);
     }
 
-//    public static void main(String[] args) {
-//        AccountView acc = new AccountView();
-//        JFrame jf = new JFrame();
-//        jf.setSize(800, 800);
-//        jf.setLayout(null);
-//        jf.setLocationRelativeTo(null);
-//        jf.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        jf.add(acc);
-//        jf.setVisible(true);
-//    }
-
     public MyTextField getIdLb() {
         return idLb;
     }
@@ -272,7 +261,4 @@ public class AccountView extends JPanel {
     public void setUser(ModelUser user) {
         this.user = user;
     }
-    
-    
-
 }
