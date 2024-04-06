@@ -15,7 +15,7 @@ public class JAVA_MVC {
      */
     public static void main(String[] args) throws SQLException {
         LoginView lgView = new LoginView();
-        LoginController loginManager = new LoginController(lgView);
+        LoginController loginCon = new LoginController(lgView);
         lgView.setVisible(true);
     }
     

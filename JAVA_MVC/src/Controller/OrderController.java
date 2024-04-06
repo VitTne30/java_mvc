@@ -36,6 +36,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import javax.swing.ImageIcon;
 
+
 public class OrderController {
 
     private final DataConnection db;
@@ -270,7 +271,6 @@ public class OrderController {
                         OView.getTwo().getChangePanel().add(billView);
                         OView.getTwo().getChangePanel().revalidate();
                         OView.getTwo().getChangePanel().repaint();
-
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);

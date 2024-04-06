@@ -57,7 +57,6 @@ public class MainController {
             staffService();
         }
         ///////
-        ///////
         //ButtonLogout
         mainView.getBtnLogout().addActionListener(new ActionListener() {
             @Override
@@ -87,7 +86,6 @@ public class MainController {
                 }
             }
         });
-        //ShowBill
         mainView.getBtnOrder().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,7 +109,7 @@ public class MainController {
                 mainView.getChangePanel().removeAll();
                 OrderView orderView = new OrderView(mainView);
                 try {
-                    OrderController dmSer = new OrderController(orderView);
+                    OrderController orCon = new OrderController(orderView);
                 } catch (SQLException ex) {
                     Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -201,7 +199,6 @@ public class MainController {
                 databaseConnection.releaseConnection(con);
             }
         });
-        
     }
 ////////////////////////
 
@@ -251,8 +248,6 @@ public class MainController {
         //
         nxbView = new NxbView();
         NxbController nxbSer = new NxbController(nxbView);
-        //
-        //
         
     }
 
@@ -262,8 +257,6 @@ public class MainController {
         //
         cusView = new CustomerView();
         CustomerController cusSer = new CustomerController(cusView);
-        //
 
-        
     }
 }
