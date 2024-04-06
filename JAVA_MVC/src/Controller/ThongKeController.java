@@ -1,4 +1,3 @@
-
 package Controller;
 
 import DbConnection.DataConnection;
@@ -36,10 +35,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-/**
- *
- * @author haqan
- */
 public class ThongKeController {
     private DataConnection databaseConnection;
     private Connection con;

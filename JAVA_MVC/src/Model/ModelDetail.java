@@ -1,9 +1,5 @@
 package Model;
 
-/**
- *
- * @author ADMIN
- */
 public class ModelDetail {
     private int idDetail;
     private int idBill;

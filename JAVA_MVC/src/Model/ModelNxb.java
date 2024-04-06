@@ -6,10 +6,6 @@ public class ModelNxb {
     private String sdt;
     private String diaChi;
     
-    public ModelNxb(){
-        
-    }
-    
     public ModelNxb(int maNxb, String tenNxb, String sdt, String diaChi){
         this.maNxb = maNxb;
         this.tenNxb = tenNxb;

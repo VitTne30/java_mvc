@@ -1,7 +1,6 @@
 package Model;
 
 public class ModelBook {
-
     private String name, author, publisher, category;
     private int id, number, price;
 

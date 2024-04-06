@@ -98,5 +98,4 @@ public class AddCustomerView extends JFrame {
     public Button getCancel() {
         return cancel;
     }
-
 }

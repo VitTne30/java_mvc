@@ -27,6 +27,4 @@ public class ModelCategory {
         this.id_category = id_category;
         this.name_category = name_category;
     }
-   
-   
 }

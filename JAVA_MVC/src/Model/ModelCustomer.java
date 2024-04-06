@@ -48,7 +48,5 @@ public class ModelCustomer {
     public ModelCustomer(int id, String Name) {
         this.id = id;
         this.Name = Name;
-    }
-    
-    
+    }   
 }

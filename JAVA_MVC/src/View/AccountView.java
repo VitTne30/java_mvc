@@ -11,10 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/**
- *
- * @author ADMIN
- */
 public class AccountView extends JPanel {
 
     private JLabel titleLb, titleAccLb, line,line2, lb1, lb2,

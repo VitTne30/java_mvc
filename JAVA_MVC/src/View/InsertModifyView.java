@@ -8,15 +8,9 @@ import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-/**
- *
- * @author ADMIN
- */
 public class InsertModifyView extends JPanel {
 
     private JLabel titleLb, lb1, lb2, lb3, lb4;

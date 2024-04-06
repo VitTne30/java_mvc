@@ -6,7 +6,6 @@
 -- Generation Time: Apr 06, 2024 at 01:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";

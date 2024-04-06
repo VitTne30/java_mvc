@@ -16,10 +16,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-/**
- *
- * @author ADMIN
- */
+
 public class CustomerView extends JPanel {
 
     private JLabel titleLb, numberLb, listLb, dateLb, line;

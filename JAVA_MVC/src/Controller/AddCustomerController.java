@@ -57,7 +57,6 @@ public class AddCustomerController {
 
                 }
             }
-
         });
         AView.getCancel().addActionListener((ActionEvent e) -> {
             if (AView.getAdd().getModel().isPressed()) {

@@ -1,9 +1,5 @@
 package Model;
 
-/**
- *
- * @author ADMIN
- */
 public class ModelUser {
     private int userId;
     private String userName;

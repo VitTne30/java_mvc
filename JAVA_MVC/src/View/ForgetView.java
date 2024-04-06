@@ -12,10 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-/**
- *
- * @author ADMIN
- */
+
 public class ForgetView extends JFrame {
 
     private JLabel forgetLb, errorLb;

@@ -1,7 +1,6 @@
 package Controller;
 
 import DbConnection.DataConnection;
-
 import Model.ModelUser;
 import View.AccountView;
 import View.ChangePassView;

@@ -36,7 +36,6 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import javax.swing.ImageIcon;
 
-
 public class OrderController {
 
     private final DataConnection db;

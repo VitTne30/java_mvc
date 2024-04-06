@@ -52,7 +52,6 @@ public class BillController {
         //
         getData();
         billView.getNumberLb().setText("Tổng số đơn hàng: " + listBill.size());
-        
         //
         tblBill.addMouseListener(new MouseAdapter() {
             @Override

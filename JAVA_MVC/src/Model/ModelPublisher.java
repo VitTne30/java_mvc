@@ -27,6 +27,4 @@ public class ModelPublisher {
         this.id_publisher = id_publisher;
         this.name_publisher = name_publisher;
     }
-    
-    
 }

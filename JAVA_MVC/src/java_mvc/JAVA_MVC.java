@@ -4,10 +4,6 @@ import Controller.LoginController;
 import View.LoginView;
 import java.sql.SQLException;
 
-/**
- *
- * @author ADMIN
- */
 public class JAVA_MVC {
 
     /**

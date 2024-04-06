@@ -110,7 +110,6 @@ public class Button extends JButton {
         super.paintComponent(grphcs);
         paintIcon(grphcs);
     }
-
     private void paintIcon(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         if (prefixIcon != null) {

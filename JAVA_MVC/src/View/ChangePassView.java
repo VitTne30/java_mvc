@@ -9,15 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
-/**
- *
- * @author ADMIN
- */
 public class ChangePassView extends JPanel {
 
     private JLabel titleLb, lbMessage, line, line1;

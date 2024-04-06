@@ -17,10 +17,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-/**
- *
- * @author admin
- */
 public class BillView extends JPanel {
     private JLabel titleLb, numberLb, listLb, dateLb, line;
     private Button  btnRemove, btnExcel,btnSort,btnSortNum;

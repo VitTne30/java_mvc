@@ -15,10 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- *
- * @author ADMIN
- */
 public class MainView extends JFrame {
 
     private JPanel menuAdmin, menuStaff, changePanel;

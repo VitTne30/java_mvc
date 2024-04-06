@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class Table extends JTable {
-
     public Table() {
         setShowHorizontalLines(true);
         setGridColor(new Color(230, 230, 230));

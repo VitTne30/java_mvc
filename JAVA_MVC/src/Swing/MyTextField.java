@@ -1,4 +1,3 @@
-
 package Swing;
 
 import java.awt.Color;

@@ -11,7 +11,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-
 public class ImageLogo extends JComponent {
     
     private int w,h;

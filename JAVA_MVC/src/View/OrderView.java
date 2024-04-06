@@ -15,7 +15,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 public class OrderView extends JPanel {
-
     private JLabel title, idOrder, customer, product, number, lbDateTime, dateTime, totalPrice, noticeCus, noticeProduct, printPDf;
     private Button btnAddBook, btnAddOrder, btnCancelOrder, addNewCustomer;
     private Table tableOrder;
