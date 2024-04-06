@@ -9,6 +9,10 @@ import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
@@ -102,6 +106,14 @@ public class NxbView extends JPanel {
 
         txtSdt.setBounds(150, 550, 300, 30);
         txtSdt.setFont(buttonFont);
+        txtSdt.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if (txtSdt.getText().length() >= 10)
+                {
+                    e.consume();
+                }
+            }
+        });
         this.add(txtSdt);
 
         lblDiachi.setBounds(50, 600, 150, 30);
@@ -137,9 +149,18 @@ public class NxbView extends JPanel {
         btnClear.setText("Xóa trắng");
         this.add(btnClear);
 
+        btnClear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtTen.setText("");
+                txtSdt.setText("");
+                txtDiachi.setText("");
+            }
+        });
+
         btnExcel.setBounds(640, 680, 120, 50);
         btnExcel.setFont(buttonFont);
-        btnExcel.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/excelout.png")));
+        btnExcel.setPrefixIcon(new ImageIcon(getClass().getResource("/Icon/excel.png")));
         btnExcel.setText("Excel");
         this.add(btnExcel);
 
@@ -153,7 +174,7 @@ public class NxbView extends JPanel {
                 }
         ) {
             boolean[] canEdit = new boolean[]{
-                false, false, false,false
+                false, false, false, false
             };
 
             @Override
@@ -240,14 +261,6 @@ public class NxbView extends JPanel {
 
     public void setBtnXoa(Button btnXoa) {
         this.btnXoa = btnXoa;
-    }
-
-    public Button getBtnClear() {
-        return btnClear;
-    }
-
-    public void setBtnClear(Button btnClear) {
-        this.btnClear = btnClear;
     }
 
     public Button getBtnExcel() {

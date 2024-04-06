@@ -5,6 +5,8 @@ import Swing.ImageLogo;
 import Swing.MyTextField;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,13 +18,14 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
  * @author ADMIN
  */
 public class InsertModifyView extends JPanel {
-    private JLabel titleLb,lb1,lb2,lb3,lb4;
-    private JLabel line,line2;
-    private MyTextField txtId,txtName,txtPhone,txtEmail;
+
+    private JLabel titleLb, lb1, lb2, lb3, lb4;
+    private JLabel line, line2;
+    private MyTextField txtId, txtName, txtPhone, txtEmail;
     private Button btnConfirm, btnCancel;
     private ImageLogo imgCus;
-    
-    public InsertModifyView(){
+
+    public InsertModifyView() {
         setLayout(null);
         setBounds(0, 125, 800, 550);
         //
@@ -30,8 +33,8 @@ public class InsertModifyView extends JPanel {
         setBackground(Color.WHITE);
         setVisible(true);
     }
-    
-    private void addInsertGUI(){
+
+    private void addInsertGUI() {
         //Title
         ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/customer.png"));
         titleLb = new JLabel("Thêm khách hàng", icon, JLabel.LEFT);
@@ -87,6 +90,20 @@ public class InsertModifyView extends JPanel {
         txtPhone = new MyTextField();
         txtPhone.setFont(new Font("sansserif", 1, 18));
         txtPhone.setBounds(440, 311, 315, 40);
+        txtPhone.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                String text = txtPhone.getText();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                    return;
+                }
+                if (text.length() >= 10) {
+                    e.consume();
+                }
+            }
+        });
         add(txtPhone);
         //txtEmail
         txtEmail = new MyTextField();
@@ -172,6 +189,5 @@ public class InsertModifyView extends JPanel {
     public void setBtnCancel(Button btnCancel) {
         this.btnCancel = btnCancel;
     }
-    
-    
+
 }

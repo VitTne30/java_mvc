@@ -6,16 +6,12 @@ import View.ForgetView;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,45 +25,14 @@ public class ForgetController {
     private ForgetView forgetView;
     private boolean found = false;
     private ModelUser u;
-    private char pas,pas2;
-    private Icon hide,show;
+
 
     public ForgetController(ForgetView newForgetView) throws SQLException {
         databaseConnection = DataConnection.getInstance();
         con = (Connection) databaseConnection.getConnection();
 
         this.forgetView = newForgetView;
-        //
-        hide = new ImageIcon(getClass().getResource("/Icon/hide.png"));
-        show = new ImageIcon(getClass().getResource("/Icon/show.png"));
-        pas = forgetView.getNewPass().getEchoChar();
-        forgetView.getNewPass().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (forgetView.getNewPass().getSuffixIcon().equals(hide)) {
-                    forgetView.getNewPass().setSuffixIcon(show);
-                    forgetView.getNewPass().setEchoChar((char) 0);
-                } else {
-                    forgetView.getNewPass().setSuffixIcon(hide);
-                    forgetView.getNewPass().setEchoChar(pas);
-                }
-            }
-        });
-        //
-        pas2 = forgetView.getRePass().getEchoChar();
-        forgetView.getRePass().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (forgetView.getRePass().getSuffixIcon().equals(hide)) {
-                    forgetView.getRePass().setSuffixIcon(show);
-                    forgetView.getRePass().setEchoChar((char) 0);
-                } else {
-                    forgetView.getRePass().setSuffixIcon(hide);
-                    forgetView.getRePass().setEchoChar(pas2);
-                }
-            }
-        });
-        //
+
         forgetView.getBtnBack().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

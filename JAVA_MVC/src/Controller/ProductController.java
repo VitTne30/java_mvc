@@ -121,7 +121,7 @@ public final class ProductController {
                     PView.getJtf_id().setText(Integer.toString(arrBook.get(i).getId()));
                     PView.getJtf_price().setText(Integer.toString(arrBook.get(i).getPrice()));
                     PView.getJcb_category().setSelectedIndex(idCategoryWithCategory(arrBook.get(i).getCategory()));
-                    PView.getJcb_publisher().setSelectedIndex(idPublisherWithPublisher(arrBook.get(i).getPublisher()) );
+                    PView.getJcb_publisher().setSelectedIndex(idPublisherWithPublisher(arrBook.get(i).getPublisher()));
                 }
             }
 
@@ -218,6 +218,8 @@ public final class ProductController {
             } else {
                 state = "Nothing";
             }
+            stmt.close();
+            db.releaseConnection(conn);
         }
     }
 
@@ -290,7 +292,8 @@ public final class ProductController {
             } else {
                 showMessengerError("Thêm sản phẩm không thành công!");
             }
-
+            db.releaseConnection(conn);
+            preStmt.close();
         }
     }
 
@@ -325,6 +328,8 @@ public final class ProductController {
             } else {
                 showMessengerError("Thay đổi thông tin sản phẩm không thành công");
             }
+            stmt.close();
+            db.releaseConnection(conn);
         }
     }
 
@@ -352,6 +357,7 @@ public final class ProductController {
             }
         }
         result.close();
+        db.releaseConnection(conn);
         return list;
     }
 
@@ -383,6 +389,7 @@ public final class ProductController {
             }
         }
         result.close();
+        db.releaseConnection(conn);
         return list;
     }
 
@@ -454,6 +461,7 @@ public final class ProductController {
                 arrCategory.add(temp);
                 this.PView.getJcb_category().addItem(name);
             }
+            preStmt.close();
         }
         sql = "SELECT `id_nxb`, `tennxb` FROM `tbl_nxb`";
 
@@ -467,7 +475,9 @@ public final class ProductController {
                 arrPublisher.add(temp);
                 this.PView.getJcb_publisher().addItem(name);
             }
+            preStmt.close();
         }
+        db.releaseConnection(conn);        
         one.close();
     }
 

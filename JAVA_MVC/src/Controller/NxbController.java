@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Controller;
 
 import DbConnection.DataConnection;
@@ -21,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -100,13 +99,6 @@ public class NxbController {
             }
         });
 
-        nxbView.getBtnClear().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Clear();
-            }
-        });
-
         nxbView.getBtnExcel().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -161,18 +153,27 @@ public class NxbController {
         String sdt = nxbView.getTxtSdt().getText();
         String diachi = nxbView.getTxtDiachi().getText();
 
-        if (isDuplicate(tennxb) == true) {
-            JOptionPane.showMessageDialog(null, "Tên nhà xuất bản đã tồn tại!");
-        } else {
-            String query = "INSERT INTO tbl_nxb (tennxb, sdt, diachi) VALUES (?, ?, ?)";
-            PreparedStatement p = con.prepareStatement(query);
-            p.setString(1, tennxb);
-            p.setString(2, sdt);
-            p.setString(3, diachi);
-            p.executeUpdate();
+        try {
+            if (!tennxb.isEmpty() || !sdt.isEmpty() || !diachi.isEmpty()) {
+                if (isDuplicate(tennxb) == true) {
+                    JOptionPane.showMessageDialog(null, "Tên nhà xuất bản đã tồn tại!");
+                } else {
+                    String query = "INSERT INTO tbl_nxb (tennxb, sdt, diachi) VALUES (?, ?, ?)";
+                    PreparedStatement p = con.prepareStatement(query);
+                    p.setString(1, tennxb);
+                    p.setString(2, sdt);
+                    p.setString(3, diachi);
+                    p.executeUpdate();
+                    p.close();
+                    getData();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập đủ thông tin!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+
         }
-        getData();
-        Clear();
     }
 
     public void updateDanhmuc() throws SQLException {
@@ -183,39 +184,54 @@ public class NxbController {
         int selectedRow = nxbView.getTblNxb().getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) nxbView.getTblNxb().getModel();
-        String id = model.getValueAt(selectedRow, 0).toString();
+        try {
+            if (tblNxb.getSelectedRow() >= 0) {
+                String id = model.getValueAt(selectedRow, 0).toString();
 
-        String query = "UPDATE tbl_nxb SET tennxb =? , sdt =?, diachi =? WHERE id_nxb =?";
-        PreparedStatement p = con.prepareStatement(query);
-        p.setString(1, tennxb);
-        p.setString(2, sdt);
-        p.setString(3, diachi);
-        p.setString(4, id);
-
-        p.executeUpdate();
-        getData();
-
+                String query = "UPDATE tbl_nxb SET tennxb =? , sdt =?, diachi =? WHERE id_nxb =?";
+                PreparedStatement p = con.prepareStatement(query);
+                p.setString(1, tennxb);
+                p.setString(2, sdt);
+                p.setString(3, diachi);
+                p.setString(4, id);
+                p.executeUpdate();
+                p.close();
+                getData();
+            } else {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà xuất bản!",
+                        "Thông báo", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NxbController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void deleteNxb() throws SQLException {
         int selectedRow = nxbView.getTblNxb().getSelectedRow();
 
         DefaultTableModel model = (DefaultTableModel) nxbView.getTblNxb().getModel();
-        int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+        if (tblNxb.getSelectedRow() >= 0) {
+            int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+            String name = model.getValueAt(selectedRow, 1).toString();
 
-        String query = "DELETE FROM tbl_nxb WHERE id_nxb = ?";
-        PreparedStatement p = con.prepareStatement(query);
-        p.setInt(1, id);
-        p.executeUpdate();
-
-        getData();
-        Clear();
-    }
-
-    public void Clear() {
-        nxbView.getTxtTen().setText("");
-        nxbView.getTxtSdt().setText("");
-        nxbView.getTxtDiachi().setText("");
+            int result = JOptionPane.showConfirmDialog(nxbView, "Bạn có chắc chắn muốn xóa nhà xuất bản: " + name + " ?",
+                    "Thông báo", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                try {
+                    String query = "DELETE FROM tbl_nxb WHERE id_nxb = ?";
+                    PreparedStatement p = con.prepareStatement(query);
+                    p.setInt(1, id);
+                    p.executeUpdate();
+                    p.close();
+                    getData();
+                } catch (SQLException ex) {
+                    Logger.getLogger(NxbController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà xuất bản!",
+                    "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void getData() throws SQLException {

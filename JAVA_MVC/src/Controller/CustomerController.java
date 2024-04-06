@@ -18,9 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -41,7 +39,6 @@ public class CustomerController {
     private CustomerView cusView;
     private Table tableNv;
     private ArrayList<ModelCustomer> listCus = new ArrayList<>();
-    private SimpleDateFormat simpleDate;
 
     public CustomerController(CustomerView newMS) throws SQLException {
         databaseConnection = DataConnection.getInstance();
@@ -52,22 +49,6 @@ public class CustomerController {
         getData();
         ////
         cusView.getNumberLb().setText("Tổng số khách hàng đăng ký: " + listCus.size());
-        Thread clockThread = new Thread(() -> {
-            while (true) {
-                Date currentTime = new Date();
-                simpleDate = new SimpleDateFormat("dd - MM - YYYY   HH:mm:ss");
-                String time = simpleDate.format(currentTime);
-                //
-                cusView.getDateLb().setText(time);
-                //
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        clockThread.start();
         ////Search
         cusView.getSearchField().addActionListener(new ActionListener() {
             @Override
@@ -302,20 +283,11 @@ public class CustomerController {
             for (int column = 1; column <= columnCount; column++) {
                 if (row > 0) {
                     switch (column) {
-                        case 1:
-                            id = Integer.parseInt(rs.getString(column));
-                            break;
-                        case 2:
-                            name = rs.getString(column);
-                            break;
-                        case 3:
-                            phone = rs.getString(column);
-                            break;
-                        case 4:
-                            email = rs.getString(column);
-                            break;
-                        default:
-                            throw new AssertionError();
+                        case 1 -> id = Integer.parseInt(rs.getString(column));
+                        case 2 -> name = rs.getString(column);
+                        case 3 -> phone = rs.getString(column);
+                        case 4 -> email = rs.getString(column);
+                        default -> throw new AssertionError();
                     }
                 }
 

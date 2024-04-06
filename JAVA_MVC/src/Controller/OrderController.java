@@ -259,6 +259,7 @@ public class OrderController {
                         stmt.executeUpdate();
                         JOptionPane.showMessageDialog(OView, "Hủy đơn hàng thành công!",
                                 "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        db.releaseConnection(conn);
                         OView.getTwo().getChangePanel().removeAll();
                         BillView billView = new BillView();
                         try {
@@ -304,6 +305,7 @@ public class OrderController {
                         OView.getJtfPrice().setText("");
                         OView.getJtfNumber().setText("");
                         getAllProduct();
+                        db.releaseConnection(conn);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
@@ -334,6 +336,7 @@ public class OrderController {
                         updateSoLuong();
                         int affectefRow = stmt.executeUpdate();
                         if (affectefRow > 0) {
+                            db.releaseConnection(conn);
                             OView.getTwo().getChangePanel().removeAll();
                             BillView billView = new BillView();
                             try {
@@ -383,6 +386,7 @@ public class OrderController {
             stmt.execute();
         }
         stmt.close();
+        db.releaseConnection(conn);
     }
 
     private int getSoLuong(int id) {
@@ -430,6 +434,7 @@ public class OrderController {
             JOptionPane.showMessageDialog(OView, "Cập nhập đơn hàng không thành công!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         stmt.close();
+        db.releaseConnection(conn);
     }
 
     private void getAllProduct() throws SQLException {
@@ -450,6 +455,7 @@ public class OrderController {
         }
         result.close();
         stmt.close();
+        db.releaseConnection(conn);
     }
 
     private void getAllCustomer() throws SQLException {
@@ -464,6 +470,7 @@ public class OrderController {
         }
         result.close();
         stmt.close();
+        db.releaseConnection(conn);
     }
 
     private int getId() throws SQLException {
@@ -488,29 +495,29 @@ public class OrderController {
         }
         stmt.close();
         result.close();
+        db.releaseConnection(conn);
         return -1;
     }
-    
-    private void print(){
+
+    private void print() {
         bHeight = Double.valueOf(detailOrder.size());
         PrinterJob pj = PrinterJob.getPrinterJob();
-        pj.setPrintable(new BillPrintable(),pageFormat(pj));
-        try{
+        pj.setPrintable(new BillPrintable(), pageFormat(pj));
+        try {
             pj.print();
-        }catch(PrinterException e){
+        } catch (PrinterException e) {
             e.printStackTrace();
         }
     }
-    
+
     private PageFormat pageFormat(PrinterJob pj) {
         PageFormat pf = pj.defaultPage();
         Paper paper = pf.getPaper();
 
         double bodyHeight = bHeight;
-        double headerHeight = 10.0;
-        double footerHeight = 10.0;
-        double witdh = cm_to_pp(20);
-        double height = cm_to_pp(headerHeight + bodyHeight + footerHeight);
+
+        double witdh = cm_to_pp(12);
+        double height = cm_to_pp(bodyHeight + 21);
         paper.setSize(witdh, height);
         paper.setImageableArea(0, 10, witdh, height - cm_to_pp(1));
 
@@ -544,39 +551,62 @@ public class OrderController {
                     int y = 30;
                     int yShift = 20;
                     int headerRectHeight = 30;
-                    int dot = 20; int dot2 =18;
-                    g2d.setFont(new Font("Arial", Font.BOLD, 20));
-                    g2d.drawImage(icon.getImage(), 150, 20, 60, 60, OView);
+                    int dot = 40;
+                    int dot2 = 18;
+                    g2d.setFont(new Font("Arial", Font.BOLD, 14));
+                    g2d.drawImage(icon.getImage(), 160, 20, 60, 60, OView);
                     y += yShift + 50;
-                    g2d.drawString("----------------------------------------------------", dot, y);y += yShift;
-                    g2d.drawString("                   Book Store                       ", dot, y);y += yShift;
-                    g2d.drawString("  No "+id_order+" Address 01 Ha Noi                       ", dot, y);y += yShift;
-                    g2d.drawString("  Address 02 Ho Chi Minh                            ", dot, y);y += yShift;
-                    g2d.drawString("  www.facebook.com/nhanampublishing                 ", dot, y);y += yShift;
-                    g2d.drawString("----------------------------------------------------", dot, y);y += headerRectHeight;
-                    
-                    g2d.drawString("  Item                                  Price",dot,y);y += yShift;
-                    g2d.drawString("----------------------------------------------------", dot, y);y += headerRectHeight;
-                    for(int i = 0; i < detailOrder.size();i++){
-                        g2d.drawString("  " +detailOrder.get(i).getName()+ "                          ",dot,y);y += yShift;
-                        g2d.drawString("  Quantity: "+detailOrder.get(i).getNumber()+"                    "+detailOrder.get(i).getPrice(),dot,y);y += yShift;
-                    }
-                    
-                    g2d.drawString("-----------------------------------------------------", dot, y);y += yShift;
-                    g2d.drawString("  Total price:                         "+OView.getJtfTotalPrice().getText() +" VND",dot,y);y += yShift;
-                    g2d.drawString("-----------------------------------------------------", dot, y);y += yShift;
-                    g2d.drawString("  Discount:                                     0.0 %",dot,y);y += yShift;
-                    g2d.drawString("-----------------------------------------------------", dot, y);y += yShift;
-                    g2d.drawString("  Price:                               "+OView.getJtfTotalPrice().getText() +" VND",dot,y);y += yShift;
-                    
-                    g2d.drawString("*---------------------------------------------------*",dot,y);y += yShift;
-                    g2d.drawString("        Thank you come agian!!                       ",dot,y);y += yShift;
-                    g2d.drawString("*---------------------------------------------------*",dot,y);y += yShift;
-                    g2d.drawString("        Have a good day!!                            ",dot,y); y += yShift;
-                    g2d.drawString("*---------------------------------------------------*",dot,y);y += yShift;
-                    g2d.drawString("        Contact: 012345789                           ",dot,y);y += yShift;
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += yShift;
+                    g2d.drawString("                         Book Store                        ", dot, y);
+                    y += yShift;
+                    g2d.drawString("  No." + id_order + "                                             ", dot, y);
+                    y += yShift;
+                    g2d.drawString("  Address 02 Ho Chi Minh                                   ", dot, y);
+                    y += yShift;
+                    g2d.drawString("  Address 01 Ha Noi                                                  ", dot, y);
+                    y += yShift;
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += headerRectHeight;
 
-                    result = PAGE_EXISTS;                    
+                    g2d.drawString("  Item                                              Price  ", dot, y);
+                    y += yShift;
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += headerRectHeight;
+                    for (int i = 0; i < detailOrder.size(); i++) {
+                        g2d.drawString("  " + detailOrder.get(i).getName() + "                                  ", dot, y);
+                        y += yShift;
+                        g2d.drawString("  Quantity: " + detailOrder.get(i).getNumber() + "                           " + detailOrder.get(i).getPrice() + " VND", dot, y);
+                        y += yShift;
+                    }
+
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += yShift;
+                    g2d.drawString("  Total price:                          " + OView.getJtfTotalPrice().getText() + " VND", dot, y);
+                    y += yShift;
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += yShift;
+                    g2d.drawString("  Discount:                                           0.0 %", dot, y);
+                    y += yShift;
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += yShift;
+                    g2d.drawString("  Price:                                    " + OView.getJtfTotalPrice().getText() + " VND", dot, y);
+                    y += yShift;
+
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += yShift;
+                    g2d.drawString("            Thank you come agian!!                         ", dot, y);
+                    y += yShift;
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += yShift;
+                    g2d.drawString("            Have a good day!!                              ", dot, y);
+                    y += yShift;
+                    g2d.drawString("-----------------------------------------------------------", dot, y);
+                    y += yShift;
+                    g2d.drawString("            Contact: 012345789                             ", dot, y);
+                    y += yShift;
+
+                    result = PAGE_EXISTS;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
