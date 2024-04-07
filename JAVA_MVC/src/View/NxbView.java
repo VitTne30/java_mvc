@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
@@ -18,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -45,6 +45,7 @@ public class NxbView extends JPanel {
     private Button btnXoa = new Button();
     private Button btnClear = new Button();
     private Button btnExcel = new Button();
+    private NumberFormat numberFormat;
     Table tblNxb;
 
     Font buttonFont = new Font("Arial", Font.BOLD, 14);
@@ -99,12 +100,13 @@ public class NxbView extends JPanel {
         lblSdt.setFont(buttonFont);
         lblSdt.setText("Số điện thoại: ");
         this.add(lblSdt);
-
+        
         txtSdt.setBounds(150, 550, 300, 30);
         txtSdt.setFont(buttonFont);
         txtSdt.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
-                if (txtSdt.getText().length() >= 10)
+                char c = e.getKeyChar();
+                if (txtSdt.getText().length() >= 10 || !Character.isDigit(c))
                 {
                     e.consume();
                 }
