@@ -6,6 +6,7 @@ import EasyXLS.ExcelDocument;
 import EasyXLS.ExcelTable;
 import EasyXLS.ExcelWorksheet;
 import Model.ModelBill;
+import Model.ModelCustomer;
 import Model.ModelDetail;
 import Swing.Table;
 import View.BillView;
@@ -20,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -51,7 +54,18 @@ public class BillController {
         this.model = (DefaultTableModel) tblBill.getModel();
         //
         getData();
-        billView.getNumberLb().setText("Tổng số đơn hàng: " + listBill.size());
+        // Cập nhật dữ liệu mỗi 5s
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    checkAndUpdateData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 5000);
         //
         tblBill.addMouseListener(new MouseAdapter() {
             @Override
@@ -139,6 +153,22 @@ public class BillController {
         });
 
     }
+        private void checkAndUpdateData() throws SQLException {
+        ArrayList<ModelBill> newData = getListBill(); 
+        if (!newData.equals(listBill)) { 
+            listBill = newData; 
+            refreshTable(); 
+        }
+    }
+
+    
+    private void refreshTable() {
+        tblBill.removeAllRow();
+        for (ModelBill data : listBill) {
+            tblBill.addRow(new Object[]{data.getIdBill(), data.getIdCus(), data.getDate(), data.getMoney()});
+        }
+        billView.getNumberLb().setText("Tổng số khách hàng đăng ký: " + listBill.size());
+    }
 
     private ArrayList<ModelBill> getListBill() throws SQLException {
         ArrayList<ModelBill> list = new ArrayList();
@@ -169,6 +199,7 @@ public class BillController {
             tblBill.addRow(new Object[]{data.getIdBill(), newCus,
                 data.getDate(), data.getMoney()});
         }
+        billView.getNumberLb().setText("Tổng số khách hàng đăng ký: " + listBill.size());
 
     }
 

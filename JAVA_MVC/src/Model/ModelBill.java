@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.Objects;
 /**
  *
  * @author ADMIN
@@ -9,7 +10,6 @@ public class ModelBill {
     private int idBill;
     private int idCus;
     private String date;
-    private Date datef;
     private int money;
 
     public ModelBill(int idBill, int idCus, String date, int money) {
@@ -55,6 +55,21 @@ public class ModelBill {
 
     public void setMoney(int money) {
         this.money = money;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ModelBill that = (ModelBill) o;
+        return idBill == that.idBill &&
+                Objects.equals(idCus, that.idCus) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(money, that.money);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idBill, idCus, date, money);
     }
     
 }

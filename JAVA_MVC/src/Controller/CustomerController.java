@@ -19,6 +19,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -43,8 +45,18 @@ public class CustomerController {
         tableNv = cusView.getTblCus();
         //GetSTaffData
         getData();
-        ////
-        cusView.getNumberLb().setText("Tổng số khách hàng đăng ký: " + listCus.size());
+        // Cập nhật dữ liệu mỗi 5s
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    checkAndUpdateData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 5000);
         ////Search
         cusView.getSearchField().addActionListener(new ActionListener() {
             @Override
@@ -165,6 +177,7 @@ public class CustomerController {
             tableNv.addRow(new Object[]{data.getId(), data.getName(),
                 data.getPhone(), data.getEmail()});
         }
+        cusView.getNumberLb().setText("Tổng số khách hàng đăng ký: " + listCus.size());
 
     }
 
@@ -186,6 +199,23 @@ public class CustomerController {
         cusView.revalidate();
         cusView.repaint();
         databaseConnection.releaseConnection(con);
+    }
+
+    private void checkAndUpdateData() throws SQLException {
+        ArrayList<ModelCustomer> newData = getListCus(); 
+        if (!newData.equals(listCus)) { 
+            listCus = newData; 
+            refreshTable(); 
+        }
+    }
+
+    
+    private void refreshTable() {
+        tableNv.removeAllRow();
+        for (ModelCustomer data : listCus) {
+            tableNv.addRow(new Object[]{data.getId(), data.getName(), data.getPhone(), data.getEmail()});
+        }
+        cusView.getNumberLb().setText("Tổng số khách hàng đăng ký: " + listCus.size());
     }
 
     ////////////////Excel
@@ -279,11 +309,16 @@ public class CustomerController {
             for (int column = 1; column <= columnCount; column++) {
                 if (row > 0) {
                     switch (column) {
-                        case 1 -> id = Integer.parseInt(rs.getString(column));
-                        case 2 -> name = rs.getString(column);
-                        case 3 -> phone = rs.getString(column);
-                        case 4 -> email = rs.getString(column);
-                        default -> throw new AssertionError();
+                        case 1 ->
+                            id = Integer.parseInt(rs.getString(column));
+                        case 2 ->
+                            name = rs.getString(column);
+                        case 3 ->
+                            phone = rs.getString(column);
+                        case 4 ->
+                            email = rs.getString(column);
+                        default ->
+                            throw new AssertionError();
                     }
                 }
 
@@ -311,7 +346,6 @@ public class CustomerController {
             p.close();
         }
         getData();
-
     }
 
 }

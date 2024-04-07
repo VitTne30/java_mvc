@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class ModelCustomer {
     private int id;
     private String Name;
@@ -49,4 +51,19 @@ public class ModelCustomer {
         this.id = id;
         this.Name = Name;
     }   
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ModelCustomer that = (ModelCustomer) o;
+        return id == that.id &&
+                Objects.equals(Name, that.Name) &&
+                Objects.equals(phone, that.phone) &&
+                Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, Name, phone, email);
+    }
 }
