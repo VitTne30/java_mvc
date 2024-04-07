@@ -57,7 +57,7 @@ public class ThongKeController {
         }
             
         chartPanel.setChart(createLineChart());
-        String dt = String.valueOf(getDtNgay(Integer.parseInt(cboNam.getSelectedItem() + "")));
+        String dt = String.valueOf(getDtNam(Integer.parseInt(cboNam.getSelectedItem() + "")));
         dtView.getTxtDt().setText(dt);
         
         cboNam.addActionListener(new ActionListener() {
@@ -65,7 +65,7 @@ public class ThongKeController {
             public void actionPerformed(ActionEvent e) {
                 try {
                     chartPanel.setChart(createLineChart());
-                    String dt = String.valueOf(getDtNgay(Integer.parseInt(cboNam.getSelectedItem() + "")));
+                    String dt = String.valueOf(getDtNam(Integer.parseInt(cboNam.getSelectedItem() + "")));
                     dtView.getTxtDt().setText(dt);
                     getData();
                 } catch (SQLException ex) {
@@ -90,7 +90,7 @@ public class ThongKeController {
         });
     }
     
-    public int getDtNgay(int nam) throws SQLException{
+    public int getDtNam(int nam) throws SQLException{
         int result = 0;
         String query = "SELECT SUM(tong_tien) FROM tbl_donhang WHERE YEAR(ngaylap) = ?";
         PreparedStatement p = con.prepareStatement(query);
@@ -156,7 +156,7 @@ public class ThongKeController {
     
     private ArrayList<ModelBill> getListMonth(int nam) throws SQLException {
         ArrayList<ModelBill> list = new ArrayList();
-        String sql = "SELECT MONTH(ngaylap) as thang, SUM(tong_tien) as money FROM tbl_donhang WHERE YEAR(ngaylap) = ? GROUP BY thang";
+        String sql = "SELECT MONTH(ngaylap) as thang, tong_tien FROM tbl_donhang WHERE YEAR(ngaylap) = ? GROUP BY thang";
         PreparedStatement p = con.prepareStatement(sql);
         p.setInt(1, nam);
         ResultSet r = p.executeQuery();
@@ -213,6 +213,9 @@ public class ThongKeController {
                     xlsTable.easy_getCell(0, col).setDataType(DataType.STRING);
                     xlsTable.easy_getCell(0, col).setBold(true);
                 }
+                xlsTable.easy_getCell(model.getRowCount() + 1, 0).setValue("Tổng doanh thu:");
+                xlsTable.easy_getCell(model.getRowCount() + 1, 0).setDataType(DataType.STRING);
+                xlsTable.easy_getCell(model.getRowCount() + 1, 0).setBold(true);
                 //Data
                 for (int row = 0; row < model.getRowCount(); row++) {
                     for (int col = 0; col < model.getColumnCount(); col++) {
@@ -220,10 +223,15 @@ public class ThongKeController {
                         xlsTable.easy_getCell(row + 1, col).setDataType(DataType.NUMERIC);
                     }
                 }
+                String dt = String.valueOf(getDtNam(Integer.parseInt(cboNam.getSelectedItem() + "")));
+                xlsTable.easy_getCell(model.getRowCount() + 1, 1).setValue(dt);
+                xlsTable.easy_getCell(model.getRowCount() + 1, 1).setDataType(DataType.NUMERIC);
+                xlsTable.easy_getCell(model.getRowCount() + 1, 1).setBold(true);
+                
                 ExcelChart xlsChart = new ExcelChart("D1", 600, 300);
                 xlsChart.easy_setChartType(Chart.CHART_TYPE_LINE);
                 xlsChart.easy_addSeries("=Doanh thu!$B$1", "=Doanh thu!$B$2:$B$"+(list.size()+1)+"");
-                xlsChart.easy_setCategoryXAxisLabels("=Doanh thu!$A$2:$A$13");
+                xlsChart.easy_setCategoryXAxisLabels("=Doanh thu!$A$2:$A$"+(list.size()+1)+"");
                 
                 ((ExcelWorksheet)workbook.easy_getSheet("Doanh thu")).easy_addChart(xlsChart);
                 
