@@ -93,12 +93,12 @@ public class DanhMucController {
             }
         });
         
-        dmView.getBtnClear().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Clear();
-            }
-        });
+//        dmView.getBtnClear().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Clear();
+//            }
+//        });
         
     }
 
@@ -206,10 +206,10 @@ public class DanhMucController {
         getData();
     }
     
-    public void Clear(){
-        dmView.getTxtTenDM().setText("");
-        dmView.getTxtMota().setText("");
-    }
+//    public void Clear(){
+//        dmView.getTxtTenDM().setText("");
+//        dmView.getTxtMota().setText("");
+//    }
     
     private void getData() throws SQLException{
         tblDanhmuc.removeAllRow();

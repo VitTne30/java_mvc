@@ -103,12 +103,12 @@ public class NhanVienController {
             }
         });
         
-        nvView.getBtnClear().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Clear();
-            }
-        });
+//        nvView.getBtnClear().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Clear();
+//            }
+//        });
         
         nvView.getBtnExcel().addActionListener(new ActionListener() {
             @Override
@@ -141,14 +141,14 @@ public class NhanVienController {
         return list;
     }
     
-    public void Clear(){
-        nvView.getTxtHoten().setText("");
-        nvView.getTxtDiachi().setText("");
-        nvView.getTxtSDT().setText("");
-        nvView.getTxtEmail().setText("");
-        nvView.getTxtTenTK().setText("");
-        nvView.getTxtMK().setText("");
-    }
+//    public void Clear(){
+//        nvView.getTxtHoten().setText("");
+//        nvView.getTxtDiachi().setText("");
+//        nvView.getTxtSDT().setText("");
+//        nvView.getTxtEmail().setText("");
+//        nvView.getTxtTenTK().setText("");
+//        nvView.getTxtMK().setText("");
+//    }
     
     private void getData() throws SQLException{
         tblNhanvien.removeAllRow();
@@ -156,7 +156,7 @@ public class NhanVienController {
         for (ModelUser data : listNV) {
             tblNhanvien.addRow(new Object[]{data.getUserId(), data.getName(), data.getAddress(), data.getPhone(), data.getEmail(), data.getUserName(), data.getPassword(), data.getRole()});
         }
-        nvView.getNumberLb().setText("Tổng số nhân viên: "+ listNV.size());
+        nvView.getNumberLb().setText("Tổng số tài khoản: "+ listNV.size());
     }
     
     public void SelectData() {

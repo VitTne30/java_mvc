@@ -4,6 +4,10 @@ import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
@@ -87,7 +91,7 @@ public class NhanVienView extends JPanel {
         dateLb.setFont(TitleFont);
         this.add(dateLb);
         
-        txtResult.setBounds(310, 60, 250, 40);
+        txtResult.setBounds(310, 60, 470, 40);
         txtResult.setFont(buttonFont);
         txtResult.setHint("Tìm kiếm...");
         txtResult.setBackground(Color.WHITE);
@@ -116,6 +120,20 @@ public class NhanVienView extends JPanel {
         
         txtSDT.setBounds(100,680,200,25);
         txtSDT.setFont(buttonFont);
+        txtSDT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                String text = txtSDT.getText();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                    return;
+                }
+                if (text.length() >= 10) {
+                    e.consume();
+                }
+            }
+        });
         this.add(txtSDT);
         
         lblEmail.setBounds(335,600,80,25);
@@ -164,6 +182,17 @@ public class NhanVienView extends JPanel {
         
         btnClear.setBounds(675,715,105,30);
         btnClear.setFont(buttonFont);
+        btnClear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtHoten.setText("");
+                txtDiachi.setText("");
+                txtSDT.setText("");
+                txtEmail.setText("");
+                txtTenTK.setText("");
+                txtMK.setText("");
+            }
+        });
         this.add(btnClear);
         
         btnExcel.setBounds(535,715,120,30);

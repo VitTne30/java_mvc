@@ -5,6 +5,8 @@ import Swing.MyTextField;
 import Swing.Table;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
@@ -114,6 +116,13 @@ public class DanhMucView extends JPanel {
 
         btnClear.setBounds(20, 515, 105, 30);
         btnClear.setFont(buttonFont);
+        btnClear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtTenDM.setText("");
+                txtMota.setText("");
+            }
+        });
         this.add(btnClear);
 
         btnExcel.setBounds(160, 515, 120, 30);
