@@ -239,16 +239,16 @@ public final class ProductController {
     }
 
     private boolean checkTextField() {
-        if (this.PView.getJtf_name().toString().equals("")) {
+        if (this.PView.getJtf_name().getText().equals("")) {
             showMessengerError("Vui lòng nhập lại tên sản phẩm!");
             return false;
-        } else if (this.PView.getJtf_author().toString().equals("")) {
+        } else if (this.PView.getJtf_author().getText().equals("")) {
             showMessengerError("Vui lòng nhập lại tên tác giả!");
             return false;
-        } else if (this.PView.getJtf_number().toString().equals("")) {
+        } else if (this.PView.getJtf_number().getText().equals("")) {
             showMessengerError("Vui lòng nhập lại số lượng!");
             return false;
-        } else if (this.PView.getJtf_price().toString().equals("")) {
+        } else if (this.PView.getJtf_price().getText().equals("")) {
             showMessengerError("Vui lòng nhập lại giá tiền!");
             return false;
         }
